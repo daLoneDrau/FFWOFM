@@ -48,98 +48,9 @@ public class ShinSamPC extends IoPcData<ShinSamIO> {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 	@Override
-	protected void computeFullStats() throws RPGException {
-		super.clearModAbilityScores();
-		// get equipment modifiers
-		super.adjustAttributeModifier("AB", super.ARX_EQUIPMENT_Apply(
-		        ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_ATTACK_BONUS));
-		super.adjustAttributeModifier("AC", super.ARX_EQUIPMENT_Apply(
-		        ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_ARMOR_CLASS));
-		super.adjustAttributeModifier("END", super.ARX_EQUIPMENT_Apply(
-		        ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_ENDURANCE));
-		super.adjustAttributeModifier("HP", super.ARX_EQUIPMENT_Apply(
-		        ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_HIT_POINTS));
-		super.adjustAttributeModifier("HPR", super.ARX_EQUIPMENT_Apply(
-		        ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_HIT_POINT_RECOVERY));
-		super.adjustAttributeModifier("KI", super.ARX_EQUIPMENT_Apply(
-		        ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_KI));
-		super.adjustAttributeModifier("MHP", super.ARX_EQUIPMENT_Apply(
-		        ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_MAX_HIT_POINTS));
-		super.adjustAttributeModifier("MIT", super.ARX_EQUIPMENT_Apply(
-		        ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_MIGHT));
-		super.adjustAttributeModifier("MKI", super.ARX_EQUIPMENT_Apply(
-		        ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_MAX_KI));
-		super.adjustAttributeModifier("MR", super.ARX_EQUIPMENT_Apply(
-		        ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_MOVEMENT_RATE));
-		super.adjustAttributeModifier("PIE", super.ARX_EQUIPMENT_Apply(
-		        ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_PIETY));
-		super.adjustAttributeModifier("SPD", super.ARX_EQUIPMENT_Apply(
-		        ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_SPEED));
-		super.adjustAttributeModifier("SPR", super.ARX_EQUIPMENT_Apply(
-		        ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_SPIRITUALITY));
-		super.adjustAttributeModifier("ST", super.ARX_EQUIPMENT_Apply(
-		        ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_SAVING_THROW));
-		// apply percent modifiers
-		super.adjustAttributeModifier("AB", super.ARX_EQUIPMENT_ApplyPercent(
-		        ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_ATTACK_BONUS,
-		        super.getBaseAttributeScore("AB")
-		                + super.getAttributeModifier("AB")));
-		super.adjustAttributeModifier("AC", super.ARX_EQUIPMENT_ApplyPercent(
-		        ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_ARMOR_CLASS,
-		        super.getBaseAttributeScore("AC")
-		                + super.getAttributeModifier("AC")));
-		super.adjustAttributeModifier("END", super.ARX_EQUIPMENT_ApplyPercent(
-		        ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_ENDURANCE,
-		        super.getBaseAttributeScore("END")
-		                + super.getAttributeModifier("END")));
-		super.adjustAttributeModifier("HP", super.ARX_EQUIPMENT_ApplyPercent(
-		        ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_HIT_POINTS,
-		        super.getBaseAttributeScore("HP")
-		                + super.getAttributeModifier("HP")));
-		super.adjustAttributeModifier("HPR", super.ARX_EQUIPMENT_ApplyPercent(
-		        ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_HIT_POINT_RECOVERY,
-		        super.getBaseAttributeScore("HPR")
-		                + super.getAttributeModifier("HPR")));
-		super.adjustAttributeModifier("KI", super.ARX_EQUIPMENT_ApplyPercent(
-		        ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_KI,
-		        super.getBaseAttributeScore("KI")
-		                + super.getAttributeModifier("KI")));
-		super.adjustAttributeModifier("MHP", super.ARX_EQUIPMENT_ApplyPercent(
-		        ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_MAX_HIT_POINTS,
-		        super.getBaseAttributeScore("MHP")
-		                + super.getAttributeModifier("MHP")));
-		super.adjustAttributeModifier("MIT", super.ARX_EQUIPMENT_ApplyPercent(
-		        ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_MIGHT,
-		        super.getBaseAttributeScore("MIT")
-		                + super.getAttributeModifier("MIT")));
-		super.adjustAttributeModifier("MKI", super.ARX_EQUIPMENT_ApplyPercent(
-		        ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_MAX_KI,
-		        super.getBaseAttributeScore("MKI")
-		                + super.getAttributeModifier("MKI")));
-		super.adjustAttributeModifier("MR", super.ARX_EQUIPMENT_ApplyPercent(
-		        ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_MOVEMENT_RATE,
-		        super.getBaseAttributeScore("MR")
-		                + super.getAttributeModifier("MR")));
-		super.adjustAttributeModifier("PIE", super.ARX_EQUIPMENT_ApplyPercent(
-		        ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_PIETY,
-		        super.getBaseAttributeScore("PIE")
-		                + super.getAttributeModifier("PIE")));
-		super.adjustAttributeModifier("SPD", super.ARX_EQUIPMENT_ApplyPercent(
-		        ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_SPEED,
-		        super.getBaseAttributeScore("SPD")
-		                + super.getAttributeModifier("SPD")));
-		super.adjustAttributeModifier("SPR", super.ARX_EQUIPMENT_ApplyPercent(
-		        ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_SPIRITUALITY,
-		        super.getBaseAttributeScore("SPR")
-		                + super.getAttributeModifier("SPR")));
-		super.adjustAttributeModifier("ST", super.ARX_EQUIPMENT_ApplyPercent(
-		        ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_SAVING_THROW,
-		        super.getBaseAttributeScore("ST")
-		                + super.getAttributeModifier("ST")));
-		// apply attribute bonuses
-		// attacke bonus from might
+	protected void applyRulesModifiers() {
+		// attack bonus from might
 		super.adjustAttributeModifier("AB", getAttributeModifier("MIT"));
 		// armour class bonus from speed
 		super.adjustAttributeModifier("AC", getAttributeModifier("SPD"));
@@ -153,28 +64,27 @@ public class ShinSamPC extends IoPcData<ShinSamIO> {
 			        "MKI", getAttributeModifier("PIE"));
 		}
 	}
-
 	@Override
-	protected void defineAttributes() throws RPGException {
-		Map<String, Attribute> map = new HashMap<String, Attribute>();
-		map.put("AB", new Attribute("AB", "Attack Bonus"));
-		map.put("AC", new Attribute("AC", "Armor Class"));
-		map.put("END", new Attribute("END", "Endurance"));
-		map.put("HP", new Attribute("HP", "Hit Points"));
-		map.put("HPR", new Attribute("HPR", "Hit Point Recovery"));
-		map.put("KI", new Attribute("KI", "Ki"));
-		map.put("MHP", new Attribute("MHP", "Max Hit Points"));
-		map.put("MIT", new Attribute("MIT", "Might"));
-		map.put("MKI", new Attribute("MKI", "Max Ki"));
-		map.put("MR", new Attribute("MR", "Movement Rate"));
-		map.put("NLD", new Attribute("NLD", "Non-lethal Damage"));
-		map.put("PIE", new Attribute("PIE", "Piety"));
-		map.put("SPD", new Attribute("SPD", "Speed"));
-		map.put("SPR", new Attribute("SPR", "Spirituality"));
-		map.put("ST", new Attribute("ST", "Saving Throw"));
-		super.setAttributes(map);
-		map = null;
+	protected void applyRulesPercentModifiers() {
 	}
+	/** the list of attributes and their matching names and modifiers. */
+	private Object[][] attributeMap = new Object[][] {
+		{"AB", "Attack Bonus", ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_ATTACK_BONUS},
+		{"AC", "Armor Class", ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_ARMOR_CLASS},
+		{"END", "Endurance", ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_ENDURANCE},
+		{"HP", "Points", ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_HIT_POINTS},
+		{"HPR", "Hit Point Recovery", ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_HIT_POINT_RECOVERY},
+		{"KI", "Ki", ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_KI},
+		{"MHP", "Max Hit Points", ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_MAX_HIT_POINTS},
+		{"MIT", "Might", ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_MIGHT},
+		{"MKI", "Max Ki", ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_MAX_KI},
+		{"MR", "Movement Rate", ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_MOVEMENT_RATE},
+		{"NLD", "Non-lethal Damage", ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_NON_LETHAL_DAMAGE},
+		{"PIE", "Piety", ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_PIETY},
+		{"SPD", "Speed", ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_SPEED},
+		{"SPR", "Spirituality", ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_SPIRITUALITY},
+		{"ST", "Saving Throw", ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_SAVING_THROW}
+	};
 
 	public int getAttributeBonus(final String attr) {
 		final int attribute = (int) (super.getBaseAttributeScore(attr)
@@ -182,14 +92,18 @@ public class ShinSamPC extends IoPcData<ShinSamIO> {
 		int bonus = 0;
 		switch (attribute) {
 		case 1:
+		case 2:
 			bonus = -2;
 			break;
-		case 2:
+		case 3:
+		case 4:
 			bonus = -1;
 			break;
-		case 9:
+		case 7:
+		case 8:
 			bonus = 1;
 			break;
+		case 9:
 		case 10:
 			bonus = 2;
 			break;
@@ -218,6 +132,12 @@ public class ShinSamPC extends IoPcData<ShinSamIO> {
 	@Override
 	protected String getLifeAttribute() {
 		return "HP";
+	}
+
+	@Override
+	protected String[][] getAttributeMap() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

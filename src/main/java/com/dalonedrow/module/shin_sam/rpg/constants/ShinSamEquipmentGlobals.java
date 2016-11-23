@@ -11,10 +11,11 @@ public class ShinSamEquipmentGlobals {
 	public static final int EQUIPITEM_ELEMENT_MIGHT = 7;
 	public static final int EQUIPITEM_ELEMENT_MAX_KI = 8;
 	public static final int EQUIPITEM_ELEMENT_MOVEMENT_RATE = 9;
-	public static final int EQUIPITEM_ELEMENT_PIETY = 10;
-	public static final int EQUIPITEM_ELEMENT_SPEED = 11;
-	public static final int EQUIPITEM_ELEMENT_SPIRITUALITY = 12;
-	public static final int EQUIPITEM_ELEMENT_SAVING_THROW = 13;
+	public static final int EQUIPITEM_ELEMENT_NON_LETHAL_DAMAGE = 10;
+	public static final int EQUIPITEM_ELEMENT_PIETY = 11;
+	public static final int EQUIPITEM_ELEMENT_SPEED = 12;
+	public static final int EQUIPITEM_ELEMENT_SPIRITUALITY = 13;
+	public static final int EQUIPITEM_ELEMENT_SAVING_THROW = 14;
 	private ShinSamEquipmentGlobals() {
 		super();
 	}

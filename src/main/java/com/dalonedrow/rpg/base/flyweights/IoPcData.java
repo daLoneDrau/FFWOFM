@@ -4,6 +4,7 @@
 package com.dalonedrow.rpg.base.flyweights;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -605,12 +606,38 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 	 * and any other effect altering them.
 	 * @throws RPGException if an error occurs
 	 */
-	protected abstract void computeFullStats() throws RPGException;
+	protected final void computeFullStats() throws RPGException {
+		// clear mods
+		clearModAbilityScores();
+		// apply equipment modifiers
+		Object[][] map = getAttributeMap();
+		for (int i = map.length - 1; i >= 0; i--) {
+			adjustAttributeModifier((String) map[i][0], ARX_EQUIPMENT_Apply((int) map[i][2]));
+		}
+		// apply modifiers based on rules
+		applyRulesModifiers();
+		// apply percent modifiers
+		for (int i = map.length - 1; i >= 0; i--) {
+			adjustAttributeModifier((String) map[i][0], ARX_EQUIPMENT_ApplyPercent((int) map[i][2],
+			        getBaseAttributeScore((String) map[i][0]) + getAttributeModifier((String) map[i][0])));
+		}
+		applyRulesPercentModifiers();
+	}
+	protected abstract void applyRulesPercentModifiers();
+	protected abstract void applyRulesModifiers();
+	protected abstract Object[][] getAttributeMap();
 	/**
 	 * Defines the PC's attributes.
 	 * @throws RPGException if an error occurs
 	 */
-	protected abstract void defineAttributes() throws RPGException;
+	protected final void defineAttributes() throws RPGException {
+		attributes = new HashMap<String, Attribute>();
+		Object[][] map = getAttributeMap();
+		for (int i = map.length - 1; i >= 0; i--) {
+			attributes.put((String) map[i][0], new Attribute((String) map[i][0], (String) map[i][1]));
+		}
+		map = null;
+	}
 	/**
 	 * Gets a specific attribute.
 	 * @param abbr the attribute's abbreviation
@@ -922,13 +949,6 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 			watchers = ArrayUtilities.getInstance().removeIndex(
 					index, watchers);
 		}
-	}
-	/**
-	 * Sets the PC's attributes.
-	 * @param map the new value to set
-	 */
-	protected final void setAttributes(final Map<String, Attribute> map) {
-		attributes = map;
 	}
 	/**
 	 * Sets the base attribute score for a specific attribute.
