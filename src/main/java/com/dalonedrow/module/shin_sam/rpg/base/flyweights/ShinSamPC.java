@@ -15,7 +15,7 @@ import com.dalonedrow.rpg.base.systems.Script;
  * @author Donald
  *
  */
-public class ShinSamPC extends IoPcData<ShinSamInteractiveObject> {
+public class ShinSamPC extends IoPcData<ShinSamIO> {
 
 	public ShinSamPC() throws RPGException {
 		super();
