@@ -43,14 +43,6 @@ extends Interactive<BaseInteractiveObject> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void ARX_INTERACTIVE_DestroyIO(BaseInteractiveObject io)
-			throws RPGException, PooledException {
-		// TODO Auto-generated method stub
-	}
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public void ARX_INTERACTIVE_ForceIOLeaveZone(
 			BaseInteractiveObject io, long flags) {
 		// TODO Auto-generated method stub
@@ -94,14 +86,6 @@ extends Interactive<BaseInteractiveObject> {
 	 */
 	public BaseInteractiveObject getTestIO() {
 		return getNewIO();
-	}
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int getNumberIOs() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 	@Override
 	protected BaseInteractiveObject[] getIOs() {

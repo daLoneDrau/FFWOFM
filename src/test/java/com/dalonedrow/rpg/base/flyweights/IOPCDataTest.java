@@ -113,21 +113,6 @@ public class IOPCDataTest {
 	public void beforeCreatePCIO() throws RPGException {
 		data = new IoPcData() {
 			@Override
-			protected void adjustLife(final float dmg) {
-				super.setBaseAttributeScore("LF",
-						super.getBaseAttributeScore("LF") + dmg);
-				if (super.getBaseAttributeScore(
-						"LF") > super.getFullAttributeScore("MLF")) {
-					// if Stamina now > max
-					super.setBaseAttributeScore("LF",
-							super.getFullAttributeScore("MLF"));
-				}
-				if (super.getBaseAttributeScore("LF") < 0f) {
-					// if Stamina now < 0
-					super.setBaseAttributeScore("LF", 0f);
-				}
-			}
-			@Override
 			protected void adjustMana(final float dmg) {
 				super.setBaseAttributeScore("MN",
 						super.getBaseAttributeScore("MN") + dmg);
@@ -151,22 +136,6 @@ public class IOPCDataTest {
 				return false;
 			}
 			@Override
-			protected void computeFullStats() throws RPGException {
-				// TODO Auto-generated method stub
-
-			}
-			@Override
-			protected void defineAttributes() throws RPGException {
-				Map<String, Attribute> map = new HashMap<String, Attribute>();
-				map.put("ST", new Attribute("ST", "Strength"));
-				map.put("LF", new Attribute("LF", "Life"));
-				map.put("MLF", new Attribute("MLF", "Max Life"));
-				map.put("MN", new Attribute("MN", "Mana"));
-				map.put("MMN", new Attribute("MMN", "Max Mana"));
-				super.setAttributes(map);
-				map = null;
-			}
-			@Override
 			protected float getBaseLife() {
 				return this.getBaseAttributeScore("LF");
 			}
@@ -178,6 +147,30 @@ public class IOPCDataTest {
 			public boolean isInCombat() {
 				// TODO Auto-generated method stub
 				return false;
+			}
+			@Override
+			protected String getLifeAttribute() {
+				return "LF";
+			}
+			@Override
+			protected void applyRulesPercentModifiers() {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			protected void applyRulesModifiers() {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			protected Object[][] getAttributeMap() {
+				return new Object[][] {
+					{ "ST", "Strength", 0 },
+					{ "LF", "Life", 0 },
+					{ "MLF", "Max Life", 1 },
+					{ "MN", "Mana", 1 },
+					{ "MMN", "Max Mana", 1 }
+				};
 			}
 		};
 		watcher0 = new Watcher() {
@@ -424,11 +417,6 @@ public class IOPCDataTest {
 		assertNotNull(data);
 		data = new IoPcData() {
 			@Override
-			protected void adjustLife(final float dmg) {
-				// TODO Auto-generated method stub
-
-			}
-			@Override
 			protected void adjustMana(final float dmg) {
 				// TODO Auto-generated method stub
 
@@ -444,14 +432,6 @@ public class IOPCDataTest {
 				return false;
 			}
 			@Override
-			protected void computeFullStats() throws RPGException {
-				// TODO Auto-generated method stub
-
-			}
-			@Override
-			protected void defineAttributes() throws RPGException {
-			}
-			@Override
 			protected float getBaseLife() {
 				// TODO Auto-generated method stub
 				return 0;
@@ -465,52 +445,56 @@ public class IOPCDataTest {
 			public boolean isInCombat() {
 				// TODO Auto-generated method stub
 				return false;
+			}
+			@Override
+			protected String getLifeAttribute() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			@Override
+			protected void applyRulesPercentModifiers() {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			protected void applyRulesModifiers() {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			protected Object[][] getAttributeMap() {
+				return new Object[][] {
+					{ "ST", "Strength", 0 },
+					{ "LF", "Life", 0 },
+					{ "MLF", "Max Life", 1 },
+					{ "MN", "Mana", 1 },
+					{ "MMN", "Max Mana", 1 }
+				};
 			}
 		};
 		data.clearModAbilityScores();
 		assertNotNull(data);
 		data = new IoPcData() {
 			@Override
-			protected void adjustLife(final float dmg) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
 			protected void adjustMana(final float dmg) {
 				// TODO Auto-generated method stub
 
 			}
-
 			@Override
 			public void ARX_EQUIPMENT_RecreatePlayerMesh() {
 				// TODO Auto-generated method stub
 
 			}
-
 			@Override
 			public boolean canIdentifyEquipment(final IOEquipItem equipitem) {
 				// TODO Auto-generated method stub
 				return false;
 			}
-
-			@Override
-			protected void computeFullStats() throws RPGException {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			protected void defineAttributes() throws RPGException {
-				super.setAttributes(new HashMap<String, Attribute>());
-			}
-
 			@Override
 			protected float getBaseLife() {
 				// TODO Auto-generated method stub
 				return 0;
 			}
-
 			@Override
 			protected float getBaseMana() {
 				// TODO Auto-generated method stub
@@ -520,6 +504,31 @@ public class IOPCDataTest {
 			public boolean isInCombat() {
 				// TODO Auto-generated method stub
 				return false;
+			}
+			@Override
+			protected String getLifeAttribute() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			@Override
+			protected void applyRulesPercentModifiers() {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			protected void applyRulesModifiers() {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			protected Object[][] getAttributeMap() {
+				return new Object[][] {
+					{ "ST", "Strength", 0 },
+					{ "LF", "Life", 0 },
+					{ "MLF", "Max Life", 1 },
+					{ "MN", "Mana", 1 },
+					{ "MMN", "Max Mana", 1 }
+				};
 			}
 		};
 		data.clearModAbilityScores();
@@ -802,11 +811,6 @@ public class IOPCDataTest {
 	public void willNotCreateWithException() throws RPGException {
 		data = new IoPcData() {
 			@Override
-			protected void adjustLife(final float dmg) {
-				// TODO Auto-generated method stub
-
-			}
-			@Override
 			protected void adjustMana(final float dmg) {
 				// TODO Auto-generated method stub
 
@@ -822,15 +826,6 @@ public class IOPCDataTest {
 				return false;
 			}
 			@Override
-			protected void computeFullStats() throws RPGException {
-				// TODO Auto-generated method stub
-
-			}
-			@Override
-			protected void defineAttributes() throws RPGException {
-				throw new RPGException(ErrorMessage.BAD_PARAMETERS, "");
-			}
-			@Override
 			protected float getBaseLife() {
 				// TODO Auto-generated method stub
 				return 0;
@@ -844,6 +839,31 @@ public class IOPCDataTest {
 			public boolean isInCombat() {
 				// TODO Auto-generated method stub
 				return false;
+			}
+			@Override
+			protected String getLifeAttribute() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			@Override
+			protected void applyRulesPercentModifiers() {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			protected void applyRulesModifiers() {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			protected Object[][] getAttributeMap() {
+				return new Object[][] {
+					{ "ST", "Strength", 0 },
+					{ "LF", "Life", 0 },
+					{ "MLF", "Max Life", 1 },
+					{ "MN", "Mana", 1 },
+					{ "MMN", "Max Mana", 1 }
+				};
 			}
 		};
 	}
