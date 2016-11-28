@@ -181,6 +181,9 @@ public class ScriptableTest {
 		scriptable.setLocalVariable("lia", new int[] { 3 });
 		scriptable.setLocalVariable("lla", new long[] { 3L });
 		scriptable.setLocalVariable("lt", "local text");
+		assertTrue(scriptable.hasLocalVariable("lt"));
+		scriptable.clearLocalVariable("lt");
+		assertFalse(scriptable.hasLocalVariable("lt"));
 	}
 	@Test
 	public void canClearFlags() {

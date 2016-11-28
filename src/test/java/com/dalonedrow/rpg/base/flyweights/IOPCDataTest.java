@@ -226,6 +226,7 @@ public class IOPCDataTest {
 	}
 	private void beforeCreatePoisonCreature() throws RPGException {
 		psnCrtrIo = interactive.getTestIO();
+		psnCrtrIo.setScript(new TestScriptable());
 		psnCrtrIo.addIOFlag(IoGlobals.IO_03_NPC);
 		psnCrtrIo.setNPCData(new IoNpcData() {
 			@Override
@@ -806,66 +807,6 @@ public class IOPCDataTest {
 		data.addWatcher(null);
 		data.notifyWatchers();
 		assertTrue("no notifications", watcherNotes.length == 0);
-	}
-	@Test(expected = RPGException.class)
-	public void willNotCreateWithException() throws RPGException {
-		data = new IoPcData() {
-			@Override
-			protected void adjustMana(final float dmg) {
-				// TODO Auto-generated method stub
-
-			}
-			@Override
-			public void ARX_EQUIPMENT_RecreatePlayerMesh() {
-				// TODO Auto-generated method stub
-
-			}
-			@Override
-			public boolean canIdentifyEquipment(final IOEquipItem equipitem) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-			@Override
-			protected float getBaseLife() {
-				// TODO Auto-generated method stub
-				return 0;
-			}
-			@Override
-			protected float getBaseMana() {
-				// TODO Auto-generated method stub
-				return 0;
-			}
-			@Override
-			public boolean isInCombat() {
-				// TODO Auto-generated method stub
-				return false;
-			}
-			@Override
-			protected String getLifeAttribute() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-			@Override
-			protected void applyRulesPercentModifiers() {
-				// TODO Auto-generated method stub
-				
-			}
-			@Override
-			protected void applyRulesModifiers() {
-				// TODO Auto-generated method stub
-				
-			}
-			@Override
-			protected Object[][] getAttributeMap() {
-				return new Object[][] {
-					{ "ST", "Strength", 0 },
-					{ "LF", "Life", 0 },
-					{ "MLF", "Max Life", 1 },
-					{ "MN", "Mana", 1 },
-					{ "MMN", "Max Mana", 1 }
-				};
-			}
-		};
 	}
 	@Test
 	public void willNotDamageDeadPlayer() throws RPGException {

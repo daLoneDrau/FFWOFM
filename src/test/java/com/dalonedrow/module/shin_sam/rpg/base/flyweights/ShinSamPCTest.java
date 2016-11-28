@@ -4,14 +4,16 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.dalonedrow.module.shin_sam.rpg.systems.ShinSamController;
 import com.dalonedrow.rpg.base.flyweights.Attribute;
 import com.dalonedrow.rpg.base.flyweights.RPGException;
 
-public class ShinSamCharacterTest {
+public class ShinSamPCTest {
 	/** test character. */
 	private ShinSamPC test;
 	@Before
 	public void before() throws RPGException {
+		new ShinSamController();
 		test = new ShinSamPC();
 		test.setBaseAttributeScore("AB", 1);
 		test.setBaseAttributeScore("AC", 10);

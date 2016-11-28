@@ -63,62 +63,7 @@ public class IOItemDataTest {
 		dagger.ARX_EQUIPMENT_Equip(pio);
 		pio.addIOFlag(IoGlobals.IO_01_PC);
 		pio.setScript(new Scriptable());
-		pio.setPCData(new IoPcData() {
-
-			@Override
-			public boolean isInCombat() {
-				// TODO Auto-generated method stub
-				return false;
-			}
-
-			@Override
-			protected float getBaseMana() {
-				// TODO Auto-generated method stub
-				return 0;
-			}
-
-			@Override
-			protected float getBaseLife() {
-				// TODO Auto-generated method stub
-				return 0;
-			}
-
-			@Override
-			protected void adjustLife(float dmg) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			protected void adjustMana(float dmg) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void ARX_EQUIPMENT_RecreatePlayerMesh() {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public boolean canIdentifyEquipment(IOEquipItem equipitem) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-
-			@Override
-			protected void computeFullStats() throws RPGException {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			protected void defineAttributes() throws RPGException {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+		pio.setPCData(new TestIoPcDataInstance());
 		pio.setInventory(new InventoryData() {
 			@Override
 			public void PutInFrontOfPlayer(BaseInteractiveObject itemIO,

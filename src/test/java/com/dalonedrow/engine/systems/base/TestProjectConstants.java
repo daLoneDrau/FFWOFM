@@ -44,7 +44,7 @@ public class TestProjectConstants extends ProjectConstants {
 	@Override
 	public int getNumberEquipmentElements() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 1;
 	}
 
 }

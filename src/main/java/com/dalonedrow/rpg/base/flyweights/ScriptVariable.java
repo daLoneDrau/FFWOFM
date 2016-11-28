@@ -70,26 +70,26 @@ public final class ScriptVariable {
 		type = clone.type;
 		if (clone.faval != null) {
 			faval = new float[clone.faval.length];
-			System.arraycopy(clone, 0, faval, 0, clone.faval.length);
+			System.arraycopy(clone.faval, 0, faval, 0, clone.faval.length);
 		}
 		fval = clone.fval;
 		if (clone.iaval != null) {
 			iaval = new int[clone.iaval.length];
-			System.arraycopy(clone, 0, iaval, 0, clone.iaval.length);
+			System.arraycopy(clone.iaval, 0, iaval, 0, clone.iaval.length);
 		}
 		ival = clone.ival;
 		if (clone.laval != null) {
 			laval = new long[clone.laval.length];
-			System.arraycopy(clone, 0, laval, 0, clone.laval.length);
+			System.arraycopy(clone.laval, 0, laval, 0, clone.laval.length);
 		}
 		lval = clone.lval;
 		if (clone.text != null) {
 			text = new byte[clone.text.length];
-			System.arraycopy(clone, 0, text, 0, clone.text.length);
+			System.arraycopy(clone.text, 0, text, 0, clone.text.length);
 		}
 		if (clone.textaval != null) {
 			textaval = new byte[clone.textaval.length][];
-			System.arraycopy(clone, 0, textaval, 0, clone.textaval.length);
+			System.arraycopy(clone.textaval, 0, textaval, 0, clone.textaval.length);
 		}
 	}
 	/** Clears up member fields, releasing their memory. */

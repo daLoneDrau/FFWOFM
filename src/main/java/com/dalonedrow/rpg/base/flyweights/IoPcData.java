@@ -160,7 +160,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 	 * Adjusts the player's life by a specific amount.
 	 * @param dmg the amount
 	 */
-	protected final void adjustLife(final float dmg) {
+	private final void adjustLife(final float dmg) {
 		String ls = getLifeAttribute();
 		PooledStringBuilder sb =
 				StringBuilderPool.getInstance().getStringBuilder();
@@ -618,9 +618,11 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 		applyRulesModifiers();
 		// apply percent modifiers
 		for (int i = map.length - 1; i >= 0; i--) {
-			adjustAttributeModifier((String) map[i][0], ARX_EQUIPMENT_ApplyPercent((int) map[i][2],
-			        getBaseAttributeScore((String) map[i][0]) + getAttributeModifier((String) map[i][0])));
+			float percentModifier =  ARX_EQUIPMENT_ApplyPercent((int) map[i][2],
+					getBaseAttributeScore((String) map[i][0]) + getAttributeModifier((String) map[i][0]));
+			adjustAttributeModifier((String) map[i][0], percentModifier);
 		}
+		// apply percent modifiers based on rules
 		applyRulesPercentModifiers();
 	}
 	protected abstract void applyRulesPercentModifiers();

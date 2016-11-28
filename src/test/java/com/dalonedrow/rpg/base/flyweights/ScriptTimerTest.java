@@ -90,5 +90,11 @@ public class ScriptTimerTest {
 		assertEquals(s, st.getScript());
 		assertEquals(5, st.getLastTimeCheck());
 		assertEquals(1, st.getRepeatTimes());
+
+		assertFalse(st.isTurnBased());
+		st.setTurnBased(true);
+		assertTrue(st.isTurnBased());
+		st.setTurnBased(false);
+		assertFalse(st.isTurnBased());
 	}
 }

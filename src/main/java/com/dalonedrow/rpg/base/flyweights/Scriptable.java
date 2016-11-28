@@ -96,6 +96,7 @@ public class Scriptable<IO extends BaseInteractiveObject> {
 	public final void clearLocalVariable(final String varName) {
 		for (int i = lvar.length - 1; i >= 0; i--) {
 			if (lvar[i] != null
+					&& lvar[i].getName() != null
 					&& lvar[i].getName().equalsIgnoreCase(varName)) {
 				lvar[i].clear();
 			}

@@ -33,18 +33,18 @@ public class ScriptTimer<IO extends BaseInteractiveObject> {
 	/** if true, the timer is turn-based, otherwise it is millisecond based. */
 	private boolean turnBased;
 	/**
-	 * Gets the value for the isTurnBased.
+	 * Determines whether the timer is turn-based, or millisecond based.
 	 * @return {@link boolean}
 	 */
 	public boolean isTurnBased() {
 		return turnBased;
 	}
 	/**
-	 * Sets the value of the isTurnBased.
+	 * Sets whether the timer is turn-based, or millisecond based.
 	 * @param isTurnBased the new value to set
 	 */
-	public void setTurnBased(boolean isTurnBased) {
-		this.turnBased = isTurnBased;
+	public void setTurnBased(final boolean flag) {
+		this.turnBased = flag;
 	}
 	/**
 	 * Adds a flag set on the timer..

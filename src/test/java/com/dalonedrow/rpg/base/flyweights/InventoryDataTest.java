@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import com.dalonedrow.engine.systems.base.Interactive;
 import com.dalonedrow.engine.systems.base.TestInteractiveInstance;
+import com.dalonedrow.engine.systems.base.TestProjectConstants;
 import com.dalonedrow.module.ff.systems.wofm.FFWoFMController;
 import com.dalonedrow.rpg.base.constants.IoGlobals;
 import com.dalonedrow.rpg.base.constants.ScriptConsts;
@@ -38,6 +39,7 @@ public final class InventoryDataTest {
 	 */
 	@Before
 	public void before() throws RPGException {
+		new TestProjectConstants();
 		TestInteractiveInstance interactive = new TestInteractiveInstance();
 		TestScriptInstance script = new TestScriptInstance();
 		id = new InventoryData<BaseInteractiveObject,
@@ -52,62 +54,7 @@ public final class InventoryDataTest {
 			}			
 		};
 		invOwnerIO = interactive.getTestIO();
-		invOwnerIO.setPCData(new IoPcData() {
-
-			@Override
-			public boolean isInCombat() {
-				// TODO Auto-generated method stub
-				return false;
-			}
-
-			@Override
-			protected float getBaseMana() {
-				// TODO Auto-generated method stub
-				return 0;
-			}
-
-			@Override
-			protected float getBaseLife() {
-				// TODO Auto-generated method stub
-				return 0;
-			}
-
-			@Override
-			protected void adjustLife(float dmg) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			protected void adjustMana(float dmg) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void ARX_EQUIPMENT_RecreatePlayerMesh() {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public boolean canIdentifyEquipment(IOEquipItem equipitem) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-
-			@Override
-			protected void computeFullStats() throws RPGException {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			protected void defineAttributes() throws RPGException {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+		invOwnerIO.setPCData(new TestIoPcDataInstance());
 		invOwnerIO.setScript(new Scriptable() {
 			/**
 			 * {@inheritDoc}
@@ -237,63 +184,7 @@ public final class InventoryDataTest {
 		id.ARX_INVENTORY_IdentifyIO(pio, null);
 		pio.addIOFlag(IoGlobals.IO_01_PC);
 		id.ARX_INVENTORY_IdentifyIO(pio, null);
-		pio.setPCData(new IoPcData() {
-
-			@Override
-			public boolean isInCombat() {
-				// TODO Auto-generated method stub
-				return false;
-			}
-
-			@Override
-			protected float getBaseMana() {
-				// TODO Auto-generated method stub
-				return 0;
-			}
-
-			@Override
-			protected float getBaseLife() {
-				// TODO Auto-generated method stub
-				return 0;
-			}
-
-			@Override
-			protected void adjustLife(float dmg) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			protected void adjustMana(float dmg) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void ARX_EQUIPMENT_RecreatePlayerMesh() {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public boolean canIdentifyEquipment(IOEquipItem equipitem) {
-				// TODO Auto-generated method stub
-				return true;
-			}
-
-			@Override
-			protected void computeFullStats() throws RPGException {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			protected void defineAttributes() throws RPGException {
-				// TODO Auto-generated method stub
-				
-			}
-
-		});
+		pio.setPCData(new TestIoPcDataInstance());
 		id.ARX_INVENTORY_IdentifyIO(pio, null);
 		BaseInteractiveObject iio = ((TestInteractiveInstance)
 				Interactive.getInstance()).getTestIO();
@@ -308,7 +199,11 @@ public final class InventoryDataTest {
 		});
 		id.ARX_INVENTORY_IdentifyIO(pio, iio);
 		iio.getItemData().setEquipitem(new IOEquipItem());
-		id.ARX_INVENTORY_IdentifyIO(pio, iio);		
+		id.ARX_INVENTORY_IdentifyIO(pio, iio);
+		id.setLeftRing(false);
+		assertFalse(id.isLeftRing());
+		id.setLeftRing(true);
+		assertTrue(id.isLeftRing());
 	}
 	/** test flag. */
 	private String combineMsg = "not yet";

@@ -1,10 +1,6 @@
 package com.dalonedrow.module.shin_sam.rpg.base.flyweights;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.dalonedrow.module.shin_sam.rpg.constants.ShinSamEquipmentGlobals;
-import com.dalonedrow.rpg.base.flyweights.Attribute;
 import com.dalonedrow.rpg.base.flyweights.IOEquipItem;
 import com.dalonedrow.rpg.base.flyweights.IoPcData;
 import com.dalonedrow.rpg.base.flyweights.RPGException;
@@ -16,11 +12,13 @@ import com.dalonedrow.rpg.base.systems.Script;
  *
  */
 public class ShinSamPC extends IoPcData<ShinSamIO> {
-
+	/**
+	 * Creates a new instance of {@link ShinSamPC}.
+	 * @throws RPGException
+	 */
 	public ShinSamPC() throws RPGException {
 		super();
 	}
-
 	@Override
 	protected void adjustMana(final float dmg) {
 		super.setBaseAttributeScore("KI",
@@ -36,7 +34,6 @@ public class ShinSamPC extends IoPcData<ShinSamIO> {
 			super.setBaseAttributeScore("KI", 0f);
 		}
 	}
-
 	@Override
 	public void ARX_EQUIPMENT_RecreatePlayerMesh() {
 		// TODO Auto-generated method stub
@@ -68,7 +65,7 @@ public class ShinSamPC extends IoPcData<ShinSamIO> {
 	protected void applyRulesPercentModifiers() {
 	}
 	/** the list of attributes and their matching names and modifiers. */
-	private Object[][] attributeMap = new Object[][] {
+	private static Object[][] attributeMap = new Object[][] {
 		{"AB", "Attack Bonus", ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_ATTACK_BONUS},
 		{"AC", "Armor Class", ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_ARMOR_CLASS},
 		{"END", "Endurance", ShinSamEquipmentGlobals.EQUIPITEM_ELEMENT_ENDURANCE},
@@ -135,9 +132,7 @@ public class ShinSamPC extends IoPcData<ShinSamIO> {
 	}
 
 	@Override
-	protected String[][] getAttributeMap() {
-		// TODO Auto-generated method stub
-		return null;
+	protected Object[][] getAttributeMap() {
+		return ShinSamPC.attributeMap;
 	}
-
 }

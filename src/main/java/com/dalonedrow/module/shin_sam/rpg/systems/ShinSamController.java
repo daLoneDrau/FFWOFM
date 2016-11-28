@@ -5,7 +5,7 @@ import com.dalonedrow.module.shin_sam.rpg.base.flyweights.ShinSamIO;
 import com.dalonedrow.rpg.base.flyweights.RPGException;
 
 public class ShinSamController extends ProjectConstants<ShinSamIO> {
-	
+	/** Creates a new instance of {@link ShinSamController}. */
 	public ShinSamController() {
 		super.setInstance(this);
 		new ShinSamInteractive();

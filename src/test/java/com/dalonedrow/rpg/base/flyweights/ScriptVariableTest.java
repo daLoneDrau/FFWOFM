@@ -66,6 +66,8 @@ public class ScriptVariableTest {
 		assertEquals("testg", tgaVar.getTextArrayVal(0));
 		taVar.set(1, 33);
 		assertEquals("33", taVar.getTextArrayVal(1));
+		taVar = new ScriptVariable(taVar);
+		assertEquals("33", taVar.getTextArrayVal(1));
 	}
 	@Test
 	public void canCreate() throws RPGException, PooledException {
@@ -73,6 +75,7 @@ public class ScriptVariableTest {
 		assertEquals(tVar.getName(), "tvar");
 		assertEquals(tVar.getText(), "test");
 		tVar.set("test2");
+		tVar = new ScriptVariable(tVar);
 		assertEquals(tVar.getText(), "test2");
 		assertEquals(tVar.getType(), ScriptConstants.TYPE_G_00_TEXT);
 		tVar.clear();
@@ -87,6 +90,7 @@ public class ScriptVariableTest {
 		assertEquals(faVar.getFloatArrayVal(1), 1.3f, .001f);
 		faVar.set(new float[] { 0.5f });
 		faVar.set(2f);
+		faVar = new ScriptVariable(faVar);
 		assertEquals(faVar.getFloatArrayVal(1), 2.0f, .001f);
 		assertNotNull(iVar);
 		assertEquals(iVar.getIntVal(), 5);
@@ -98,6 +102,7 @@ public class ScriptVariableTest {
 		assertEquals(iaVar.getIntArrayVal(1), 2);
 		iaVar.set(new int[] { 1 });
 		iaVar.set(2);
+		iaVar = new ScriptVariable(iaVar);
 		assertEquals(iaVar.getIntArrayVal(1), 2);
 		assertNotNull(lVar);
 		assertEquals(lVar.getLongVal(), 5l);
@@ -107,6 +112,12 @@ public class ScriptVariableTest {
 		assertNotNull(laVar.getLongArrayVal());
 		assertEquals(laVar.getLongArrayVal()[1], 30l);
 		assertEquals(laVar.getLongArrayVal(1), 30l);
+		lVar = new ScriptVariable(lVar);
+		laVar = new ScriptVariable(laVar);
+	}
+	@Test(expected=RPGException.class)
+	public void willNotCloneFromNull() throws RPGException {
+		fVar = new ScriptVariable(null);
 	}
 	@Test
 	public void canSetFields() throws PooledException, RPGException {
