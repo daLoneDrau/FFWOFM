@@ -139,9 +139,18 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 	 * Adjusts the attribute modifier for a specific attribute.
 	 * @param attr the attribute name
 	 * @param val the modifier
+	 * @throws RPGException if the attribute name is missing or incorrect
 	 */
 	public final void adjustAttributeModifier(final String attr,
-			final float val) {
+			final float val) throws RPGException {
+		if (attr == null) {
+			throw new RPGException(ErrorMessage.INTERNAL_BAD_ARGUMENT,
+					"Attribute name cannot be null");
+		}
+		if (!attributes.containsKey(attr)) {
+			throw new RPGException(ErrorMessage.INTERNAL_BAD_ARGUMENT,
+					"No such attribute " + attr);
+		}
 		attributes.get(attr).adjustModifier(val);
 	}
 	/**
@@ -606,7 +615,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 	 * and any other effect altering them.
 	 * @throws RPGException if an error occurs
 	 */
-	protected final void computeFullStats() throws RPGException {
+	public final void computeFullStats() throws RPGException {
 		// clear mods
 		clearModAbilityScores();
 		// apply equipment modifiers
@@ -626,7 +635,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 		applyRulesPercentModifiers();
 	}
 	protected abstract void applyRulesPercentModifiers();
-	protected abstract void applyRulesModifiers();
+	protected abstract void applyRulesModifiers() throws RPGException;
 	protected abstract Object[][] getAttributeMap();
 	/**
 	 * Defines the PC's attributes.

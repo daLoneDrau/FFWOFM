@@ -854,7 +854,6 @@ STACKED extends StackedEvent<IO>> {
 				&& io.getNumIOGroups() > 0) {
 			io.removeGroup(io.getIOGroup(0));
 		}
-		io.setNumIOGroups(0);
 	}
 	/**
 	 * Releases an event, clearing all variables.

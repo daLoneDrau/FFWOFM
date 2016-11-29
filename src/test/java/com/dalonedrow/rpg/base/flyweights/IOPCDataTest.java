@@ -333,7 +333,7 @@ public class IOPCDataTest {
 		assertEquals("2 keys", data.getNumKeys(), 2);
 	}
 	@Test
-	public void canAdjustAttributes() {
+	public void canAdjustAttributes() throws RPGException {
 		assertEquals(data.getBaseAttributeScore("ST"), 6, 0f);
 		assertEquals(data.getAttributeModifier("ST"), 0, 0f);
 		assertEquals(data.getFullAttributeScore("ST"), 6, 0f);

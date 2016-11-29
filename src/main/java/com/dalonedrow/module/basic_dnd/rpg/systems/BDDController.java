@@ -1,6 +1,7 @@
 package com.dalonedrow.module.basic_dnd.rpg.systems;
 
 import com.dalonedrow.engine.systems.base.ProjectConstants;
+import com.dalonedrow.module.basic_dnd.rpg.constants.BDDEquipmentGlobals;
 import com.dalonedrow.module.basic_dnd.rpg.flyweights.BDDIO;
 import com.dalonedrow.rpg.base.flyweights.RPGException;
 
@@ -33,6 +34,6 @@ public class BDDController extends ProjectConstants<BDDIO> {
 	}
 	@Override
 	public int getNumberEquipmentElements() {
-		return 31;
+		return BDDEquipmentGlobals.MAX_EQUIP_ELEMENTS;
 	}
 }

@@ -12,127 +12,76 @@ import com.dalonedrow.rpg.base.constants.EquipmentGlobals;
 import com.dalonedrow.rpg.base.constants.IoGlobals;
 
 /**
- * 
  * @author drau
- *
  * @param <ITEM>
  * @param <INVENTORY>
  * @param <PC>
  * @param <NPC>
  * @param <SCRIPT>
  */
-@SuppressWarnings({"rawtypes", "unchecked"})
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public abstract class BaseInteractiveObject<ITEM extends IOItemData,
-INVENTORY extends InventoryData, PC extends IoPcData, NPC extends IoNpcData,
-SCRIPT extends Scriptable> {
-	private int poisonCharges;
-	/**
-	 * Gets the value for the poisonLevel.
-	 * @return {@link int}
-	 */
-	public int getPoisonLevel() {
-		return poisonLevel;
-	}
-	/**
-	 * Sets the value of the poisonLevel.
-	 * @param poisonLevel the new value to set
-	 */
-	public void setPoisonLevel(int poisonLevel) {
-		this.poisonLevel = poisonLevel;
-	}
-	/**
-	 * Sets the value of the poisonCharges.
-	 * @param poisonCharges the new value to set
-	 */
-	public void setPoisonCharges(int poisonCharges) {
-		this.poisonCharges = poisonCharges;
-	}
-	private int poisonLevel;
-	public int getPoisonCharges() {
-		return poisonCharges;
-	}
-	private float damageSum;
-	/**
-	 * Sets the value of the damageSum.
-	 * @param damageSum the new value to set
-	 */
-	public void setDamageSum(float damageSum) {
-		this.damageSum = damageSum;
-	}
-	public float getDamageSum() {
-		return damageSum;
-	}
+        INVENTORY extends InventoryData, PC extends IoPcData,
+        NPC extends IoNpcData,
+        SCRIPT extends Scriptable> {
 	/** the names of animations associated with the interactive object. */
-	private String[]				animationNames;
+	private String[] animationNames;
 	/** the animation ids associated with the interactive object. */
-	private int[]					animations;
+	private int[] animations;
 	/** the {@link BaseInteractiveObject}'s armor material. */
-	private String					armormaterial;
+	private String armormaterial;
+	/** any flags that have been set. */
+	private long behaviorFlags = 0;
+	private float damageSum;
 	/** flags indicating the IO is taking damage of a specific type. */
-	private final long				dmgFlags	= 0;
+	private final long dmgFlags = 0;
 	/** any game flags that have been set. */
-	private long					gameFlags	= 0;
+	private long gameFlags = 0;
 	/** the inventory data. */
-	private INVENTORY				inventory;
+	private INVENTORY inventory;
 	/** any flags that have been set. */
-	private long					behaviorFlags		= 0;
-	/** any flags that have been set. */
-	private long					ioFlags		= 0;
+	private long ioFlags = 0;
 	/** the list of groups to which the IO belongs. */
-	private String[]				ioGroups	= new String[0];
-	private ITEM					itemData;
+	private String[] ioGroups = new String[0];
+	private ITEM itemData;
 	private int level;
-	/**
-	 * Gets the value for the level.
-	 * @return {@link int}
-	 */
-	public int getLevel() {
-		return level;
-	}
-
-	/**
-	 * Sets the value of the level.
-	 * @param level the new value to set
-	 */
-	public void setLevel(int level) {
-		this.level = level;
-	}
-
-	private String					mainevent;
-	private NPC						npcData;
+	private String mainevent;
+	private NPC npcData;
 	/** the number of spells currently on the object. */
-	private int						numberOfSpellsOn;
-	/** the number of IO groups to which the IO belongs. */
-	private int						numIOGroups;
+	private int numberOfSpellsOn;
 	/** overriding script associated with the object. */
-	private SCRIPT					overscript;
-	private PC						pcData;
+	private SCRIPT overscript;
+	private PC pcData;
+	private int poisonCharges;
+	private int poisonLevel;
 	/** the object's position. */
-	private SimpleVector2			position;
+	private SimpleVector2 position;
 	/** the object's reference id. */
-	private final int				refId;
+	private final int refId;
+
 	/** primary script associated with the object. */
-	private SCRIPT					script;
+	private SCRIPT script;
+
 	/** is the item loaded by script. */
-	private boolean					scriptLoaded;
+	private boolean scriptLoaded;
 	/** the show status (in scene, in inventory). */
-	private int						show;
-	private int						sparkNBlood;
-	private final IOSpellCastData	spellcastData;
+	private int show;
+	private int sparkNBlood;
+	private final IOSpellCastData spellcastData;
 	/** the list of spells currently active on the object. */
-	private int[]					spellsOn;
-	private SpriteBase				sprite;
-	private int						statCount;
-	private int						statSent;
-	private int						targetinfo;
+	private int[] spellsOn;
+	private SpriteBase sprite;
+	private int statCount;
+	private int statSent;
+	private int summoner;
+	private int targetinfo;
 	/**
 	 * any type flags that have been set (is the object a goblin, weapon,
 	 * etc...).
 	 */
-	private long					typeFlags	= 0;
+	private long typeFlags = 0;
 	/** the {@link BaseInteractiveObject}'s weapon material. */
-	private String					weaponmaterial;
-	private int summoner;
+	private String weaponmaterial;
 
 	/**
 	 * Creates a new instance of {@link BaseInteractiveObject}.
@@ -153,21 +102,21 @@ SCRIPT extends Scriptable> {
 	 * @throws RPGException if the name is null
 	 */
 	public void addAnimation(final String name, final int id)
-			throws PooledException, RPGException {
+	        throws PooledException, RPGException {
 		if (name == null) {
 			PooledStringBuilder sb =
-					StringBuilderPool.getInstance().getStringBuilder();
+			        StringBuilderPool.getInstance().getStringBuilder();
 			sb.append("ERROR! InteractiveObject.addAnimation() - ");
 			sb.append("null value sent in parameters");
 			RPGException ex = new RPGException(ErrorMessage.ILLEGAL_OPERATION,
-					sb.toString());
+			        sb.toString());
 			sb.returnToPool();
 			throw ex;
 		}
 		int index = -1;
 		for (int i = 0; i < animationNames.length; i++) {
 			if (animationNames[i] == null || animationNames[i] != null
-					&& animationNames[i].equals(name)) {
+			        && animationNames[i].equals(name)) {
 				index = i;
 				break;
 			}
@@ -177,7 +126,7 @@ SCRIPT extends Scriptable> {
 			index = animations.length;
 			String[] tempStr = new String[animations.length + 1];
 			System.arraycopy(animationNames, 0, tempStr, 0,
-					animationNames.length);
+			        animationNames.length);
 			animationNames = tempStr;
 			// extend the animations array
 			int[] temp = new int[animations.length + 1];
@@ -187,6 +136,7 @@ SCRIPT extends Scriptable> {
 		animationNames[index] = name;
 		animations[index] = id;
 	}
+
 	/**
 	 * Adds a behavior flag.
 	 * @param flag the flag
@@ -194,6 +144,7 @@ SCRIPT extends Scriptable> {
 	public void addBehaviorFlag(final long flag) {
 		behaviorFlags |= flag;
 	}
+
 	/**
 	 * Adds a game flag.
 	 * @param flag the flag
@@ -201,6 +152,7 @@ SCRIPT extends Scriptable> {
 	public void addGameFlag(final long flag) {
 		gameFlags |= flag;
 	}
+
 	/**
 	 * Adds the IO to a group.
 	 * @param group the group
@@ -229,9 +181,9 @@ SCRIPT extends Scriptable> {
 				dest = null;
 			}
 			ioGroups[index] = group;
-			this.numIOGroups++;
 		}
 	}
+
 	/**
 	 * Adds a flag.
 	 * @param flag the flag
@@ -239,6 +191,7 @@ SCRIPT extends Scriptable> {
 	public void addIOFlag(final long flag) {
 		ioFlags |= flag;
 	}
+
 	/**
 	 * Adds an active spell on the object.
 	 * @param spellId the spell's id
@@ -282,29 +235,34 @@ SCRIPT extends Scriptable> {
 			break;
 		case EquipmentGlobals.OBJECT_TYPE_WEAPON:
 			throw new RPGException(ErrorMessage.INVALID_DATA_TYPE,
-					"Cannot set weapon type, must specify weapon class");
-			default:
-				throw new RPGException(ErrorMessage.INVALID_DATA_TYPE,
-						"Invalid object type " + flag);
+			        "Cannot set weapon type, must specify weapon class");
+		default:
+			throw new RPGException(ErrorMessage.INVALID_DATA_TYPE,
+			        "Invalid object type " + flag);
 		}
 		typeFlags |= flag;
 	}
+
 	/** Clears all behavior flags that were set. */
 	public void clearBehaviorFlags() {
 		behaviorFlags = 0;
 	}
+
 	/** Clears all game flags that were set. */
 	public void clearGameFlags() {
 		gameFlags = 0;
 	}
+
 	/** Clears all flags that were set. */
 	public void clearIOFlags() {
 		ioFlags = 0;
 	}
+
 	/** Clears all type flags that were set. */
 	public void clearTypeFlags() {
 		typeFlags = 0;
 	}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -316,10 +274,10 @@ SCRIPT extends Scriptable> {
 		} else if (obj != null && obj instanceof BaseInteractiveObject) {
 			BaseInteractiveObject other = (BaseInteractiveObject) obj;
 			if (this.dmgFlags == other.dmgFlags
-					&& this.gameFlags == other.gameFlags
-					&& this.ioFlags == other.ioFlags
-					&& this.numberOfSpellsOn == other.numberOfSpellsOn
-					&& this.refId == other.refId) {
+			        && this.gameFlags == other.gameFlags
+			        && this.ioFlags == other.ioFlags
+			        && this.numberOfSpellsOn == other.numberOfSpellsOn
+			        && this.refId == other.refId) {
 				equals = true;
 			}
 		}
@@ -336,7 +294,7 @@ SCRIPT extends Scriptable> {
 	public int getAnimation(final String name) throws Exception {
 		if (name == null) {
 			PooledStringBuilder sb =
-					StringBuilderPool.getInstance().getStringBuilder();
+			        StringBuilderPool.getInstance().getStringBuilder();
 			sb.append("ERROR! InteractiveObject.getAnimation() - ");
 			sb.append("null value sent in parameters");
 			Exception ex = new Exception(sb.toString());
@@ -352,7 +310,7 @@ SCRIPT extends Scriptable> {
 		}
 		if (index == -1) {
 			PooledStringBuilder sb =
-					StringBuilderPool.getInstance().getStringBuilder();
+			        StringBuilderPool.getInstance().getStringBuilder();
 			sb.append("ERROR! InteractiveObject.getAnimation() - ");
 			sb.append("no animation set for ");
 			sb.append(name);
@@ -369,6 +327,10 @@ SCRIPT extends Scriptable> {
 	 */
 	public String getArmormaterial() {
 		return armormaterial;
+	}
+
+	public float getDamageSum() {
+		return damageSum;
 	}
 
 	/**
@@ -394,6 +356,14 @@ SCRIPT extends Scriptable> {
 	 */
 	public final ITEM getItemData() {
 		return itemData;
+	}
+
+	/**
+	 * Gets the value for the level.
+	 * @return {@link int}
+	 */
+	public int getLevel() {
+		return level;
 	}
 
 	/**
@@ -425,7 +395,7 @@ SCRIPT extends Scriptable> {
 	 * @return {@link int}
 	 */
 	public final int getNumIOGroups() {
-		return numIOGroups;
+		return this.ioGroups.length;
 	}
 
 	/**
@@ -442,6 +412,18 @@ SCRIPT extends Scriptable> {
 	 */
 	public final PC getPCData() {
 		return pcData;
+	}
+
+	public int getPoisonCharges() {
+		return poisonCharges;
+	}
+
+	/**
+	 * Gets the value for the poisonLevel.
+	 * @return {@link int}
+	 */
+	public int getPoisonLevel() {
+		return poisonLevel;
 	}
 
 	/**
@@ -516,6 +498,10 @@ SCRIPT extends Scriptable> {
 		return statSent;
 	}
 
+	public int getSummoner() {
+		return summoner;
+	}
+
 	/**
 	 * Gets the targetinfo
 	 * @return {@link int}
@@ -531,6 +517,7 @@ SCRIPT extends Scriptable> {
 	public String getWeaponmaterial() {
 		return weaponmaterial;
 	}
+
 	/**
 	 * Determines if the {@link BaseInteractiveObject} has a specific behavior
 	 * flag.
@@ -541,6 +528,7 @@ SCRIPT extends Scriptable> {
 	public final boolean hasBehaviorFlag(final long flag) {
 		return (behaviorFlags & flag) == flag;
 	}
+
 	/**
 	 * Determines if the {@link BaseInteractiveObject} has a specific game flag.
 	 * @param flag the flag
@@ -550,6 +538,7 @@ SCRIPT extends Scriptable> {
 	public final boolean hasGameFlag(final long flag) {
 		return (gameFlags & flag) == flag;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -559,6 +548,7 @@ SCRIPT extends Scriptable> {
 		// TODO Auto-generated method stub
 		return super.hashCode();
 	}
+
 	/**
 	 * Determines if the {@link BaseInteractiveObject} has a specific flag.
 	 * @param flag the flag
@@ -568,6 +558,7 @@ SCRIPT extends Scriptable> {
 	public final boolean hasIOFlag(final long flag) {
 		return (ioFlags & flag) == flag;
 	}
+
 	/**
 	 * Determines if the {@link BaseInteractiveObject} has a specific type flag.
 	 * @param flag the flag
@@ -577,7 +568,6 @@ SCRIPT extends Scriptable> {
 	public final boolean hasTypeFlag(final long flag) {
 		return (typeFlags & flag) == flag;
 	}
-
 	public boolean isInGroup(final String group) {
 		boolean found = false;
 		for (int i = 0; i < ioGroups.length; i++) {
@@ -588,7 +578,6 @@ SCRIPT extends Scriptable> {
 		}
 		return found;
 	}
-
 	/**
 	 * Gets the flag indicating if the item is loaded by script.
 	 * @return <code>boolean</code>
@@ -601,6 +590,7 @@ SCRIPT extends Scriptable> {
 	public final void removeAllSpells() {
 		spellsOn = new int[0];
 	}
+
 	/**
 	 * Removes a behavior flag.
 	 * @param flag the flag
@@ -608,6 +598,7 @@ SCRIPT extends Scriptable> {
 	public final void removeBehaviorFlag(final long flag) {
 		behaviorFlags &= ~flag;
 	}
+
 	/**
 	 * Removes a game flag.
 	 * @param flag the flag
@@ -615,6 +606,7 @@ SCRIPT extends Scriptable> {
 	public final void removeGameFlag(final long flag) {
 		gameFlags &= ~flag;
 	}
+
 	/**
 	 * Removes the IO from a group.
 	 * @param group the group
@@ -640,11 +632,10 @@ SCRIPT extends Scriptable> {
 				System.arraycopy(ioGroups, 0, dest, 0, index);
 				// copy everything after index
 				System.arraycopy(ioGroups, index + 1, dest, index,
-						ioGroups.length - 1 - index);
+				        ioGroups.length - 1 - index);
 			}
 			ioGroups = dest;
 			dest = null;
-			this.numIOGroups--;
 		}
 	}
 	/**
@@ -654,6 +645,7 @@ SCRIPT extends Scriptable> {
 	public final void removeIOFlag(final long flag) {
 		ioFlags &= ~flag;
 	}
+
 	/**
 	 * Removes an active spell.
 	 * @param spellId the spell's id
@@ -680,7 +672,7 @@ SCRIPT extends Scriptable> {
 			} else {
 				System.arraycopy(spellsOn, 0, dest, 0, index);
 				System.arraycopy(spellsOn, index + 1, dest, index,
-						numberOfSpellsOn - index);
+				        numberOfSpellsOn - index);
 			}
 			spellsOn = dest;
 			dest = null;
@@ -707,6 +699,14 @@ SCRIPT extends Scriptable> {
 	}
 
 	/**
+	 * Sets the value of the damageSum.
+	 * @param damageSum the new value to set
+	 */
+	public void setDamageSum(float damageSum) {
+		this.damageSum = damageSum;
+	}
+
+	/**
 	 * Sets the IO's inventory.
 	 * @param val the inventory to set
 	 */
@@ -729,6 +729,15 @@ SCRIPT extends Scriptable> {
 			}
 		}
 	}
+
+	/**
+	 * Sets the value of the level.
+	 * @param level the new value to set
+	 */
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
 	/**
 	 * Sets the mainevent
 	 * @param mainevent the mainevent to set
@@ -751,13 +760,7 @@ SCRIPT extends Scriptable> {
 			}
 		}
 	}
-	/**
-	 * Sets the number of IO groups to which the IO belongs.
-	 * @param val the number to set
-	 */
-	public final void setNumIOGroups(final int val) {
-		this.numIOGroups = val;
-	}
+
 	/**
 	 * Sets the overscript.
 	 * @param overscript the overscript to set
@@ -765,6 +768,7 @@ SCRIPT extends Scriptable> {
 	public void setOverscript(final SCRIPT overscript) {
 		this.overscript = overscript;
 	}
+
 	/**
 	 * Sets item data for the {@link BaseInteractiveObject}.
 	 * @param data the new pc data
@@ -779,6 +783,23 @@ SCRIPT extends Scriptable> {
 			}
 		}
 	}
+
+	/**
+	 * Sets the value of the poisonCharges.
+	 * @param poisonCharges the new value to set
+	 */
+	public void setPoisonCharges(int poisonCharges) {
+		this.poisonCharges = poisonCharges;
+	}
+
+	/**
+	 * Sets the value of the poisonLevel.
+	 * @param poisonLevel the new value to set
+	 */
+	public void setPoisonLevel(int poisonLevel) {
+		this.poisonLevel = poisonLevel;
+	}
+
 	/**
 	 * Sets the position.
 	 * @param val the position to set
@@ -811,11 +832,9 @@ SCRIPT extends Scriptable> {
 	public final void setShow(final int val) {
 		this.show = val;
 	}
-
 	public void setSparkNBlood(final int val) {
 		sparkNBlood = val;
 	}
-
 	/**
 	 * Sets the sprite associated with this {@link BaseInteractiveObject}.
 	 * @param sb the {@link SpriteBase}
@@ -823,7 +842,6 @@ SCRIPT extends Scriptable> {
 	public void setSprite(final SpriteBase sb) {
 		sprite = sb;
 	}
-
 	/**
 	 * Sets the statCount
 	 * @param val the statCount to set
@@ -831,7 +849,6 @@ SCRIPT extends Scriptable> {
 	public void setStatCount(final int val) {
 		this.statCount = val;
 	}
-
 	/**
 	 * Sets the statSent
 	 * @param val the statSent to set
@@ -839,7 +856,13 @@ SCRIPT extends Scriptable> {
 	public void setStatSent(final int val) {
 		this.statSent = val;
 	}
-
+	/**
+	 * Sets the value of the summoner.
+	 * @param summoner the new value to set
+	 */
+	public void setSummoner(int summoner) {
+		this.summoner = summoner;
+	}
 	/**
 	 * Sets the targetinfo
 	 * @param targetinfo the targetinfo to set
@@ -847,22 +870,11 @@ SCRIPT extends Scriptable> {
 	public void setTargetinfo(final int targetinfo) {
 		this.targetinfo = targetinfo;
 	}
-
 	/**
 	 * Sets the {@link BaseInteractiveObject}'s weapon material.
 	 * @param val the new value
 	 */
 	public void setWeaponmaterial(final String val) {
 		weaponmaterial = val;
-	}
-	public int getSummoner() {
-		return summoner;
-	}
-	/**
-	 * Sets the value of the summoner.
-	 * @param summoner the new value to set
-	 */
-	public void setSummoner(int summoner) {
-		this.summoner = summoner;
 	}
 }
