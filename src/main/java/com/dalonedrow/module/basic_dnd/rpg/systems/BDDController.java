@@ -9,6 +9,7 @@ public class BDDController extends ProjectConstants<BDDIO> {
 	public BDDController() {
 		super.setInstance(this);
 		new BDDInteractive();
+		new BDDScriptMaster();
 	}
 	@Override
 	public void update() {
@@ -32,7 +33,6 @@ public class BDDController extends ProjectConstants<BDDIO> {
 	}
 	@Override
 	public int getNumberEquipmentElements() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 31;
 	}
 }

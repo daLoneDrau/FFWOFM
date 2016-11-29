@@ -8,7 +8,7 @@ import com.dalonedrow.rpg.base.flyweights.BaseInteractiveObject;
  *
  */
 public class BDDIO
-extends BaseInteractiveObject<BDDItem, BDDInventory, BDDPC, BDDNPC, BDDScript> {
+extends BaseInteractiveObject<BDDItem, BDDInventory, BDDPC, BDDNPC, BDDScriptable> {
 	/**
 	 * Creates a new instance of {@link BDDIO}.
 	 * @param id the reference id

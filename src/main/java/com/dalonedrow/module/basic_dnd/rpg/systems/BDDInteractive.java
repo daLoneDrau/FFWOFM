@@ -5,7 +5,7 @@ import com.dalonedrow.module.basic_dnd.rpg.flyweights.BDDIO;
 import com.dalonedrow.rpg.base.flyweights.RPGException;
 import com.dalonedrow.utils.ArrayUtilities;
 
-public class BDDInteractive extends Interactive<BDDIO> {
+public final class BDDInteractive extends Interactive<BDDIO> {
 	/** the next available id. */
 	private int						nextId;
 	/** the list of {@link BDDIO}s. */
@@ -32,7 +32,7 @@ public class BDDInteractive extends Interactive<BDDIO> {
 	public int getMaxIORefId() {
 		return nextId;
 	}
-	BDDInteractive() {
+	protected BDDInteractive() {
 		super.setInstance(this);
 	}
 
