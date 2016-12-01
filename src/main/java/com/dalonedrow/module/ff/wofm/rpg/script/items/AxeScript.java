@@ -212,12 +212,8 @@ public final class AxeScript extends WeaponScript {
 			// send a message
 			// else
 			// have player equip the item
-			try {
-				super.getIO().getItemData().ARX_EQUIPMENT_Equip(
+			super.getIO().getItemData().ARX_EQUIPMENT_Equip(
 						FFWoFMController.getInstance().getPlayerIO());
-			} catch (PooledException e) {
-				throw new RPGException(ErrorMessage.INTERNAL_ERROR, e);
-			}
 		}
 		return super.onInventoryUse();
 	}
@@ -310,7 +306,7 @@ public final class AxeScript extends WeaponScript {
 							// IF (^PLAYER_SKILL_CASTING > 50) {
 							// SETEQUIP DEXTERITY 2
 							// }
-							int tmp = super.getIO().getItemData().getPrice();
+							float tmp = super.getIO().getItemData().getPrice();
 							tmp *= 1.5f;
 							super.setLocalVariable("tmp", tmp);
 							enchant();
@@ -326,7 +322,7 @@ public final class AxeScript extends WeaponScript {
 							// IF (^PLAYER_SKILL_CASTING > 50) {
 							// SETEQUIP STRENGTH 3
 							// }
-							int tmp = super.getIO().getItemData().getPrice();
+							float tmp = super.getIO().getItemData().getPrice();
 							tmp *= 3f;
 							super.setLocalVariable("tmp", tmp);
 							enchant();
@@ -336,7 +332,7 @@ public final class AxeScript extends WeaponScript {
 							// set affect STR by 1
 							// HALO -ocs 1 0 0 30
 							// SETEQUIP STRENGTH 1
-							int tmp = super.getIO().getItemData().getPrice();
+							float tmp = super.getIO().getItemData().getPrice();
 							tmp *= 1.5f;
 							super.setLocalVariable("tmp", tmp);
 							enchant();

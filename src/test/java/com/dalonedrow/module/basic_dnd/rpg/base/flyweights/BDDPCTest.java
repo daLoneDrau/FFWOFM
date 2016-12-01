@@ -656,5 +656,7 @@ public class BDDPCTest {
 		assertEquals(6, (int) test.getBaseAttributeScore("STP"));
 		assertEquals(4, (int) test.getBaseAttributeScore("STW"));
 		assertEquals(5, (int) test.getBaseAttributeScore("STS"));
+		// test THAC0
+		test.getIo().setLevel(1);
 	}
 }

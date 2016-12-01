@@ -5,8 +5,6 @@ package com.dalonedrow.rpg.base.flyweights;
 
 import com.dalonedrow.engine.systems.base.Interactive;
 import com.dalonedrow.engine.systems.base.ProjectConstants;
-import com.dalonedrow.module.ff.rpg.FFCharacter;
-import com.dalonedrow.module.ff.systems.wofm.FFWoFMController;
 import com.dalonedrow.pooled.PooledException;
 import com.dalonedrow.rpg.base.constants.EquipmentGlobals;
 import com.dalonedrow.rpg.base.constants.IoGlobals;
@@ -20,64 +18,39 @@ import com.dalonedrow.rpg.base.systems.Script;
  */
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public abstract class IOItemData<IO extends BaseInteractiveObject> {
-	/** flags for all class restrictions. */
-	private int		classRestrictions;
 	/** the current number in an inventory slot. */
-	private int		count;
+	private int count;
 	/** the item's description. */
-	private char[]	description;
+	private char[] description;
 	/** modifier data for the item. */
-	private IOEquipItem		equipitem;
+	private IOEquipItem equipitem;
 	/** dunno? */
-	private char	foodValue;
+	private char foodValue;
 	/** the IO associated with this data. */
-	private IO		io;
+	private IO io;
 	/** the item's name. */
-	private char[]	itemName;
+	private char[] itemName;
 	/** the item's light value. */
-	private int		lightValue;
+	private int lightValue;
 	/** the maximum number of the item the player can own. */
-	private int		maxOwned;
+	private int maxOwned;
 	/** the item's price. */
-	private int		price;
-	/** flags for all race restrictions. */
-	private long	raceRestrictions;
-	/** the amount of the item that can be stacked in one inventory slot. */
-	private int		stackSize;
-	/** dunno? */
-	private char	stealvalue;
-	/** the item's weight. */
-	private int		weight;
+	private float price;
 	/** the type of ring the item is. */
 	private int ringType;
+	/** the amount of the item that can be stacked in one inventory slot. */
+	private int stackSize;
+	/** dunno? */
+	private char stealvalue;
 	/**
-	 * Gets the type of ring the item is.
-	 * @return {@link int}
+	 * Creates a new instance of {@link IOItemData}.
+	 * @throws RPGException 
 	 */
-	public int getRingType() {
-		return ringType;
+	public IOItemData() throws RPGException {
+		equipitem = new IOEquipItem();
 	}
-	/**
-	 * Sets the type of ring the item is.
-	 * @param val the new value to set
-	 */
-	public void setRingType(final int val) {
-		this.ringType = val;
-	}
-	/**
-	 * Adds a class restriction.
-	 * @param flag the flag
-	 */
-	public final void addClassRestriction(final long flag) {
-		classRestrictions |= flag;
-	}
-	/**
-	 * Adds a race restriction.
-	 * @param flag the flag
-	 */
-	public final void addRaceRestriction(final long flag) {
-		raceRestrictions |= flag;
-	}
+	/** the item's weight. */
+	private int weight;
 	/**
 	 * Adjusts the {@link IOItemData}'s count.
 	 * @param val the amount adjusted by
@@ -85,151 +58,13 @@ public abstract class IOItemData<IO extends BaseInteractiveObject> {
 	public final void adjustCount(final int val) throws RPGException {
 		if (count + val < 0) {
 			throw new RPGException(ErrorMessage.INVALID_PARAM,
-					"Cannot remove that many items");
+			        "Cannot remove that many items");
 		}
 		if (count + val > maxOwned) {
 			throw new RPGException(ErrorMessage.INVALID_PARAM,
-					"Cannot add that many items");
+			        "Cannot add that many items");
 		}
 		count += val;
-	}
-	/**
-	 * Equips a weapon for a player.
-	 * @param player the player data
-	 * @throws PooledException if an error occurs
-	 * @throws RPGException if an error occurs
-	 */
-	private void equipWeapon(final IoPcData player)
-			throws PooledException, RPGException {
-		// unequip old weapon
-		unequipItemInSlot(player, EquipmentGlobals.EQUIP_SLOT_WEAPON);
-		// equip new weapon
-		player.setEquippedItem(
-				EquipmentGlobals.EQUIP_SLOT_WEAPON, io.getRefId());
-		// attach it to player mesh
-		if (io.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_BOW)) {
-			// EERIE_LINKEDOBJ_LinkObjectToObject(
-			// target->obj, io->obj,
-			// "WEAPON_ATTACH", "TEST", io);
-		} else {
-			// EERIE_LINKEDOBJ_LinkObjectToObject(
-			// target->obj,
-			// io->obj,
-			// "WEAPON_ATTACH", "PRIMARY_ATTACH", io); //
-		}
-		if (io.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_2H)
-				|| io.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_BOW)) {
-			// for bows or 2-handed swords, unequip old shield
-			unequipItemInSlot(player, EquipmentGlobals.EQUIP_SLOT_SHIELD);
-		}
-	}
-	/**
-	 * Equips a shield on a player.
-	 * @param player the player data
-	 * @throws PooledException if an error occurs
-	 * @throws RPGException if an error occurs
-	 */
-	private void equipShield(final IoPcData player)
-			throws PooledException, RPGException {
-		// unequip old shield
-		unequipItemInSlot(player, EquipmentGlobals.EQUIP_SLOT_SHIELD);
-		// equip new shield
-		player.setEquippedItem(
-				EquipmentGlobals.EQUIP_SLOT_SHIELD, io.getRefId());
-		// TODO - attach new shield to mesh
-		// EERIE_LINKEDOBJ_LinkObjectToObject(target->obj,
-		// io->obj, "SHIELD_ATTACH", "SHIELD_ATTACH", io);
-		int wpnID = player.getEquippedItem(EquipmentGlobals.EQUIP_SLOT_WEAPON);
-		if (wpnID >= 0) {
-			if (Interactive.getInstance().hasIO(wpnID)) {
-				IO wpn = (IO) Interactive.getInstance().getIO(wpnID);
-				if (wpn.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_2H)
-						|| wpn.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_BOW)) {
-					// unequip old weapon
-					unequipItemInSlot(
-							player, EquipmentGlobals.EQUIP_SLOT_WEAPON);
-				}
-			}
-		}
-	}
-	/**
-	 * Equips a ring on a player.
-	 * @param player the player data
-	 * @throws PooledException if an error occurs
-	 * @throws RPGException if an error occurs
-	 */
-	private void equipRing(final IoPcData player)
-			throws PooledException, RPGException {
-		// check left and right finger
-		// to see if it can be equipped
-		boolean canEquip = true;
-		int ioid = player.getEquippedItem(
-				EquipmentGlobals.EQUIP_SLOT_RING_LEFT);
-		if (Interactive.getInstance().hasIO(ioid)) {
-			IO oldRing = (IO)
-					Interactive.getInstance().getIO(ioid);
-			if (oldRing.getItemData().getRingType() == ringType) {
-				// already wearing that type
-				// of ring on left finger
-				canEquip = false;								
-			}
-			oldRing = null;
-		}
-		if (canEquip) {
-			ioid = player.getEquippedItem(
-					EquipmentGlobals.EQUIP_SLOT_RING_RIGHT);
-			if (Interactive.getInstance().hasIO(ioid)) {
-				IO oldRing = (IO) Interactive.getInstance().getIO(ioid);
-				if (oldRing.getItemData().getRingType() == ringType) {
-					// already wearing that type
-					// of ring on right finger
-					canEquip = false;								
-				}
-				oldRing = null;
-			}
-		}
-		if (canEquip) {
-			int equipSlot = -1;
-			if (player.getEquippedItem(EquipmentGlobals.EQUIP_SLOT_RING_LEFT)
-					< 0) {
-				equipSlot = EquipmentGlobals.EQUIP_SLOT_RING_LEFT;
-			}
-			if (player.getEquippedItem(EquipmentGlobals.EQUIP_SLOT_RING_RIGHT)
-					< 0) {
-				equipSlot = EquipmentGlobals.EQUIP_SLOT_RING_RIGHT;
-			}
-			if (equipSlot == -1) {
-				if (!player.getIo().getInventory().isLeftRing()) {
-					ioid = player.getEquippedItem(
-							EquipmentGlobals.EQUIP_SLOT_RING_RIGHT);
-					if (Interactive.getInstance().hasIO(ioid)) {
-						IO oldIO = (IO) Interactive.getInstance().getIO(ioid);
-						if (oldIO.hasIOFlag(IoGlobals.IO_02_ITEM)) {
-							unequipItemInSlot(player,
-									EquipmentGlobals.EQUIP_SLOT_RING_RIGHT);
-						}
-						oldIO = null;
-					}
-					equipSlot =
-							EquipmentGlobals.EQUIP_SLOT_RING_RIGHT;
-				} else {
-					ioid = player.getEquippedItem(
-							EquipmentGlobals.EQUIP_SLOT_RING_LEFT);
-					if (Interactive.getInstance().hasIO(ioid)) {
-						IO oldIO = (IO) Interactive.getInstance().getIO(ioid);
-						if (oldIO.hasIOFlag(IoGlobals.IO_02_ITEM)) {
-							unequipItemInSlot(player,
-									EquipmentGlobals.EQUIP_SLOT_RING_LEFT);
-						}
-						oldIO = null;
-					}
-					equipSlot = EquipmentGlobals.EQUIP_SLOT_RING_LEFT;
-				}
-				player.getIo().getInventory().setLeftRing(
-						!player.getIo().getInventory().isLeftRing());
-			}
-			player.setEquippedItem(equipSlot, io.getRefId());
-		}
 	}
 	/**
 	 * Equips the item on a target IO.
@@ -238,10 +73,10 @@ public abstract class IOItemData<IO extends BaseInteractiveObject> {
 	 * @throws RPGException if an error occurs
 	 */
 	public final void ARX_EQUIPMENT_Equip(final IO target)
-			throws PooledException, RPGException {
+	        throws RPGException {
 		if (io == null) {
 			throw new RPGException(ErrorMessage.INTERNAL_ERROR,
-					"Cannot equip item with no IO data");
+			        "Cannot equip item with no IO data");
 		}
 		if (target != null) {
 			if (target.hasIOFlag(IoGlobals.IO_01_PC)) {
@@ -250,8 +85,8 @@ public abstract class IOItemData<IO extends BaseInteractiveObject> {
 				int i = Interactive.getInstance().getMaxIORefId();
 				for (; i >= 0; i--) {
 					if (Interactive.getInstance().hasIO(i)
-							&& Interactive.getInstance().getIO(i) != null
-							&& io.equals(Interactive.getInstance().getIO(i))) {
+					        && Interactive.getInstance().getIO(i) != null
+					        && io.equals(Interactive.getInstance().getIO(i))) {
 						validid = i;
 						break;
 					}
@@ -265,65 +100,48 @@ public abstract class IOItemData<IO extends BaseInteractiveObject> {
 					if (io.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_WEAPON)) {
 						equipWeapon(player);
 					} else if (io
-							.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_SHIELD)) {
+					        .hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_SHIELD)) {
 						equipShield(player);
 					} else if (io
-							.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_RING)) {
+					        .hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_RING)) {
 						equipRing(player);
 					} else if (io
-							.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_ARMOR)) {
+					        .hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_ARMOR)) {
 						// unequip old armor
 						unequipItemInSlot(
-								player, EquipmentGlobals.EQUIP_SLOT_TORSO);
+						        player, EquipmentGlobals.EQUIP_SLOT_TORSO);
 						// equip new armor
 						player.setEquippedItem(
-								EquipmentGlobals.EQUIP_SLOT_TORSO, validid);
+						        EquipmentGlobals.EQUIP_SLOT_TORSO, validid);
 					} else if (io
-							.hasTypeFlag(
-									EquipmentGlobals.OBJECT_TYPE_LEGGINGS)) {
+					        .hasTypeFlag(
+					                EquipmentGlobals.OBJECT_TYPE_LEGGINGS)) {
 						// unequip old leggings
 						unequipItemInSlot(
-								player, EquipmentGlobals.EQUIP_SLOT_LEGGINGS);
+						        player, EquipmentGlobals.EQUIP_SLOT_LEGGINGS);
 						// equip new leggings
 						player.setEquippedItem(
-								EquipmentGlobals.EQUIP_SLOT_LEGGINGS, validid);
+						        EquipmentGlobals.EQUIP_SLOT_LEGGINGS, validid);
 					} else if (io
-							.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_HELMET)) {
+					        .hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_HELMET)) {
 						// unequip old helmet
 						unequipItemInSlot(
-								player, EquipmentGlobals.EQUIP_SLOT_HELMET);
+						        player, EquipmentGlobals.EQUIP_SLOT_HELMET);
 						// equip new helmet
 						player.setEquippedItem(
-								EquipmentGlobals.EQUIP_SLOT_HELMET, validid);
+						        EquipmentGlobals.EQUIP_SLOT_HELMET, validid);
 					}
 					if (io.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_HELMET)
-							|| io.hasTypeFlag(
-									EquipmentGlobals.OBJECT_TYPE_ARMOR)
-							|| io.hasTypeFlag(
-									EquipmentGlobals.OBJECT_TYPE_LEGGINGS)) {
+					        || io.hasTypeFlag(
+					                EquipmentGlobals.OBJECT_TYPE_ARMOR)
+					        || io.hasTypeFlag(
+					                EquipmentGlobals.OBJECT_TYPE_LEGGINGS)) {
 						target.getPCData().ARX_EQUIPMENT_RecreatePlayerMesh();
 					}
 					target.getPCData().computeFullStats();
 				}
 			}
 		}
-	}
-	/**
-	 * Gets the type of weapon an item is.
-	 * @return {@link int}
-	 */
-	public final int getWeaponType() {
-		int type = EquipmentGlobals.WEAPON_BARE;
-		if (io.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_DAGGER)) {
-			type = EquipmentGlobals.WEAPON_DAGGER;
-		} else if (io.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_1H)) {
-			type = EquipmentGlobals.WEAPON_1H;
-		} else if (io.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_2H)) {
-			type = EquipmentGlobals.WEAPON_2H;
-		} else if (io.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_BOW)) {
-			type = EquipmentGlobals.WEAPON_BOW;
-		}
-		return type;
 	}
 	public final void ARX_EQUIPMENT_ReleaseAll() {
 		ARX_EQUIPMENT_ReleaseEquipItem();
@@ -341,7 +159,7 @@ public abstract class IOItemData<IO extends BaseInteractiveObject> {
 	 * @throws RPGException if an error occurs
 	 */
 	public final void ARX_EQUIPMENT_SetObjectType(final int flag,
-			final boolean added) throws RPGException {
+	        final boolean added) throws RPGException {
 		if (added) {
 			io.addTypeFlag(flag);
 		} else {
@@ -356,7 +174,7 @@ public abstract class IOItemData<IO extends BaseInteractiveObject> {
 	 * @throws RPGException if an error occurs
 	 */
 	public void ARX_EQUIPMENT_UnEquip(final IO target,
-			final boolean isDestroyed) throws RPGException {
+	        final boolean isDestroyed) throws RPGException {
 		if (target != null) {
 			if (target.hasIOFlag(IoGlobals.IO_01_PC)) {
 				int i = ProjectConstants.getInstance().getMaxEquipped() - 1;
@@ -364,9 +182,9 @@ public abstract class IOItemData<IO extends BaseInteractiveObject> {
 					IoPcData player = target.getPCData();
 					int itemRefId = player.getEquippedItem(i);
 					if (itemRefId >= 0
-							&& Interactive.getInstance().hasIO(itemRefId)
-							&& Interactive.getInstance().getIO(
-									itemRefId).equals(io)) {
+					        && Interactive.getInstance().hasIO(itemRefId)
+					        && Interactive.getInstance().getIO(
+					                itemRefId).equals(io)) {
 						// EERIE_LINKEDOBJ_UnLinkObjectFromObject(
 						// target->obj, tounequip->obj);
 						player.ARX_EQUIPMENT_Release(itemRefId);
@@ -379,37 +197,160 @@ public abstract class IOItemData<IO extends BaseInteractiveObject> {
 							// Set_DragInter(tounequip);
 							// } else
 							if (!target.getInventory().CanBePutInInventory(
-									io)) {
+							        io)) {
 								target.getInventory().PutInFrontOfPlayer(
-										io, true);
+								        io, true);
 							}
 						}
 						// send event from this item to target to unequip
 						Script.getInstance().setEventSender(io);
 						Script.getInstance().sendIOScriptEvent(target,
-								ScriptConsts.SM_007_EQUIPOUT, null, null);
+						        ScriptConsts.SM_007_EQUIPOUT, null, null);
 						// send event from target to this item to unequip
 						Script.getInstance().setEventSender(target);
 						Script.getInstance().sendIOScriptEvent(io,
-								ScriptConsts.SM_007_EQUIPOUT, null, null);
+						        ScriptConsts.SM_007_EQUIPOUT, null, null);
 					}
 				}
 				if (io.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_HELMET)
-						|| io.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_ARMOR)
-						|| io.hasTypeFlag(
-								EquipmentGlobals.OBJECT_TYPE_LEGGINGS)) {
+				        || io.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_ARMOR)
+				        || io.hasTypeFlag(
+				                EquipmentGlobals.OBJECT_TYPE_LEGGINGS)) {
 					target.getPCData().ARX_EQUIPMENT_RecreatePlayerMesh();
 				}
 			}
 		}
 	}
-	/** Clears all class restrictions that were set. */
-	public final void clearClassRestrictions() {
-		classRestrictions = 0;
+	/**
+	 * Equips a ring on a player.
+	 * @param player the player data
+	 * @throws RPGException if an error occurs
+	 */
+	private void equipRing(final IoPcData player) throws RPGException {
+		// check left and right finger
+		// to see if it can be equipped
+		boolean canEquip = true;
+		int ioid = player.getEquippedItem(
+		        EquipmentGlobals.EQUIP_SLOT_RING_LEFT);
+		if (Interactive.getInstance().hasIO(ioid)) {
+			IO oldRing = (IO) Interactive.getInstance().getIO(ioid);
+			if (oldRing.getItemData().getRingType() == ringType) {
+				// already wearing that type
+				// of ring on left finger
+				canEquip = false;
+			}
+			oldRing = null;
+		}
+		if (canEquip) {
+			ioid = player.getEquippedItem(
+			        EquipmentGlobals.EQUIP_SLOT_RING_RIGHT);
+			if (Interactive.getInstance().hasIO(ioid)) {
+				IO oldRing = (IO) Interactive.getInstance().getIO(ioid);
+				if (oldRing.getItemData().getRingType() == ringType) {
+					// already wearing that type
+					// of ring on right finger
+					canEquip = false;
+				}
+				oldRing = null;
+			}
+		}
+		if (canEquip) {
+			int equipSlot = -1;
+			if (player.getEquippedItem(
+			        EquipmentGlobals.EQUIP_SLOT_RING_LEFT) < 0) {
+				equipSlot = EquipmentGlobals.EQUIP_SLOT_RING_LEFT;
+			}
+			if (player.getEquippedItem(
+			        EquipmentGlobals.EQUIP_SLOT_RING_RIGHT) < 0) {
+				equipSlot = EquipmentGlobals.EQUIP_SLOT_RING_RIGHT;
+			}
+			if (equipSlot == -1) {
+				if (!player.getIo().getInventory().isLeftRing()) {
+					ioid = player.getEquippedItem(
+					        EquipmentGlobals.EQUIP_SLOT_RING_RIGHT);
+					if (Interactive.getInstance().hasIO(ioid)) {
+						IO oldIO = (IO) Interactive.getInstance().getIO(ioid);
+						if (oldIO.hasIOFlag(IoGlobals.IO_02_ITEM)) {
+							unequipItemInSlot(player,
+							        EquipmentGlobals.EQUIP_SLOT_RING_RIGHT);
+						}
+						oldIO = null;
+					}
+					equipSlot =
+					        EquipmentGlobals.EQUIP_SLOT_RING_RIGHT;
+				} else {
+					ioid = player.getEquippedItem(
+					        EquipmentGlobals.EQUIP_SLOT_RING_LEFT);
+					if (Interactive.getInstance().hasIO(ioid)) {
+						IO oldIO = (IO) Interactive.getInstance().getIO(ioid);
+						if (oldIO.hasIOFlag(IoGlobals.IO_02_ITEM)) {
+							unequipItemInSlot(player,
+							        EquipmentGlobals.EQUIP_SLOT_RING_LEFT);
+						}
+						oldIO = null;
+					}
+					equipSlot = EquipmentGlobals.EQUIP_SLOT_RING_LEFT;
+				}
+				player.getIo().getInventory().setLeftRing(
+				        !player.getIo().getInventory().isLeftRing());
+			}
+			player.setEquippedItem(equipSlot, io.getRefId());
+		}
 	}
-	/** Clears all race restrictions that were set. */
-	public final void clearRaceRestrictions() {
-		raceRestrictions = 0;
+	/**
+	 * Equips a shield on a player.
+	 * @param player the player data
+	 * @throws RPGException if an error occurs
+	 */
+	private void equipShield(final IoPcData player) throws RPGException {
+		// unequip old shield
+		unequipItemInSlot(player, EquipmentGlobals.EQUIP_SLOT_SHIELD);
+		// equip new shield
+		player.setEquippedItem(
+		        EquipmentGlobals.EQUIP_SLOT_SHIELD, io.getRefId());
+		// TODO - attach new shield to mesh
+		// EERIE_LINKEDOBJ_LinkObjectToObject(target->obj,
+		// io->obj, "SHIELD_ATTACH", "SHIELD_ATTACH", io);
+		int wpnID = player.getEquippedItem(EquipmentGlobals.EQUIP_SLOT_WEAPON);
+		if (wpnID >= 0) {
+			if (Interactive.getInstance().hasIO(wpnID)) {
+				IO wpn = (IO) Interactive.getInstance().getIO(wpnID);
+				if (wpn.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_2H)
+				        || wpn.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_BOW)) {
+					// unequip old weapon
+					unequipItemInSlot(
+					        player, EquipmentGlobals.EQUIP_SLOT_WEAPON);
+				}
+			}
+		}
+	}
+	/**
+	 * Equips a weapon for a player.
+	 * @param player the player data
+	 * @throws RPGException if an error occurs
+	 */
+	private void equipWeapon(final IoPcData player) throws RPGException {
+		// unequip old weapon
+		unequipItemInSlot(player, EquipmentGlobals.EQUIP_SLOT_WEAPON);
+		// equip new weapon
+		player.setEquippedItem(
+		        EquipmentGlobals.EQUIP_SLOT_WEAPON, io.getRefId());
+		// attach it to player mesh
+		if (io.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_BOW)) {
+			// EERIE_LINKEDOBJ_LinkObjectToObject(
+			// target->obj, io->obj,
+			// "WEAPON_ATTACH", "TEST", io);
+		} else {
+			// EERIE_LINKEDOBJ_LinkObjectToObject(
+			// target->obj,
+			// io->obj,
+			// "WEAPON_ATTACH", "PRIMARY_ATTACH", io); //
+		}
+		if (io.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_2H)
+		        || io.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_BOW)) {
+			// for bows or 2-handed swords, unequip old shield
+			unequipItemInSlot(player, EquipmentGlobals.EQUIP_SLOT_SHIELD);
+		}
 	}
 	/**
 	 * Gets the current number in an inventory slot.
@@ -469,10 +410,17 @@ public abstract class IOItemData<IO extends BaseInteractiveObject> {
 	}
 	/**
 	 * Gets the item's price.
+	 * @return {@link float}
+	 */
+	public final float getPrice() {
+		return price;
+	}
+	/**
+	 * Gets the type of ring the item is.
 	 * @return {@link int}
 	 */
-	public final int getPrice() {
-		return price;
+	public int getRingType() {
+		return ringType;
 	}
 	/**
 	 * Gets the value for the stackSize.
@@ -489,43 +437,28 @@ public abstract class IOItemData<IO extends BaseInteractiveObject> {
 		return stealvalue;
 	}
 	/**
+	 * Gets the type of weapon an item is.
+	 * @return {@link int}
+	 */
+	public final int getWeaponType() {
+		int type = EquipmentGlobals.WEAPON_BARE;
+		if (io.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_DAGGER)) {
+			type = EquipmentGlobals.WEAPON_DAGGER;
+		} else if (io.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_1H)) {
+			type = EquipmentGlobals.WEAPON_1H;
+		} else if (io.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_2H)) {
+			type = EquipmentGlobals.WEAPON_2H;
+		} else if (io.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_BOW)) {
+			type = EquipmentGlobals.WEAPON_BOW;
+		}
+		return type;
+	}
+	/**
 	 * Gets the item's weight.
 	 * @return {@link int}
 	 */
 	public final int getWeight() {
 		return weight;
-	}
-	/**
-	 * Determines if the {@link IOItemData} has a specific class restriction.
-	 * @param restriction the class restriction
-	 * @return true if the {@link IOItemData} has the class restriction; false
-	 *         otherwise
-	 */
-	public final boolean hasClassRestriction(final long restriction) {
-		return (classRestrictions & restriction) == restriction;
-	}
-	/**
-	 * Determines if the {@link IOItemData} has a specific race restriction.
-	 * @param restriction the race restriction
-	 * @return true if the {@link IOItemData} has the race restriction; false
-	 *         otherwise
-	 */
-	public final boolean hasRaceRestriction(final long restriction) {
-		return (raceRestrictions & restriction) == restriction;
-	}
-	/**
-	 * Removes a class restriction.
-	 * @param restriction the restriction
-	 */
-	public final void removeClassRestriction(final long restriction) {
-		classRestrictions &= ~restriction;
-	}
-	/**
-	 * Removes a race restriction.
-	 * @param restriction the restriction
-	 */
-	public final void removeRaceRestriction(final long restriction) {
-		raceRestrictions &= ~restriction;
 	}
 	/**
 	 * Sets the current number in an inventory slot.
@@ -542,7 +475,7 @@ public abstract class IOItemData<IO extends BaseInteractiveObject> {
 	public final void setDescription(final char[] val) throws RPGException {
 		if (val == null) {
 			throw new RPGException(ErrorMessage.BAD_PARAMETERS,
-					"Description cannot be null");
+			        "Description cannot be null");
 		}
 		description = val;
 	}
@@ -554,7 +487,7 @@ public abstract class IOItemData<IO extends BaseInteractiveObject> {
 	public final void setDescription(final String val) throws RPGException {
 		if (val == null) {
 			throw new RPGException(ErrorMessage.BAD_PARAMETERS,
-					"Description cannot be null");
+			        "Description cannot be null");
 		}
 		description = val.toCharArray();
 	}
@@ -579,7 +512,7 @@ public abstract class IOItemData<IO extends BaseInteractiveObject> {
 	public void setIo(final IO val) {
 		io = val;
 		if (val != null
-				&& val.getItemData() == null) {
+		        && val.getItemData() == null) {
 			val.setItemData(this);
 		}
 	}
@@ -591,7 +524,7 @@ public abstract class IOItemData<IO extends BaseInteractiveObject> {
 	public final void setItemName(final char[] val) throws RPGException {
 		if (val == null) {
 			throw new RPGException(ErrorMessage.BAD_PARAMETERS,
-					"Item name cannot be null");
+			        "Item name cannot be null");
 		}
 		this.itemName = val;
 	}
@@ -603,7 +536,7 @@ public abstract class IOItemData<IO extends BaseInteractiveObject> {
 	public final void setItemName(final String val) throws RPGException {
 		if (val == null) {
 			throw new RPGException(ErrorMessage.BAD_PARAMETERS,
-					"Item name cannot be null");
+			        "Item name cannot be null");
 		}
 		this.itemName = val.toCharArray();
 	}
@@ -625,8 +558,15 @@ public abstract class IOItemData<IO extends BaseInteractiveObject> {
 	 * Sets the item's price.
 	 * @param val the price to set
 	 */
-	public final void setPrice(final int val) {
+	public final void setPrice(final float val) {
 		price = val;
+	}
+	/**
+	 * Sets the type of ring the item is.
+	 * @param val the new value to set
+	 */
+	public void setRingType(final int val) {
+		this.ringType = val;
 	}
 	/**
 	 * Sets the amount of the item that can be stacked in one inventory slot.
@@ -650,15 +590,15 @@ public abstract class IOItemData<IO extends BaseInteractiveObject> {
 		weight = val;
 	}
 	private void unequipItemInSlot(final IoPcData player, final int slot)
-			throws PooledException, RPGException {
+	        throws RPGException {
 		if (player.getEquippedItem(slot) >= 0) {
 			int slotioid = player.getEquippedItem(slot);
 			if (Interactive.getInstance().hasIO(slotioid)) {
 				IO equipIO = (IO) Interactive.getInstance().getIO(slotioid);
 				if (equipIO.hasIOFlag(IoGlobals.IO_02_ITEM)
-						&& equipIO.getItemData() != null) {
+				        && equipIO.getItemData() != null) {
 					equipIO.getItemData().ARX_EQUIPMENT_UnEquip(
-							player.getIo(), false);
+					        player.getIo(), false);
 				}
 				equipIO = null;
 			}

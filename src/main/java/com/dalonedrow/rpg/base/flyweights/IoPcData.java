@@ -30,42 +30,42 @@ import com.dalonedrow.utils.Watcher;
  */
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public abstract class IoPcData<IO extends BaseInteractiveObject>
-		implements Combatant, Watchable {
+        implements Combatant, Watchable {
 	/** the set of attributes defining the PC. */
-	private Map<String, Attribute>	attributes;
+	private Map<String, Attribute> attributes;
 	/** the number of bags the player has. */
-	private int						bags;
+	private int bags;
 	/**
 	 * the reference ids of all items equipped by the {@link IoPcData}, indexed
 	 * by equipment slot.
 	 */
-	private int[]					equippedItems;
+	private int[] equippedItems;
 	/** the {@link IoPcData}'s gender. */
-	private int						gender		= -1;
+	private int gender = -1;
 	/** the character's gold. */
-	private float					gold;
+	private float gold;
 	/** interface flags. */
-	private int						interfaceFlags;
+	private int interfaceFlags;
 	/** the IO associated with this {@link IoPcData}. */
-	private IO						io;
+	private IO io;
 	/** the player's key ring. */
-	private char[][]				keyring;
+	private char[][] keyring;
 	/** the {@link IoPcData}'s level. */
-	private int						level		= 0;
+	private int level = 0;
 	/** the {@link IoPcData}'s name. */
-	private char[]					name;
+	private char[] name;
 	/** the number of keys on the key ring. */
-	private int						numKeys;
+	private int numKeys;
 	/** the {@link IoPcData}'s Profession. */
-	private int						profession	= -1;
+	private int profession = -1;
 	/** the {@link IoPcData}'s Race. */
-	private int						race		= -1;
+	private int race = -1;
 	/**
 	 * the list of {@link Watcher}s associated with this {@link IoPcData}.
 	 */
-	private Watcher[]				watchers;
+	private Watcher[] watchers;
 	/** the {@link IoPcData}'s experience points. */
-	private int						xp;
+	private int xp;
 	/**
 	 * Creates a new instance of {@link IoPcData}.
 	 * @throws RPGException if there is an error defining attributes
@@ -132,7 +132,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 	public final void addWatcher(final Watcher watcher) {
 		if (watcher != null) {
 			watchers = ArrayUtilities.getInstance().extendArray(
-					watcher, watchers);
+			        watcher, watchers);
 		}
 	}
 	/**
@@ -142,14 +142,14 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 	 * @throws RPGException if the attribute name is missing or incorrect
 	 */
 	public final void adjustAttributeModifier(final String attr,
-			final float val) throws RPGException {
+	        final float val) throws RPGException {
 		if (attr == null) {
 			throw new RPGException(ErrorMessage.INTERNAL_BAD_ARGUMENT,
-					"Attribute name cannot be null");
+			        "Attribute name cannot be null");
 		}
 		if (!attributes.containsKey(attr)) {
 			throw new RPGException(ErrorMessage.INTERNAL_BAD_ARGUMENT,
-					"No such attribute " + attr);
+			        "No such attribute " + attr);
 		}
 		attributes.get(attr).adjustModifier(val);
 	}
@@ -164,7 +164,6 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 		}
 		notifyWatchers();
 	}
-	protected abstract String getLifeAttribute();
 	/**
 	 * Adjusts the player's life by a specific amount.
 	 * @param dmg the amount
@@ -172,7 +171,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 	private final void adjustLife(final float dmg) {
 		String ls = getLifeAttribute();
 		PooledStringBuilder sb =
-				StringBuilderPool.getInstance().getStringBuilder();
+		        StringBuilderPool.getInstance().getStringBuilder();
 		try {
 			sb.append("M");
 			sb.append(ls);
@@ -210,6 +209,8 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 		}
 		notifyWatchers();
 	}
+	protected abstract void applyRulesModifiers() throws RPGException;
+	protected abstract void applyRulesPercentModifiers();
 	/**
 	 * Damages the player.
 	 * @param dmg the damage amount
@@ -219,12 +220,12 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 	 * @throws RPGException if an error occurs
 	 */
 	public final float ARX_DAMAGES_DamagePlayer(final float dmg,
-			final long type,
-			final int source) throws RPGException {
+	        final long type,
+	        final int source) throws RPGException {
 		float damagesdone = 0.f;
 		computeFullStats();
 		if (!io.hasIOFlag(IoGlobals.PLAYERFLAGS_INVULNERABILITY)
-				&& getBaseLife() > 0) {
+		        && getBaseLife() > 0) {
 			if (dmg > getBaseLife()) {
 				damagesdone = getBaseLife();
 			} else {
@@ -238,15 +239,15 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 
 			if (Interactive.getInstance().hasIO(source)) {
 				Script.getInstance()
-						.setEventSender(Interactive
-								.getInstance().getIO(source));
+				        .setEventSender(Interactive
+				                .getInstance().getIO(source));
 			} else {
 				Script.getInstance().setEventSender(null);
 			}
 			Script.getInstance().sendIOScriptEvent(io,
-					ScriptConsts.SM_045_OUCH,
-					new Object[] { "OUCH", io.getDamageSum() },
-					null);
+			        ScriptConsts.SM_045_OUCH,
+			        new Object[] { "OUCH", io.getDamageSum() },
+			        null);
 			Script.getInstance().setEventSender(oes);
 			io.setDamageSum(0);
 			// }
@@ -255,15 +256,15 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 				if (Interactive.getInstance().hasIO(source)) {
 					IO poisonWeaponIO = null;
 					IO sourceIO =
-							(IO) Interactive.getInstance()
-									.getIO(source);
+					        (IO) Interactive.getInstance()
+					                .getIO(source);
 
 					if (sourceIO.hasIOFlag(IoGlobals.IO_03_NPC)) {
 						poisonWeaponIO = (IO) sourceIO.getNPCData().getWeapon();
 						if (poisonWeaponIO != null
-								&& (poisonWeaponIO.getPoisonLevel() == 0
-										|| poisonWeaponIO
-												.getPoisonCharges() == 0)) {
+						        && (poisonWeaponIO.getPoisonLevel() == 0
+						                || poisonWeaponIO
+						                        .getPoisonCharges() == 0)) {
 							poisonWeaponIO = null;
 						}
 					}
@@ -273,13 +274,13 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 					}
 
 					if (poisonWeaponIO != null
-							&& poisonWeaponIO.getPoisonLevel() > 0
-							&& poisonWeaponIO.getPoisonCharges() > 0) {
+					        && poisonWeaponIO.getPoisonLevel() > 0
+					        && poisonWeaponIO.getPoisonCharges() > 0) {
 						// TODO - handle poisoning
 
 						if (poisonWeaponIO.getPoisonCharges() > 0) {
 							poisonWeaponIO.setPoisonCharges(
-									poisonWeaponIO.getPoisonCharges() - 1);
+							        poisonWeaponIO.getPoisonCharges() - 1);
 						}
 					}
 				}
@@ -306,7 +307,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 						// }
 
 						Script.getInstance().sendIOScriptEvent(io,
-								ScriptConsts.SM_017_DIE, null, null);
+						        ScriptConsts.SM_017_DIE, null, null);
 
 						int i = Interactive.getInstance().getMaxIORefId();
 						for (; i >= 0; i--) {
@@ -316,33 +317,33 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 							IO ioo = (IO) Interactive.getInstance().getIO(i);
 							// tell all IOs not to target player anymore
 							if (ioo != null
-									&& ioo.hasIOFlag(IoGlobals.IO_03_NPC)) {
+							        && ioo.hasIOFlag(IoGlobals.IO_03_NPC)) {
 								if (ioo.getTargetinfo() == io.getRefId()
-										|| ioo.getTargetinfo() == IoGlobals.TARGET_PLAYER) {
+								        || ioo.getTargetinfo() == IoGlobals.TARGET_PLAYER) {
 									Script.getInstance()
-											.setEventSender(io);
+									        .setEventSender(io);
 									String killer = "";
 									if (source == io.getRefId()) {
 										killer = "PLAYER";
 									} else if (source <= -1) {
 										killer = "NONE";
 									} else if (Interactive.getInstance()
-											.hasIO(source)) {
+									        .hasIO(source)) {
 										IO sourceIO =
-												(IO) Interactive
-														.getInstance().getIO(
-																source);
+										        (IO) Interactive
+										                .getInstance().getIO(
+										                        source);
 										if (sourceIO.hasIOFlag(
-												IoGlobals.IO_03_NPC)) {
+										        IoGlobals.IO_03_NPC)) {
 											killer = new String(
-													sourceIO.getNPCData()
-															.getName());
+											        sourceIO.getNPCData()
+											                .getName());
 										}
 									}
 									Script.getInstance().sendIOScriptEvent(ioo,
-											0,
-											new Object[] { "killer", killer },
-											"TargetDeath");
+									        0,
+									        new Object[] { "killer", killer },
+									        "TargetDeath");
 								}
 							}
 						}
@@ -401,20 +402,20 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 	 * @throws RPGException if an error occurs
 	 */
 	public final float ARX_EQUIPMENT_Apply(final int elementType)
-			throws RPGException {
+	        throws RPGException {
 		float toadd = 0;
 		int i = ProjectConstants.getInstance().getMaxEquipped() - 1;
 		for (; i >= 0; i--) {
 			if (equippedItems[i] >= 0
-					&& Interactive.getInstance().hasIO(equippedItems[i])) {
+			        && Interactive.getInstance().hasIO(equippedItems[i])) {
 				IO toequip =
-						(IO) Interactive.getInstance().getIO(equippedItems[i]);
+				        (IO) Interactive.getInstance().getIO(equippedItems[i]);
 				if (toequip.hasIOFlag(IoGlobals.IO_02_ITEM)
-						&& toequip.getItemData() != null
-						&& toequip.getItemData().getEquipitem() != null) {
+				        && toequip.getItemData() != null
+				        && toequip.getItemData().getEquipitem() != null) {
 					EquipmentItemModifier element =
-							toequip.getItemData().getEquipitem().getElement(
-									elementType);
+					        toequip.getItemData().getEquipitem().getElement(
+					                elementType);
 					if (!element.isPercentage()) {
 						toadd += element.getValue();
 					}
@@ -433,20 +434,20 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 	 * @throws RPGException if an error occurs
 	 */
 	public final float ARX_EQUIPMENT_ApplyPercent(final int elementType,
-			final float trueval) throws RPGException {
+	        final float trueval) throws RPGException {
 		float toadd = 0;
 		int i = ProjectConstants.getInstance().getMaxEquipped() - 1;
 		for (; i >= 0; i--) {
 			if (equippedItems[i] >= 0
-					&& Interactive.getInstance().hasIO(equippedItems[i])) {
+			        && Interactive.getInstance().hasIO(equippedItems[i])) {
 				IO toequip =
-						(IO) Interactive.getInstance().getIO(equippedItems[i]);
+				        (IO) Interactive.getInstance().getIO(equippedItems[i]);
 				if (toequip.hasIOFlag(IoGlobals.IO_02_ITEM)
-						&& toequip.getItemData() != null
-						&& toequip.getItemData().getEquipitem() != null) {
+				        && toequip.getItemData() != null
+				        && toequip.getItemData().getEquipitem() != null) {
 					EquipmentItemModifier element =
-							toequip.getItemData().getEquipitem().getElement(
-									elementType);
+					        toequip.getItemData().getEquipitem().getElement(
+					                elementType);
 					if (element.isPercentage()) {
 						toadd += element.getValue();
 					}
@@ -466,7 +467,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 		int type = EquipmentGlobals.WEAPON_BARE;
 		int wpnId = getEquippedItem(EquipmentGlobals.EQUIP_SLOT_WEAPON);
 		if (wpnId >= 0
-				&& Interactive.getInstance().hasIO(wpnId)) {
+		        && Interactive.getInstance().hasIO(wpnId)) {
 			IO weapon = (IO) Interactive.getInstance().getIO(wpnId);
 			if (weapon.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_DAGGER)) {
 				type = EquipmentGlobals.WEAPON_DAGGER;
@@ -493,14 +494,14 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 	 * @throws RPGException if an error occurs
 	 */
 	public final boolean ARX_EQUIPMENT_IsPlayerEquip(final IO itemIO)
-			throws RPGException {
+	        throws RPGException {
 		boolean isEquipped = false;
 		int i = ProjectConstants.getInstance().getMaxEquipped() - 1;
 		for (; i >= 0; i--) {
 			if (this.getEquippedItem(i) >= 0
-					&& Interactive.getInstance().hasIO(getEquippedItem(i))) {
+			        && Interactive.getInstance().hasIO(getEquippedItem(i))) {
 				IO toequip = (IO) Interactive.getInstance().getIO(
-						getEquippedItem(i));
+				        getEquippedItem(i));
 				if (toequip.equals(itemIO)) {
 					isEquipped = true;
 					break;
@@ -530,23 +531,23 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 	 * @throws RPGException if an error occurs
 	 */
 	public final void ARX_EQUIPMENT_UnEquipAllPlayer()
-			throws RPGException {
+	        throws RPGException {
 		int i = ProjectConstants.getInstance().getMaxEquipped() - 1;
 		for (; i >= 0; i--) {
 			if (equippedItems[i] >= 0) {
 				if (!Interactive.getInstance().hasIO(equippedItems[i])) {
 					throw new RPGException(ErrorMessage.INVALID_DATA_TYPE,
-							"Equipped unregistered item in slot " + i);
+					        "Equipped unregistered item in slot " + i);
 				}
 				IO itemIO = (IO) Interactive.getInstance().getIO(
-						equippedItems[i]);
+				        equippedItems[i]);
 				if (!itemIO.hasIOFlag(IoGlobals.IO_02_ITEM)) {
 					throw new RPGException(ErrorMessage.INVALID_DATA_TYPE,
-							"Equipped item without IO_02_ITEM in slot " + i);
+					        "Equipped item without IO_02_ITEM in slot " + i);
 				}
 				if (itemIO.getItemData() == null) {
 					throw new RPGException(ErrorMessage.INVALID_DATA_TYPE,
-							"Equipped item with null item data in slot " + i);
+					        "Equipped item with null item data in slot " + i);
 				}
 				itemIO.getItemData().ARX_EQUIPMENT_UnEquip(io, false);
 			}
@@ -559,10 +560,10 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 	 * @throws RPGException if an error occurs
 	 */
 	public final void ARX_EQUIPMENT_UnEquipPlayerWeapon()
-			throws RPGException {
+	        throws RPGException {
 		int wpnId = getEquippedItem(EquipmentGlobals.EQUIP_SLOT_WEAPON);
 		if (wpnId >= 0
-				&& Interactive.getInstance().hasIO(wpnId)) {
+		        && Interactive.getInstance().hasIO(wpnId)) {
 			IO weapon = (IO) Interactive.getInstance().getIO(wpnId);
 			weapon.getItemData().ARX_EQUIPMENT_UnEquip(io, false);
 		}
@@ -577,7 +578,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 		for (; i >= 0; i--) {
 			Spell spell = SpellController.getInstance().getSpell(i);
 			if (spell.exists()
-					&& spell.getCaster() == io.getRefId()) {
+			        && spell.getCaster() == io.getRefId()) {
 				spell.setTimeToLive(0);
 				spell.setTurnsToLive(0);
 			}
@@ -621,22 +622,21 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 		// apply equipment modifiers
 		Object[][] map = getAttributeMap();
 		for (int i = map.length - 1; i >= 0; i--) {
-			adjustAttributeModifier((String) map[i][0], ARX_EQUIPMENT_Apply((int) map[i][2]));
+			adjustAttributeModifier((String) map[i][0],
+			        ARX_EQUIPMENT_Apply((int) map[i][2]));
 		}
 		// apply modifiers based on rules
 		applyRulesModifiers();
 		// apply percent modifiers
 		for (int i = map.length - 1; i >= 0; i--) {
-			float percentModifier =  ARX_EQUIPMENT_ApplyPercent((int) map[i][2],
-					getBaseAttributeScore((String) map[i][0]) + getAttributeModifier((String) map[i][0]));
+			float percentModifier = ARX_EQUIPMENT_ApplyPercent((int) map[i][2],
+			        getBaseAttributeScore((String) map[i][0])
+			                + getAttributeModifier((String) map[i][0]));
 			adjustAttributeModifier((String) map[i][0], percentModifier);
 		}
 		// apply percent modifiers based on rules
 		applyRulesPercentModifiers();
 	}
-	protected abstract void applyRulesPercentModifiers();
-	protected abstract void applyRulesModifiers() throws RPGException;
-	protected abstract Object[][] getAttributeMap();
 	/**
 	 * Defines the PC's attributes.
 	 * @throws RPGException if an error occurs
@@ -645,7 +645,8 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 		attributes = new HashMap<String, Attribute>();
 		Object[][] map = getAttributeMap();
 		for (int i = map.length - 1; i >= 0; i--) {
-			attributes.put((String) map[i][0], new Attribute((String) map[i][0], (String) map[i][1]));
+			attributes.put((String) map[i][0],
+			        new Attribute((String) map[i][0], (String) map[i][1]));
 		}
 		map = null;
 	}
@@ -657,6 +658,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 	protected final Attribute getAttribute(final String abbr) {
 		return attributes.get(abbr);
 	}
+	protected abstract Object[][] getAttributeMap();
 	/**
 	 * Gets the attribute modifier for a specific attribute.
 	 * @param attr the attribute name
@@ -716,9 +718,9 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 	public final int getEquippedItem(final int slot) throws RPGException {
 		int id = -1;
 		if (slot < 0
-				|| slot >= equippedItems.length) {
+		        || slot >= equippedItems.length) {
 			PooledStringBuilder sb =
-					StringBuilderPool.getInstance().getStringBuilder();
+			        StringBuilderPool.getInstance().getStringBuilder();
 			try {
 				sb.append("Error - equipment slot ");
 				sb.append(slot);
@@ -727,7 +729,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 				throw new RPGException(ErrorMessage.INTERNAL_ERROR, e);
 			}
 			RPGException ex = new RPGException(
-					ErrorMessage.BAD_PARAMETERS, sb.toString());
+			        ErrorMessage.BAD_PARAMETERS, sb.toString());
 			sb.returnToPool();
 			throw ex;
 		}
@@ -771,8 +773,8 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 	public final char[] getKey(final int index) {
 		char[] key = null;
 		if (keyring != null
-				&& index >= 0
-				&& index < keyring.length) {
+		        && index >= 0
+		        && index < keyring.length) {
 			key = keyring[index];
 		}
 		return key;
@@ -814,6 +816,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 	public final int getLevel() {
 		return level;
 	}
+	protected abstract String getLifeAttribute();
 	/**
 	 * Gets the {@link IoPcData}'s name.
 	 * @return char[]
@@ -958,7 +961,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 		}
 		if (index >= 0) {
 			watchers = ArrayUtilities.getInstance().removeIndex(
-					index, watchers);
+			        index, watchers);
 		}
 	}
 	/**
@@ -967,7 +970,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 	 * @param val the new base attribute score
 	 */
 	public final void setBaseAttributeScore(final String attr,
-			final float val) {
+	        final float val) {
 		attributes.get(attr).setBase(val);
 	}
 	/**
@@ -979,12 +982,12 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 	 */
 	@SuppressWarnings("rawtypes")
 	public final void setEquippedItem(final int slot,
-			final BaseInteractiveObject item)
-					throws RPGException {
+	        final BaseInteractiveObject item)
+	        throws RPGException {
 		if (slot < 0
-				|| slot >= equippedItems.length) {
+		        || slot >= equippedItems.length) {
 			PooledStringBuilder sb =
-					StringBuilderPool.getInstance().getStringBuilder();
+			        StringBuilderPool.getInstance().getStringBuilder();
 			try {
 				sb.append("Error - equipment slot ");
 				sb.append(slot);
@@ -993,7 +996,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 				throw new RPGException(ErrorMessage.INTERNAL_ERROR, e);
 			}
 			RPGException ex = new RPGException(
-					ErrorMessage.BAD_PARAMETERS, sb.toString());
+			        ErrorMessage.BAD_PARAMETERS, sb.toString());
 			sb.returnToPool();
 			throw ex;
 		}
@@ -1011,11 +1014,11 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 	 * @throws RPGException if the equipment slot was never defined
 	 */
 	public final void setEquippedItem(final int slot, final int id)
-			throws RPGException {
+	        throws RPGException {
 		if (slot < 0
-				|| slot >= equippedItems.length) {
+		        || slot >= equippedItems.length) {
 			PooledStringBuilder sb =
-					StringBuilderPool.getInstance().getStringBuilder();
+			        StringBuilderPool.getInstance().getStringBuilder();
 			try {
 				sb.append("Error - equipment slot ");
 				sb.append(slot);
@@ -1024,7 +1027,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 				throw new RPGException(ErrorMessage.INTERNAL_ERROR, e);
 			}
 			RPGException ex = new RPGException(
-					ErrorMessage.BAD_PARAMETERS, sb.toString());
+			        ErrorMessage.BAD_PARAMETERS, sb.toString());
 			sb.returnToPool();
 			throw ex;
 		}
@@ -1045,7 +1048,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 	public final void setIo(final IO newIO) {
 		io = newIO;
 		if (newIO != null
-				&& newIO.getPCData() == null) {
+		        && newIO.getPCData() == null) {
 			newIO.setPCData(this);
 		}
 	}

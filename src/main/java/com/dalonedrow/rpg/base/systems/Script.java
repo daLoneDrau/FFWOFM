@@ -1036,11 +1036,14 @@ STACKED extends StackedEvent<IO>> {
 		case ScriptConsts.SM_001_INIT:
 			script.onInit();
 			break;
-		case ScriptConsts.SM_007_EQUIPOUT:
-			script.onUnequip();
-			break;
 		case ScriptConsts.SM_002_INVENTORYIN:
 			script.onInventoryIn();
+			break;
+		case ScriptConsts.SM_004_INVENTORYUSE:
+			script.onInventoryUse();
+			break;
+		case ScriptConsts.SM_007_EQUIPOUT:
+			script.onUnequip();
 			break;
 		case ScriptConsts.SM_016_HIT:
 			script.onHit();

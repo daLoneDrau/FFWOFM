@@ -2,8 +2,12 @@ package com.dalonedrow.module.basic_dnd.rpg.systems;
 
 import com.dalonedrow.engine.systems.base.Interactive;
 import com.dalonedrow.module.basic_dnd.rpg.flyweights.BDDIO;
+import com.dalonedrow.module.basic_dnd.rpg.flyweights.BDDItem;
+import com.dalonedrow.module.basic_dnd.rpg.flyweights.BDDPC;
+import com.dalonedrow.module.basic_dnd.rpg.flyweights.BDDScriptable;
 import com.dalonedrow.rpg.base.constants.IoGlobals;
 import com.dalonedrow.rpg.base.flyweights.RPGException;
+import com.dalonedrow.rpg.base.systems.Script;
 import com.dalonedrow.utils.ArrayUtilities;
 
 public final class BDDInteractive extends Interactive<BDDIO> {
@@ -70,10 +74,26 @@ public final class BDDInteractive extends Interactive<BDDIO> {
 	/**
 	 * Gets a new Player IO
 	 * @return {@link BDDIO}
+	 * @throws RPGException 
 	 */
-	public final BDDIO getNewPlayer() {
+	public final BDDIO getNewItem(final BDDScriptable script)
+			throws RPGException {
+		BDDIO io = getNewIO();
+		io.addIOFlag(IoGlobals.IO_02_ITEM);
+		io.setItemData(new BDDItem());
+		io.setScript(script);
+		Script.getInstance().sendInitScriptEvent(io);
+		return io;
+	}
+	/**
+	 * Gets a new Player IO
+	 * @return {@link BDDIO}
+	 * @throws RPGException 
+	 */
+	public final BDDIO getNewPlayer() throws RPGException {
 		BDDIO io = getNewIO();
 		io.addIOFlag(IoGlobals.IO_01_PC);
+		io.setPCData(new BDDPC());
 		return io;
 	}
 }

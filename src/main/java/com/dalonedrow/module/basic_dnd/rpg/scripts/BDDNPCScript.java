@@ -3,14 +3,13 @@
  */
 package com.dalonedrow.module.basic_dnd.rpg.scripts;
 
-import com.dalonedrow.module.basic_dnd.rpg.flyweights.BDDIO;
 import com.dalonedrow.module.basic_dnd.rpg.flyweights.BDDScriptable;
 
 /**
  * @author 588648
  *
  */
-public abstract class BDDPCScript extends BDDScriptable {
+public abstract class BDDNPCScript extends BDDScriptable {
 	/**
 	 * Gets the roll needed to hit a specific Armor Class.
 	 * @param ac the armor class
@@ -39,8 +38,4 @@ public abstract class BDDPCScript extends BDDScriptable {
 	 * @return <code>int</code>
 	 */
 	protected abstract int getMaxRollArmorClass(int level);
-	/**
-	 * @param io
-	 */
-	public abstract boolean isWeaponRestricted(BDDIO io);
 }

@@ -81,9 +81,6 @@ public class BDDPC extends IoPcData<BDDIO> {
 	                BDDEquipmentGlobals.EQUIPITEM_ELEMENT_ST_SPELL_DEVICES },
 	        { "WIS", "Wisdom", BDDEquipmentGlobals.EQUIPITEM_ELEMENT_WISDOM } };
 	/** D6. */
-	private static final int D6 = 6;
-	/** 3. */
-	private static final int THREE = 3;
 	/**
 	 * Creates a new instance of {@link BDDPC}.
 	 * @throws RPGException
@@ -314,10 +311,10 @@ public class BDDPC extends IoPcData<BDDIO> {
 	 * @return {@link int}
 	 */
 	private int rollNewAttribute(final int min, final int max) {
-		int roll = Diceroller.getInstance().rollXdY(THREE, D6);
+		int roll = Dice.THREE_D6.roll();
 		while (roll < min
 		        || roll > max) {
-			roll = Diceroller.getInstance().rollXdY(THREE, D6);
+			roll = Dice.THREE_D6.roll();
 		}
 		return roll;
 	}
@@ -328,16 +325,18 @@ public class BDDPC extends IoPcData<BDDIO> {
 	public void rollNewCleric() throws RPGException {
 		super.setLevel(1);
 		super.clearModAbilityScores();
+		// roll stats
 		super.setBaseAttributeScore("STR", getMaxOfThreeRolls());
 		super.setBaseAttributeScore("DEX", getMaxOfThreeRolls());
 		super.setBaseAttributeScore("CON", getMaxOfThreeRolls());
 		super.setBaseAttributeScore("WIS", getMaxOfThreeRolls());
 		super.setBaseAttributeScore("INT", getMaxOfThreeRolls());
 		super.setBaseAttributeScore("CHA", getMaxOfThreeRolls());
-		super.setBaseAttributeScore("MHP", Diceroller.getInstance().rolldX(D6));
-		super.getIo().addGroup("CLERIC");
-		super.getIo().addGroup("HUMAN");
+		super.setBaseAttributeScore("MHP", Dice.ONE_D6.roll());
+		super.getIo().addGroup(Groups.CLERIC.toString());
+		super.getIo().addGroup(Groups.HUMAN.toString());
 		super.computeFullStats();
+		// set full health
 		super.setBaseAttributeScore("HP", super.getBaseAttributeScore("MHP"));
 		super.adjustAttributeModifier("HP", super.getAttributeModifier("MHP"));
 	}
@@ -345,7 +344,11 @@ public class BDDPC extends IoPcData<BDDIO> {
 	private void setClericSavingThrows() {
 		int breath = 16, deathPoison = 11, petrifyParalyze = 14,
 		        spellsStaves = 15, wands = 12;
-		switch (super.getIo().getLevel()) {
+		int level = super.getIo().getLevel();
+		if (level > 17) { // cleric saving throw tables stop at level 17
+			level = 17;
+		}
+		switch (level) {
 		case 17:
 			breath -= 2;
 			deathPoison--;

@@ -3,14 +3,19 @@ package com.dalonedrow.module.basic_dnd.rpg.systems;
 import com.dalonedrow.engine.systems.base.ProjectConstants;
 import com.dalonedrow.module.basic_dnd.rpg.constants.BDDEquipmentGlobals;
 import com.dalonedrow.module.basic_dnd.rpg.flyweights.BDDIO;
+import com.dalonedrow.module.basic_dnd.rpg.flyweights.ScriptVariables;
 import com.dalonedrow.rpg.base.flyweights.RPGException;
 
 public class BDDController extends ProjectConstants<BDDIO> {
-	/** Creates a new instance of {@link BDDController}. */
-	public BDDController() {
+	/** Creates a new instance of {@link BDDController}. 
+	 * @throws RPGException */
+	public BDDController() throws RPGException {
 		super.setInstance(this);
 		new BDDInteractive();
 		new BDDScriptMaster();
+		// init globals
+		BDDScriptMaster.getInstance().setGlobalVariable(
+				ScriptVariables.FIGHTING.toString(), 0);
 	}
 	@Override
 	public void update() {
@@ -20,7 +25,7 @@ public class BDDController extends ProjectConstants<BDDIO> {
 	@Override
 	public int getMaxEquipped() {
 		// TODO Auto-generated method stub
-		return 0;
+		return BDDEquipmentGlobals.MAX_EQUIPPED;
 	}
 	@Override
 	public int getMaxSpells() {

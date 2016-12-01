@@ -152,7 +152,6 @@ public abstract class BaseInteractiveObject<ITEM extends IOItemData,
 	public void addGameFlag(final long flag) {
 		gameFlags |= flag;
 	}
-
 	/**
 	 * Adds the IO to a group.
 	 * @param group the group
@@ -183,7 +182,6 @@ public abstract class BaseInteractiveObject<ITEM extends IOItemData,
 			ioGroups[index] = group;
 		}
 	}
-
 	/**
 	 * Adds a flag.
 	 * @param flag the flag
@@ -349,7 +347,6 @@ public abstract class BaseInteractiveObject<ITEM extends IOItemData,
 	public final String getIOGroup(final int index) {
 		return ioGroups[index];
 	}
-
 	/**
 	 * Gets item data for the {@link BaseInteractiveObject}.
 	 * @return {@link ITEM}
@@ -357,7 +354,6 @@ public abstract class BaseInteractiveObject<ITEM extends IOItemData,
 	public final ITEM getItemData() {
 		return itemData;
 	}
-
 	/**
 	 * Gets the value for the level.
 	 * @return {@link int}
@@ -365,7 +361,6 @@ public abstract class BaseInteractiveObject<ITEM extends IOItemData,
 	public int getLevel() {
 		return level;
 	}
-
 	/**
 	 * Gets the mainevent
 	 * @return {@link String}

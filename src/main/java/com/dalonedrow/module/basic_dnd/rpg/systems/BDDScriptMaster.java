@@ -4,6 +4,7 @@ import com.dalonedrow.module.basic_dnd.rpg.flyweights.BDDIO;
 import com.dalonedrow.module.basic_dnd.rpg.flyweights.BDDScriptable;
 import com.dalonedrow.module.basic_dnd.rpg.flyweights.BDDStacked;
 import com.dalonedrow.module.basic_dnd.rpg.flyweights.BDDTimer;
+import com.dalonedrow.module.basic_dnd.rpg.flyweights.ScriptVariables;
 import com.dalonedrow.rpg.base.systems.Script;
 
 public final class BDDScriptMaster
@@ -12,7 +13,6 @@ extends Script<BDDIO, BDDTimer, BDDScriptable, BDDStacked> {
 	protected BDDScriptMaster() {
 		super.setInstance(this);
 	}
-
 	@Override
 	protected void clearAdditionalEventStacks() {
 		// TODO Auto-generated method stub

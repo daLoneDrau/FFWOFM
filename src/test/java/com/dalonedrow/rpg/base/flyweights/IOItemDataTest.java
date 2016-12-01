@@ -254,49 +254,12 @@ public class IOItemDataTest {
 		
 	}
 	@Test
-	public void canAddFlags() {
-		assertFalse(data.hasClassRestriction(1));
-		assertFalse(data.hasRaceRestriction(64));
-		data.addClassRestriction(1);
-		data.addRaceRestriction(64);
-		assertTrue(data.hasClassRestriction(1));
-		assertTrue(data.hasRaceRestriction(64));
-	}
-	@Test
 	public void canAdjustCount() throws RPGException {
 		assertEquals(data.getCount(), 0);
 		data.setMaxOwned(50);
 		assertEquals(data.getMaxOwned(), 50);
 		data.adjustCount(5);
 		assertEquals(data.getCount(), 5);
-	}
-	@Test
-	public void canClearFlags() {
-		assertFalse(data.hasClassRestriction(1));
-		assertFalse(data.hasRaceRestriction(64));
-		data.addClassRestriction(1);
-		data.addRaceRestriction(64);
-		assertTrue(data.hasClassRestriction(1));
-		assertTrue(data.hasRaceRestriction(64));
-
-		data.clearClassRestrictions();
-		data.clearRaceRestrictions();
-		assertFalse(data.hasClassRestriction(1));
-		assertFalse(data.hasRaceRestriction(64));
-	}
-	@Test
-	public void canRemoveFlags() {
-		assertFalse(data.hasClassRestriction(1));
-		assertFalse(data.hasRaceRestriction(64));
-		data.addClassRestriction(1);
-		data.addRaceRestriction(64);
-		assertTrue(data.hasClassRestriction(1));
-		assertTrue(data.hasRaceRestriction(64));
-
-		data.removeClassRestriction(1);
-		data.removeRaceRestriction(64);
-		assertFalse(data.hasClassRestriction(1));
-		assertFalse(data.hasRaceRestriction(64));
 	}
 	@Test
 	public void canSetDesc() throws RPGException {
