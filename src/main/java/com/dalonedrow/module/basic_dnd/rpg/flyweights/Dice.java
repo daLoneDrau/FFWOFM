@@ -17,6 +17,8 @@ public enum Dice {
 	ONE_D4(1, Die.D4),
 	/** 1D6. */
 	ONE_D6(1, Die.D6),
+	/** 1D8. */
+	ONE_D8(1, Die.D8),
 	/** 3D6. */
 	THREE_D6(3, Die.D6);
 	private Die die;

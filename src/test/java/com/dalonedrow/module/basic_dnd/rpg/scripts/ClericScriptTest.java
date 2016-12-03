@@ -9,8 +9,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.dalonedrow.engine.systems.base.Interactive;
+import com.dalonedrow.module.basic_dnd.rpg.constants.BDDEquipmentGlobals;
 import com.dalonedrow.module.basic_dnd.rpg.flyweights.BDDIO;
+import com.dalonedrow.module.basic_dnd.rpg.flyweights.Dice;
 import com.dalonedrow.module.basic_dnd.rpg.flyweights.ScriptVariables;
+import com.dalonedrow.module.basic_dnd.rpg.scripts.items.BattleAxe;
 import com.dalonedrow.module.basic_dnd.rpg.scripts.items.Club;
 import com.dalonedrow.module.basic_dnd.rpg.scripts.items.HandAxe;
 import com.dalonedrow.module.basic_dnd.rpg.systems.BDDController;
@@ -166,6 +169,51 @@ public class ClericScriptTest {
 						EquipmentGlobals.EQUIP_SLOT_WEAPON));
 	}
 	@Test
+	public void willNotEquipBattleAxe() throws RPGException {
+		BDDIO wio = ((BDDInteractive)
+				Interactive.getInstance()).getNewItem(new BattleAxe());
+		Script.getInstance().sendIOScriptEvent(wio,
+				ScriptConsts.SM_004_INVENTORYUSE,
+				new Object[] { 
+						ScriptVariables.TARGET_IO.toString(), // target
+						script.getIO().getRefId()			  // cleric ref id
+		},
+				null);
+		assertNotEquals(wio.getRefId(),
+				script.getIO().getPCData().getEquippedItem(
+						EquipmentGlobals.EQUIP_SLOT_WEAPON));
+	}
+	@Test
+	public void willNotEquipHeavyCrossbow() throws RPGException {
+		BDDIO wio = ((BDDInteractive)
+				Interactive.getInstance()).getNewItem(new HeavyCrossbow());
+		Script.getInstance().sendIOScriptEvent(wio,
+				ScriptConsts.SM_004_INVENTORYUSE,
+				new Object[] { 
+						ScriptVariables.TARGET_IO.toString(), // target
+						script.getIO().getRefId()			  // cleric ref id
+		},
+				null);
+		assertNotEquals(wio.getRefId(),
+				script.getIO().getPCData().getEquippedItem(
+						EquipmentGlobals.EQUIP_SLOT_WEAPON));
+	}
+	@Test
+	public void willNotEquipLightCrossbow() throws RPGException {
+		BDDIO wio = ((BDDInteractive)
+				Interactive.getInstance()).getNewItem(new LightCrossbow());
+		Script.getInstance().sendIOScriptEvent(wio,
+				ScriptConsts.SM_004_INVENTORYUSE,
+				new Object[] { 
+						ScriptVariables.TARGET_IO.toString(), // target
+						script.getIO().getRefId()			  // cleric ref id
+		},
+				null);
+		assertNotEquals(wio.getRefId(),
+				script.getIO().getPCData().getEquippedItem(
+						EquipmentGlobals.EQUIP_SLOT_WEAPON));
+	}
+	@Test
 	public void canEquipClub() throws RPGException {
 		BDDIO wio = ((BDDInteractive)
 				Interactive.getInstance()).getNewItem(new Club());
@@ -179,5 +227,9 @@ public class ClericScriptTest {
 		assertEquals(wio.getRefId(),
 				script.getIO().getPCData().getEquippedItem(
 						EquipmentGlobals.EQUIP_SLOT_WEAPON));
+		script.getIO().getPCData().computeFullStats();
+		assertEquals(Dice.ONE_D4,
+				Dice.values()[(int) script.getIO().getPCData()
+				              .getFullAttributeScore("DMG")]);
 	}
 }

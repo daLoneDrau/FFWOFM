@@ -42,6 +42,7 @@ public class Club extends BDDScriptable {
 		item.setItemName("Club");
 		item.setDescription("A short stick of fire-hardened oak.");
 		item.setPrice(3);
+		item.setWeight(3);
 		item.ARX_EQUIPMENT_SetObjectType(EquipmentGlobals.OBJECT_TYPE_1H, true);
 		item.getEquipitem().getElement(
 		        BDDEquipmentGlobals.EQUIPITEM_ELEMENT_DAMAGES).setValue(
