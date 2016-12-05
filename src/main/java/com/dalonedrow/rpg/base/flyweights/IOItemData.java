@@ -50,7 +50,7 @@ public abstract class IOItemData<IO extends BaseInteractiveObject> {
 		equipitem = new IOEquipItem();
 	}
 	/** the item's weight. */
-	private int weight;
+	private float weight;
 	/**
 	 * Adjusts the {@link IOItemData}'s count.
 	 * @param val the amount adjusted by
@@ -455,9 +455,9 @@ public abstract class IOItemData<IO extends BaseInteractiveObject> {
 	}
 	/**
 	 * Gets the item's weight.
-	 * @return {@link int}
+	 * @return {@link float}
 	 */
-	public final int getWeight() {
+	public final float getWeight() {
 		return weight;
 	}
 	/**
@@ -584,10 +584,10 @@ public abstract class IOItemData<IO extends BaseInteractiveObject> {
 	}
 	/**
 	 * Sets the item's weight.
-	 * @param val the weight to set
+	 * @param f the weight to set
 	 */
-	public final void setWeight(final int val) {
-		weight = val;
+	public final void setWeight(final float f) {
+		weight = f;
 	}
 	private void unequipItemInSlot(final IoPcData player, final int slot)
 	        throws RPGException {

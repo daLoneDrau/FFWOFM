@@ -49,6 +49,7 @@ public class LightCrossbow extends BDDScriptable {
 		                Dice.ONE_D8.index());
 		io.addGroup(Groups.EDGED_WEAPON.toString());
 		io.addGroup(Groups.HEAVY_WEAPON.toString());
+		io.addGroup(Groups.PROJECTILE_WEAPON.toString());
 		io = null;
 		item = null;
 		return super.onInit();

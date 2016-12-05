@@ -12,15 +12,19 @@ import com.dalonedrow.module.basic_dnd.rpg.flyweights.Dice;
 import com.dalonedrow.module.basic_dnd.rpg.flyweights.Groups;
 import com.dalonedrow.module.basic_dnd.rpg.flyweights.ScriptVariables;
 import com.dalonedrow.module.basic_dnd.rpg.scripts.BDDPCScript;
+import com.dalonedrow.pooled.PooledException;
+import com.dalonedrow.pooled.PooledStringBuilder;
+import com.dalonedrow.pooled.StringBuilderPool;
 import com.dalonedrow.rpg.base.constants.EquipmentGlobals;
 import com.dalonedrow.rpg.base.constants.IoGlobals;
+import com.dalonedrow.rpg.base.flyweights.ErrorMessage;
 import com.dalonedrow.rpg.base.flyweights.RPGException;
 import com.dalonedrow.rpg.base.systems.Script;
 
 /**
  * @author 588648
  */
-public class HeavyCrossbow extends BDDScriptable {
+public class Scimitar extends BDDScriptable {
 	/*
 	 * (non-Javadoc)
 	 * @see com.dalonedrow.rpg.base.flyweights.Scriptable#onEquip()
@@ -39,17 +43,25 @@ public class HeavyCrossbow extends BDDScriptable {
 	public int onInit() throws RPGException {
 		BDDIO io = super.getIO();
 		BDDItem item = io.getItemData();
-		item.setItemName("Heavy Crossbow");
-		item.setDescription("A heavy weapon consisting of a horizontal bow-like assembly mounted on a stock");
-		item.setPrice(25);
-		item.setWeight(8);
-		item.ARX_EQUIPMENT_SetObjectType(EquipmentGlobals.OBJECT_TYPE_BOW, true);
+		item.setItemName("Scimitar");
+		PooledStringBuilder sb = 
+				StringBuilderPool.getInstance().getStringBuilder();
+		try {
+			sb.append("A single-edged sword with a flat back edge and a ");
+			sb.append("curved blade.");
+		} catch (PooledException e) {
+			throw new RPGException(ErrorMessage.INTERNAL_ERROR, e);
+		}
+		item.setDescription(sb.toString());
+		sb.returnToPool();
+		sb = null;
+		item.setPrice(15);
+		item.setWeight(4);
+		item.ARX_EQUIPMENT_SetObjectType(EquipmentGlobals.OBJECT_TYPE_1H, true);
 		item.getEquipitem().getElement(
 		        BDDEquipmentGlobals.EQUIPITEM_ELEMENT_DAMAGES).setValue(
 		                Dice.ONE_D8.index());
 		io.addGroup(Groups.EDGED_WEAPON.toString());
-		io.addGroup(Groups.HEAVY_WEAPON.toString());
-		io.addGroup(Groups.PROJECTILE_WEAPON.toString());
 		io = null;
 		item = null;
 		return super.onInit();

@@ -20,7 +20,7 @@ public enum Dice {
 	/** 1D8. */
 	ONE_D8(1, Die.D8),
 	/** 3D6. */
-	THREE_D6(3, Die.D6);
+	THREE_D6(3, Die.D6), ONE_D10(1, Die.D10);
 	private Die die;
 	private int num;
 	/**

@@ -25,7 +25,7 @@ public class ClericScript extends BDDPCScript {
 	 * @see com.dalonedrow.module.basic_dnd.rpg.scripts.BDDPCScript#isWeaponRestricted(com.dalonedrow.module.basic_dnd.rpg.flyweights.BDDIO)
 	 */
 	@Override
-	public boolean isWeaponRestricted(BDDIO io) {
+	public boolean isWeaponRestricted(final BDDIO io) {
 		boolean restricted = true;
 		if (io.isInGroup(Groups.BLUNT_WEAPON.toString())) {
 			restricted = false;
