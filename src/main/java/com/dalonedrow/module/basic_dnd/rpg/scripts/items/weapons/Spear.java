@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.dalonedrow.module.basic_dnd.rpg.scripts.items;
+package com.dalonedrow.module.basic_dnd.rpg.scripts.items.weapons;
 
 import com.dalonedrow.engine.systems.base.Interactive;
 import com.dalonedrow.module.basic_dnd.rpg.constants.BDDEquipmentGlobals;
@@ -12,15 +12,19 @@ import com.dalonedrow.module.basic_dnd.rpg.flyweights.Dice;
 import com.dalonedrow.module.basic_dnd.rpg.flyweights.Groups;
 import com.dalonedrow.module.basic_dnd.rpg.flyweights.ScriptVariables;
 import com.dalonedrow.module.basic_dnd.rpg.scripts.BDDPCScript;
+import com.dalonedrow.pooled.PooledException;
+import com.dalonedrow.pooled.PooledStringBuilder;
+import com.dalonedrow.pooled.StringBuilderPool;
 import com.dalonedrow.rpg.base.constants.EquipmentGlobals;
 import com.dalonedrow.rpg.base.constants.IoGlobals;
+import com.dalonedrow.rpg.base.flyweights.ErrorMessage;
 import com.dalonedrow.rpg.base.flyweights.RPGException;
 import com.dalonedrow.rpg.base.systems.Script;
 
 /**
  * @author 588648
  */
-public class Dagger extends BDDScriptable {
+public class Spear extends BDDScriptable {
 	/*
 	 * (non-Javadoc)
 	 * @see com.dalonedrow.rpg.base.flyweights.Scriptable#onEquip()
@@ -39,16 +43,25 @@ public class Dagger extends BDDScriptable {
 	public int onInit() throws RPGException {
 		BDDIO io = super.getIO();
 		BDDItem item = io.getItemData();
-		item.setItemName("Dagger");
-		item.setDescription(" A knife with a very sharp point designed to be used as a thrusting or stabbing weapon.");
+		item.setItemName("Spear");
+		PooledStringBuilder sb = 
+				StringBuilderPool.getInstance().getStringBuilder();
+		try {
+			sb.append("A pole weapon consisting of a shaft of wood, with a ");
+			sb.append("pointed head.");
+		} catch (PooledException e) {
+			throw new RPGException(ErrorMessage.INTERNAL_ERROR, e);
+		}
+		item.setDescription(sb.toString());
+		sb.returnToPool();
+		sb = null;
 		item.setPrice(3);
-		item.setWeight(1);
-		item.ARX_EQUIPMENT_SetObjectType(EquipmentGlobals.OBJECT_TYPE_1H, true);
+		item.setWeight(5);
+		item.ARX_EQUIPMENT_SetObjectType(EquipmentGlobals.OBJECT_TYPE_2H, true);
 		item.getEquipitem().getElement(
 		        BDDEquipmentGlobals.EQUIPITEM_ELEMENT_DAMAGES).setValue(
-		                Dice.ONE_D4.index());
-		io.addGroup(Groups.EDGED_WEAPON.toString());
-		io.addGroup(Groups.LIGHT_WEAPON.toString());
+		                Dice.ONE_D6.index());
+		io.addGroup(Groups.PIERCING_WEAPON.toString());
 		io = null;
 		item = null;
 		return super.onInit();

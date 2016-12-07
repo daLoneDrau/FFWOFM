@@ -43,4 +43,9 @@ public abstract class BDDPCScript extends BDDScriptable {
 	 * @param io
 	 */
 	public abstract boolean isWeaponRestricted(BDDIO io);
+	/**
+	 * @param io
+	 * @return
+	 */
+	public abstract boolean isArmorRestricted(BDDIO io);
 }

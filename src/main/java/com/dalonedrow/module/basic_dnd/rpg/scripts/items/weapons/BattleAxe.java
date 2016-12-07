@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.dalonedrow.module.basic_dnd.rpg.scripts.items;
+package com.dalonedrow.module.basic_dnd.rpg.scripts.items.weapons;
 
 import com.dalonedrow.engine.systems.base.Interactive;
 import com.dalonedrow.module.basic_dnd.rpg.constants.BDDEquipmentGlobals;
@@ -20,7 +20,7 @@ import com.dalonedrow.rpg.base.systems.Script;
 /**
  * @author 588648
  */
-public class Flail extends BDDScriptable {
+public class BattleAxe extends BDDScriptable {
 	/*
 	 * (non-Javadoc)
 	 * @see com.dalonedrow.rpg.base.flyweights.Scriptable#onEquip()
@@ -39,15 +39,16 @@ public class Flail extends BDDScriptable {
 	public int onInit() throws RPGException {
 		BDDIO io = super.getIO();
 		BDDItem item = io.getItemData();
-		item.setItemName("Flail");
-		item.setDescription("A wooden haft connected by a chain to a spherical striking end.");
-		item.setPrice(3);
-		item.setWeight(5);
-		item.ARX_EQUIPMENT_SetObjectType(EquipmentGlobals.OBJECT_TYPE_1H, true);
+		item.setItemName("Battle Axe");
+		item.setDescription("An arm-length weapon borne in both hands");
+		item.setPrice(6);
+		item.setWeight(6);
+		item.ARX_EQUIPMENT_SetObjectType(EquipmentGlobals.OBJECT_TYPE_2H, true);
 		item.getEquipitem().getElement(
 		        BDDEquipmentGlobals.EQUIPITEM_ELEMENT_DAMAGES).setValue(
-		                Dice.ONE_D6.index());
-		io.addGroup(Groups.BLUNT_WEAPON.toString());
+		                Dice.ONE_D8.index());
+		io.addGroup(Groups.EDGED_WEAPON.toString());
+		io.addGroup(Groups.HEAVY_WEAPON.toString());
 		io = null;
 		item = null;
 		return super.onInit();

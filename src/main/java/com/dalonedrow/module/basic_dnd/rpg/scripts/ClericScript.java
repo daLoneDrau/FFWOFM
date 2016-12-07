@@ -11,6 +11,13 @@ import com.dalonedrow.rpg.base.constants.ScriptConsts;
  * @author 588648
  */
 public class ClericScript extends BDDPCScript {
+	/* (non-Javadoc)
+	 * @see com.dalonedrow.module.basic_dnd.rpg.scripts.BDDPCScript#isArmorRestricted(com.dalonedrow.module.basic_dnd.rpg.flyweights.BDDIO)
+	 */
+	@Override
+	public boolean isArmorRestricted(final BDDIO io) {
+		return false;
+	}
 	public int onTurnUndead() {
 		if (!super.getIO().isInGroup("CLERIC")) {
 			return ScriptConsts.REFUSE;

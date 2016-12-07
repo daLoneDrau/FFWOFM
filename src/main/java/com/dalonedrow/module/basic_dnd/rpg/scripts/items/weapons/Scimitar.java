@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.dalonedrow.module.basic_dnd.rpg.scripts.items;
+package com.dalonedrow.module.basic_dnd.rpg.scripts.items.weapons;
 
 import com.dalonedrow.engine.systems.base.Interactive;
 import com.dalonedrow.module.basic_dnd.rpg.constants.BDDEquipmentGlobals;

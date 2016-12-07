@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.dalonedrow.module.basic_dnd.rpg.scripts.items;
+package com.dalonedrow.module.basic_dnd.rpg.scripts.items.weapons;
 
 import com.dalonedrow.engine.systems.base.Interactive;
 import com.dalonedrow.module.basic_dnd.rpg.constants.BDDEquipmentGlobals;
@@ -20,7 +20,7 @@ import com.dalonedrow.rpg.base.systems.Script;
 /**
  * @author 588648
  */
-public class Mace extends BDDScriptable {
+public class Flail extends BDDScriptable {
 	/*
 	 * (non-Javadoc)
 	 * @see com.dalonedrow.rpg.base.flyweights.Scriptable#onEquip()
@@ -39,10 +39,10 @@ public class Mace extends BDDScriptable {
 	public int onInit() throws RPGException {
 		BDDIO io = super.getIO();
 		BDDItem item = io.getItemData();
-		item.setItemName("Mace");
-		item.setDescription("A type of club that uses a heavy head on the end of a handle to deliver powerful blows.");
-		item.setPrice(5);
-		item.setWeight(3);
+		item.setItemName("Flail");
+		item.setDescription("A wooden haft connected by a chain to a spherical striking end.");
+		item.setPrice(3);
+		item.setWeight(5);
 		item.ARX_EQUIPMENT_SetObjectType(EquipmentGlobals.OBJECT_TYPE_1H, true);
 		item.getEquipitem().getElement(
 		        BDDEquipmentGlobals.EQUIPITEM_ELEMENT_DAMAGES).setValue(

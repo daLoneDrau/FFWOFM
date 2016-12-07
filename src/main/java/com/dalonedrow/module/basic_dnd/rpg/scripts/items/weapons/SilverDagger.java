@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.dalonedrow.module.basic_dnd.rpg.scripts.items;
+package com.dalonedrow.module.basic_dnd.rpg.scripts.items.weapons;
 
 import com.dalonedrow.engine.systems.base.Interactive;
 import com.dalonedrow.module.basic_dnd.rpg.constants.BDDEquipmentGlobals;
@@ -20,7 +20,7 @@ import com.dalonedrow.rpg.base.systems.Script;
 /**
  * @author 588648
  */
-public class Javelin extends BDDScriptable {
+public class SilverDagger extends BDDScriptable {
 	/*
 	 * (non-Javadoc)
 	 * @see com.dalonedrow.rpg.base.flyweights.Scriptable#onEquip()
@@ -39,16 +39,17 @@ public class Javelin extends BDDScriptable {
 	public int onInit() throws RPGException {
 		BDDIO io = super.getIO();
 		BDDItem item = io.getItemData();
-		item.setItemName("Javelin");
-		item.setDescription("A light spear designed to be thrown as a ranged weapon");
-		item.setPrice(1);
-		item.setWeight(2);
+		item.setItemName("Silver Dagger");
+		item.setDescription(" A knife crafted silver blade.  Good against the supernatural.");
+		item.setPrice(30);
+		item.setWeight(1);
 		item.ARX_EQUIPMENT_SetObjectType(EquipmentGlobals.OBJECT_TYPE_1H, true);
 		item.getEquipitem().getElement(
 		        BDDEquipmentGlobals.EQUIPITEM_ELEMENT_DAMAGES).setValue(
-		                Dice.ONE_D6.index());
+		                Dice.ONE_D4.index());
 		io.addGroup(Groups.EDGED_WEAPON.toString());
-		io.addGroup(Groups.THROWN_WEAPON.toString());
+		io.addGroup(Groups.LIGHT_WEAPON.toString());
+		io.addGroup(Groups.SILVER_WEAPON.toString());
 		io = null;
 		item = null;
 		return super.onInit();

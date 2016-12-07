@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.dalonedrow.module.basic_dnd.rpg.scripts.items;
+package com.dalonedrow.module.basic_dnd.rpg.scripts.items.weapons;
 
 import com.dalonedrow.engine.systems.base.Interactive;
 import com.dalonedrow.module.basic_dnd.rpg.constants.BDDEquipmentGlobals;
@@ -20,7 +20,7 @@ import com.dalonedrow.rpg.base.systems.Script;
 /**
  * @author 588648
  */
-public class Longbow extends BDDScriptable {
+public class MorningStar extends BDDScriptable {
 	/*
 	 * (non-Javadoc)
 	 * @see com.dalonedrow.rpg.base.flyweights.Scriptable#onEquip()
@@ -39,16 +39,15 @@ public class Longbow extends BDDScriptable {
 	public int onInit() throws RPGException {
 		BDDIO io = super.getIO();
 		BDDItem item = io.getItemData();
-		item.setItemName("Longbow");
-		item.setDescription("A bow that is roughly the height of the user allowing the archer a long draw.");
-		item.setPrice(40);
-		item.setWeight(3);
-		item.ARX_EQUIPMENT_SetObjectType(EquipmentGlobals.OBJECT_TYPE_BOW, true);
+		item.setItemName("Morning Star");
+		item.setDescription("A spiked club resembling a mace, with a long spike extending straight from the top and many smaller spikes around the particle of the head.");
+		item.setPrice(5);
+		item.setWeight(6);
+		item.ARX_EQUIPMENT_SetObjectType(EquipmentGlobals.OBJECT_TYPE_1H, true);
 		item.getEquipitem().getElement(
 		        BDDEquipmentGlobals.EQUIPITEM_ELEMENT_DAMAGES).setValue(
-		                Dice.ONE_D8.index());
-		io.addGroup(Groups.EDGED_WEAPON.toString());
-		io.addGroup(Groups.PROJECTILE_WEAPON.toString());
+		                Dice.ONE_D6.index());
+		io.addGroup(Groups.BLUNT_WEAPON.toString());
 		io = null;
 		item = null;
 		return super.onInit();

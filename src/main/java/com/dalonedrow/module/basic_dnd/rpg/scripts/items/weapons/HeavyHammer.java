@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.dalonedrow.module.basic_dnd.rpg.scripts.items;
+package com.dalonedrow.module.basic_dnd.rpg.scripts.items.weapons;
 
 import com.dalonedrow.engine.systems.base.Interactive;
 import com.dalonedrow.module.basic_dnd.rpg.constants.BDDEquipmentGlobals;
@@ -12,19 +12,15 @@ import com.dalonedrow.module.basic_dnd.rpg.flyweights.Dice;
 import com.dalonedrow.module.basic_dnd.rpg.flyweights.Groups;
 import com.dalonedrow.module.basic_dnd.rpg.flyweights.ScriptVariables;
 import com.dalonedrow.module.basic_dnd.rpg.scripts.BDDPCScript;
-import com.dalonedrow.pooled.PooledException;
-import com.dalonedrow.pooled.PooledStringBuilder;
-import com.dalonedrow.pooled.StringBuilderPool;
 import com.dalonedrow.rpg.base.constants.EquipmentGlobals;
 import com.dalonedrow.rpg.base.constants.IoGlobals;
-import com.dalonedrow.rpg.base.flyweights.ErrorMessage;
 import com.dalonedrow.rpg.base.flyweights.RPGException;
 import com.dalonedrow.rpg.base.systems.Script;
 
 /**
  * @author 588648
  */
-public class Polearm extends BDDScriptable {
+public class HeavyHammer extends BDDScriptable {
 	/*
 	 * (non-Javadoc)
 	 * @see com.dalonedrow.rpg.base.flyweights.Scriptable#onEquip()
@@ -43,26 +39,15 @@ public class Polearm extends BDDScriptable {
 	public int onInit() throws RPGException {
 		BDDIO io = super.getIO();
 		BDDItem item = io.getItemData();
-		item.setItemName("Pollaxe");
-		PooledStringBuilder sb = 
-				StringBuilderPool.getInstance().getStringBuilder();
-		try {
-			sb.append("A long wooden haft mounted with a steel head with an ");
-			sb.append("axe on one side and a spike hammer on the reverse.");
-		} catch (PooledException e) {
-			throw new RPGException(ErrorMessage.INTERNAL_ERROR, e);
-		}
-		item.setDescription(sb.toString());
-		sb.returnToPool();
-		sb = null;
+		item.setItemName("Raven's Beak");
+		item.setDescription("A modified hammer's head and spike mounted atop a long pole.");
 		item.setPrice(7);
-		item.setWeight(15);
+		item.setWeight(5);
 		item.ARX_EQUIPMENT_SetObjectType(EquipmentGlobals.OBJECT_TYPE_2H, true);
 		item.getEquipitem().getElement(
 		        BDDEquipmentGlobals.EQUIPITEM_ELEMENT_DAMAGES).setValue(
-		                Dice.ONE_D10.index());
-		io.addGroup(Groups.EDGED_WEAPON.toString());
-		io.addGroup(Groups.HEAVY_WEAPON.toString());
+		                Dice.ONE_D6.index());
+		io.addGroup(Groups.BLUNT_WEAPON.toString());
 		io = null;
 		item = null;
 		return super.onInit();

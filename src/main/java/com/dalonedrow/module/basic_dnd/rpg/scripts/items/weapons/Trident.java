@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.dalonedrow.module.basic_dnd.rpg.scripts.items;
+package com.dalonedrow.module.basic_dnd.rpg.scripts.items.weapons;
 
 import com.dalonedrow.engine.systems.base.Interactive;
 import com.dalonedrow.module.basic_dnd.rpg.constants.BDDEquipmentGlobals;
@@ -24,7 +24,7 @@ import com.dalonedrow.rpg.base.systems.Script;
 /**
  * @author 588648
  */
-public class Spear extends BDDScriptable {
+public class Trident extends BDDScriptable {
 	/*
 	 * (non-Javadoc)
 	 * @see com.dalonedrow.rpg.base.flyweights.Scriptable#onEquip()
@@ -48,15 +48,15 @@ public class Spear extends BDDScriptable {
 				StringBuilderPool.getInstance().getStringBuilder();
 		try {
 			sb.append("A pole weapon consisting of a shaft of wood, with a ");
-			sb.append("pointed head.");
+			sb.append("pointed head with three prongs.");
 		} catch (PooledException e) {
 			throw new RPGException(ErrorMessage.INTERNAL_ERROR, e);
 		}
 		item.setDescription(sb.toString());
 		sb.returnToPool();
 		sb = null;
-		item.setPrice(3);
-		item.setWeight(5);
+		item.setPrice(4);
+		item.setWeight(4);
 		item.ARX_EQUIPMENT_SetObjectType(EquipmentGlobals.OBJECT_TYPE_2H, true);
 		item.getEquipitem().getElement(
 		        BDDEquipmentGlobals.EQUIPITEM_ELEMENT_DAMAGES).setValue(

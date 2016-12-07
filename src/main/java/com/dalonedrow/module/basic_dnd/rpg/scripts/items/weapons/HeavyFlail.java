@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.dalonedrow.module.basic_dnd.rpg.scripts.items;
+package com.dalonedrow.module.basic_dnd.rpg.scripts.items.weapons;
 
 import com.dalonedrow.engine.systems.base.Interactive;
 import com.dalonedrow.module.basic_dnd.rpg.constants.BDDEquipmentGlobals;
@@ -20,7 +20,7 @@ import com.dalonedrow.rpg.base.systems.Script;
 /**
  * @author 588648
  */
-public class MorningStar extends BDDScriptable {
+public class HeavyFlail extends BDDScriptable {
 	/*
 	 * (non-Javadoc)
 	 * @see com.dalonedrow.rpg.base.flyweights.Scriptable#onEquip()
@@ -39,15 +39,16 @@ public class MorningStar extends BDDScriptable {
 	public int onInit() throws RPGException {
 		BDDIO io = super.getIO();
 		BDDItem item = io.getItemData();
-		item.setItemName("Morning Star");
-		item.setDescription("A spiked club resembling a mace, with a long spike extending straight from the top and many smaller spikes around the particle of the head.");
-		item.setPrice(5);
-		item.setWeight(6);
-		item.ARX_EQUIPMENT_SetObjectType(EquipmentGlobals.OBJECT_TYPE_1H, true);
+		item.setItemName("Heavy Flail");
+		item.setDescription("A weapon based on the agricultural tool with a very long shaft attached to a hinged, roughly cylindrical striking end.");
+		item.setPrice(8);
+		item.setWeight(10);
+		item.ARX_EQUIPMENT_SetObjectType(EquipmentGlobals.OBJECT_TYPE_2H, true);
 		item.getEquipitem().getElement(
 		        BDDEquipmentGlobals.EQUIPITEM_ELEMENT_DAMAGES).setValue(
-		                Dice.ONE_D6.index());
+		                Dice.ONE_D8.index());
 		io.addGroup(Groups.BLUNT_WEAPON.toString());
+		io.addGroup(Groups.HEAVY_WEAPON.toString());
 		io = null;
 		item = null;
 		return super.onInit();

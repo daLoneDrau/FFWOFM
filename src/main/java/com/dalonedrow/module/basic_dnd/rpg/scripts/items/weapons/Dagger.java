@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.dalonedrow.module.basic_dnd.rpg.scripts.items;
+package com.dalonedrow.module.basic_dnd.rpg.scripts.items.weapons;
 
 import com.dalonedrow.engine.systems.base.Interactive;
 import com.dalonedrow.module.basic_dnd.rpg.constants.BDDEquipmentGlobals;
@@ -20,7 +20,7 @@ import com.dalonedrow.rpg.base.systems.Script;
 /**
  * @author 588648
  */
-public class HeavyHammer extends BDDScriptable {
+public class Dagger extends BDDScriptable {
 	/*
 	 * (non-Javadoc)
 	 * @see com.dalonedrow.rpg.base.flyweights.Scriptable#onEquip()
@@ -39,15 +39,16 @@ public class HeavyHammer extends BDDScriptable {
 	public int onInit() throws RPGException {
 		BDDIO io = super.getIO();
 		BDDItem item = io.getItemData();
-		item.setItemName("Raven's Beak");
-		item.setDescription("A modified hammer's head and spike mounted atop a long pole.");
-		item.setPrice(7);
-		item.setWeight(5);
-		item.ARX_EQUIPMENT_SetObjectType(EquipmentGlobals.OBJECT_TYPE_2H, true);
+		item.setItemName("Dagger");
+		item.setDescription(" A knife with a very sharp point designed to be used as a thrusting or stabbing weapon.");
+		item.setPrice(3);
+		item.setWeight(1);
+		item.ARX_EQUIPMENT_SetObjectType(EquipmentGlobals.OBJECT_TYPE_1H, true);
 		item.getEquipitem().getElement(
 		        BDDEquipmentGlobals.EQUIPITEM_ELEMENT_DAMAGES).setValue(
-		                Dice.ONE_D6.index());
-		io.addGroup(Groups.BLUNT_WEAPON.toString());
+		                Dice.ONE_D4.index());
+		io.addGroup(Groups.EDGED_WEAPON.toString());
+		io.addGroup(Groups.LIGHT_WEAPON.toString());
 		io = null;
 		item = null;
 		return super.onInit();
