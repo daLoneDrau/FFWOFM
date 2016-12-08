@@ -8,7 +8,6 @@ import com.dalonedrow.module.basic_dnd.rpg.constants.BDDEquipmentGlobals;
 import com.dalonedrow.module.basic_dnd.rpg.flyweights.BDDIO;
 import com.dalonedrow.module.basic_dnd.rpg.flyweights.BDDItem;
 import com.dalonedrow.module.basic_dnd.rpg.flyweights.BDDScriptable;
-import com.dalonedrow.module.basic_dnd.rpg.flyweights.Dice;
 import com.dalonedrow.module.basic_dnd.rpg.flyweights.Groups;
 import com.dalonedrow.module.basic_dnd.rpg.flyweights.ScriptVariables;
 import com.dalonedrow.module.basic_dnd.rpg.scripts.BDDPCScript;
@@ -23,6 +22,8 @@ import com.dalonedrow.rpg.base.systems.Script;
 
 /**
  * @author 588648
+ * @see <a href="https://en.wikipedia.org/wiki/Lorica_segmentata">Lorica
+ *      segmentata</a>
  */
 public class BandedMail extends BDDScriptable {
 	/*
@@ -44,8 +45,8 @@ public class BandedMail extends BDDScriptable {
 		BDDIO io = super.getIO();
 		BDDItem item = io.getItemData();
 		item.setItemName("Segmented Cuirass");
-		PooledStringBuilder sb = 
-				StringBuilderPool.getInstance().getStringBuilder();
+		PooledStringBuilder sb =
+		        StringBuilderPool.getInstance().getStringBuilder();
 		try {
 			sb.append("An armour made from horizontal overlapping rows or ");
 			sb.append("bands of solid armour plates.");
@@ -58,7 +59,7 @@ public class BandedMail extends BDDScriptable {
 		item.setPrice(250);
 		item.setWeight(35);
 		item.ARX_EQUIPMENT_SetObjectType(
-				EquipmentGlobals.OBJECT_TYPE_ARMOR, true);
+		        EquipmentGlobals.OBJECT_TYPE_ARMOR, true);
 		item.getEquipitem().getElement(
 		        BDDEquipmentGlobals.EQUIPITEM_ELEMENT_ARMOR_CLASS).setValue(-5);
 		io.addGroup(Groups.HEAVY_ARMOUR.toString());
@@ -82,7 +83,7 @@ public class BandedMail extends BDDScriptable {
 				// check to see if weapon is restricted
 				BDDIO tio = (BDDIO) Interactive.getInstance().getIO(ioid);
 				if (tio.hasIOFlag(IoGlobals.IO_01_PC)) {
-					if (((BDDPCScript) tio.getScript()).isArmorRestricted(io)) {
+					if (((BDDPCScript) tio.getScript()).isItemRestricted(io)) {
 						// TODO - send message that weapon is restricted
 					} else {
 						io.getItemData().ARX_EQUIPMENT_Equip(tio);

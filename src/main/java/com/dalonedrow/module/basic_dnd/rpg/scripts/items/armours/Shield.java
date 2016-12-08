@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.dalonedrow.module.basic_dnd.rpg.scripts.items.weapons;
+package com.dalonedrow.module.basic_dnd.rpg.scripts.items.armours;
 
 import com.dalonedrow.engine.systems.base.Interactive;
 import com.dalonedrow.module.basic_dnd.rpg.constants.BDDEquipmentGlobals;
@@ -12,15 +12,20 @@ import com.dalonedrow.module.basic_dnd.rpg.flyweights.Dice;
 import com.dalonedrow.module.basic_dnd.rpg.flyweights.Groups;
 import com.dalonedrow.module.basic_dnd.rpg.flyweights.ScriptVariables;
 import com.dalonedrow.module.basic_dnd.rpg.scripts.BDDPCScript;
+import com.dalonedrow.pooled.PooledException;
+import com.dalonedrow.pooled.PooledStringBuilder;
+import com.dalonedrow.pooled.StringBuilderPool;
 import com.dalonedrow.rpg.base.constants.EquipmentGlobals;
 import com.dalonedrow.rpg.base.constants.IoGlobals;
+import com.dalonedrow.rpg.base.flyweights.ErrorMessage;
 import com.dalonedrow.rpg.base.flyweights.RPGException;
 import com.dalonedrow.rpg.base.systems.Script;
 
 /**
  * @author 588648
+ * @see <a href="https://en.wikipedia.org/wiki/Shield">Shield</a>
  */
-public class MorningStar extends BDDScriptable {
+public class Shield extends BDDScriptable {
 	/*
 	 * (non-Javadoc)
 	 * @see com.dalonedrow.rpg.base.flyweights.Scriptable#onEquip()
@@ -39,15 +44,23 @@ public class MorningStar extends BDDScriptable {
 	public int onInit() throws RPGException {
 		BDDIO io = super.getIO();
 		BDDItem item = io.getItemData();
-		item.setItemName("Morning Star");
-		item.setDescription("A spiked club resembling a mace, with a long spike extending straight from the top and many smaller spikes around the particle of the head.");
-		item.setPrice(5);
-		item.setWeight(6);
-		item.ARX_EQUIPMENT_SetObjectType(EquipmentGlobals.OBJECT_TYPE_1H, true);
+		item.setItemName("Shield");
+		PooledStringBuilder sb = 
+				StringBuilderPool.getInstance().getStringBuilder();
+		try {
+			sb.append("A round wooden shield.");
+		} catch (PooledException e) {
+			throw new RPGException(ErrorMessage.INTERNAL_ERROR, e);
+		}
+		item.setDescription(sb.toString());
+		sb.returnToPool();
+		sb = null;
+		item.setPrice(10);
+		item.setWeight(10);
+		item.ARX_EQUIPMENT_SetObjectType(
+				EquipmentGlobals.OBJECT_TYPE_SHIELD, true);
 		item.getEquipitem().getElement(
-		        BDDEquipmentGlobals.EQUIPITEM_ELEMENT_DAMAGES).setValue(
-		                Dice.ONE_D6.index());
-		io.addGroup(Groups.BLUNT_WEAPON.toString());
+		        BDDEquipmentGlobals.EQUIPITEM_ELEMENT_ARMOR_CLASS).setValue(-1);
 		io = null;
 		item = null;
 		return super.onInit();
@@ -68,8 +81,7 @@ public class MorningStar extends BDDScriptable {
 				// check to see if weapon is restricted
 				BDDIO tio = (BDDIO) Interactive.getInstance().getIO(ioid);
 				if (tio.hasIOFlag(IoGlobals.IO_01_PC)) {
-					if (((BDDPCScript) tio.getScript())
-					        .isItemRestricted(io)) {
+					if (((BDDPCScript) tio.getScript()).isItemRestricted(io)) {
 						// TODO - send message that weapon is restricted
 					} else {
 						io.getItemData().ARX_EQUIPMENT_Equip(tio);

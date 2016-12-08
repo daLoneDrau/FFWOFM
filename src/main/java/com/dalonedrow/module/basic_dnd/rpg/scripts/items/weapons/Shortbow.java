@@ -84,7 +84,7 @@ public class Shortbow extends BDDScriptable {
 				BDDIO tio = (BDDIO) Interactive.getInstance().getIO(ioid);
 				if (tio.hasIOFlag(IoGlobals.IO_01_PC)) {
 					if (((BDDPCScript) tio.getScript())
-					        .isWeaponRestricted(io)) {
+					        .isItemRestricted(io)) {
 						// TODO - send message that weapon is restricted
 					} else {
 						io.getItemData().ARX_EQUIPMENT_Equip(tio);

@@ -23,6 +23,7 @@ import com.dalonedrow.rpg.base.systems.Script;
 
 /**
  * @author 588648
+ * @see <a href="https://en.wikipedia.org/wiki/Mail_(armour)">Mail (armour)</a>
  */
 public class ChainMail extends BDDScriptable {
 	/*
@@ -82,7 +83,7 @@ public class ChainMail extends BDDScriptable {
 				// check to see if weapon is restricted
 				BDDIO tio = (BDDIO) Interactive.getInstance().getIO(ioid);
 				if (tio.hasIOFlag(IoGlobals.IO_01_PC)) {
-					if (((BDDPCScript) tio.getScript()).isArmorRestricted(io)) {
+					if (((BDDPCScript) tio.getScript()).isItemRestricted(io)) {
 						// TODO - send message that weapon is restricted
 					} else {
 						io.getItemData().ARX_EQUIPMENT_Equip(tio);

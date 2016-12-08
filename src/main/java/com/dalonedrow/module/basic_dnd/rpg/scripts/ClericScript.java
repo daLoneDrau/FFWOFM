@@ -5,42 +5,18 @@ package com.dalonedrow.module.basic_dnd.rpg.scripts;
 
 import com.dalonedrow.module.basic_dnd.rpg.flyweights.BDDIO;
 import com.dalonedrow.module.basic_dnd.rpg.flyweights.Groups;
+import com.dalonedrow.rpg.base.constants.EquipmentGlobals;
+import com.dalonedrow.rpg.base.constants.IoGlobals;
 import com.dalonedrow.rpg.base.constants.ScriptConsts;
 
 /**
  * @author 588648
  */
 public class ClericScript extends BDDPCScript {
-	/* (non-Javadoc)
-	 * @see com.dalonedrow.module.basic_dnd.rpg.scripts.BDDPCScript#isArmorRestricted(com.dalonedrow.module.basic_dnd.rpg.flyweights.BDDIO)
-	 */
-	@Override
-	public boolean isArmorRestricted(final BDDIO io) {
-		return false;
-	}
-	public int onTurnUndead() {
-		if (!super.getIO().isInGroup("CLERIC")) {
-			return ScriptConsts.REFUSE;
-		}
-		// TODO - create process for retrieving ref ids of all NPCs in the area
-		int[] ios = new int[0];
-		// iterate through IOs, getting max HD, total HD
-
-		return ScriptConsts.ACCEPT;
-	}
-	/* (non-Javadoc)
-	 * @see com.dalonedrow.module.basic_dnd.rpg.scripts.BDDPCScript#isWeaponRestricted(com.dalonedrow.module.basic_dnd.rpg.flyweights.BDDIO)
-	 */
-	@Override
-	public boolean isWeaponRestricted(final BDDIO io) {
-		boolean restricted = true;
-		if (io.isInGroup(Groups.BLUNT_WEAPON.toString())) {
-			restricted = false;
-		}
-		return restricted;
-	}
-	/* (non-Javadoc)
-	 * @see com.dalonedrow.module.basic_dnd.rpg.scripts.BDDPCScript#getMaxRollArmorClass(int)
+	/*
+	 * (non-Javadoc)
+	 * @see com.dalonedrow.module.basic_dnd.rpg.scripts.BDDPCScript#
+	 * getMaxRollArmorClass(int)
 	 */
 	@Override
 	protected int getMaxRollArmorClass(final int level) {
@@ -87,5 +63,38 @@ public class ClericScript extends BDDPCScript {
 			break;
 		}
 		return maxRollAC;
+	}
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * com.dalonedrow.module.basic_dnd.rpg.scripts.BDDPCScript#isItemRestricted(
+	 * com.dalonedrow.module.basic_dnd.rpg.flyweights.BDDIO)
+	 */
+	@Override
+	public boolean isItemRestricted(BDDIO io) {
+		boolean restricted = false;
+		if (io.hasIOFlag(IoGlobals.IO_02_ITEM)) {
+			if (io.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_SHIELD)) {
+				restricted = false;
+			} else if (io.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_ARMOR)) {
+				restricted = false;
+			} else if (io.hasTypeFlag(EquipmentGlobals.OBJECT_TYPE_WEAPON)) {
+				restricted = true;
+				if (io.isInGroup(Groups.BLUNT_WEAPON.toString())) {
+					restricted = false;
+				}
+			}
+		}
+		return restricted;
+	}
+	public int onTurnUndead() {
+		if (!super.getIO().isInGroup("CLERIC")) {
+			return ScriptConsts.REFUSE;
+		}
+		// TODO - create process for retrieving ref ids of all NPCs in the area
+		int[] ios = new int[0];
+		// iterate through IOs, getting max HD, total HD
+
+		return ScriptConsts.ACCEPT;
 	}
 }

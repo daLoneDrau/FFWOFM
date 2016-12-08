@@ -15,6 +15,14 @@ import com.dalonedrow.module.basic_dnd.rpg.flyweights.BDDPC;
 import com.dalonedrow.module.basic_dnd.rpg.flyweights.Dice;
 import com.dalonedrow.module.basic_dnd.rpg.flyweights.ScriptVariables;
 import com.dalonedrow.module.basic_dnd.rpg.scripts.items.armours.BandedMail;
+import com.dalonedrow.module.basic_dnd.rpg.scripts.items.armours.ChainMail;
+import com.dalonedrow.module.basic_dnd.rpg.scripts.items.armours.LeatherArmor;
+import com.dalonedrow.module.basic_dnd.rpg.scripts.items.armours.PaddedArmor;
+import com.dalonedrow.module.basic_dnd.rpg.scripts.items.armours.PlateMail;
+import com.dalonedrow.module.basic_dnd.rpg.scripts.items.armours.ScaleMail;
+import com.dalonedrow.module.basic_dnd.rpg.scripts.items.armours.Shield;
+import com.dalonedrow.module.basic_dnd.rpg.scripts.items.armours.SplintMail;
+import com.dalonedrow.module.basic_dnd.rpg.scripts.items.armours.StuddedLeatherArmor;
 import com.dalonedrow.module.basic_dnd.rpg.scripts.items.weapons.BastardSword;
 import com.dalonedrow.module.basic_dnd.rpg.scripts.items.weapons.BattleAxe;
 import com.dalonedrow.module.basic_dnd.rpg.scripts.items.weapons.Club;
@@ -67,7 +75,7 @@ public class ClericScriptTest {
 	}
 	@Test
 	public void canApplyDexACModifier() {
-		
+
 	}
 	@Test
 	public void canEquipBandedMail() throws RPGException {
@@ -86,7 +94,53 @@ public class ClericScriptTest {
 		assertEquals(wio.getRefId(),
 		        script.getIO().getPCData().getEquippedItem(
 		                EquipmentGlobals.EQUIP_SLOT_TORSO));
-		//script.getIO().getPCData().computeFullStats();
+		// script.getIO().getPCData().computeFullStats();
+		assertEquals(4f, pc.getFullAttributeScore("AC"), .01f);
+		BDDIO wio2 = ((BDDInteractive) Interactive.getInstance())
+		        .getNewItem(new Shield());
+		Script.getInstance().sendIOScriptEvent(wio2,
+		        ScriptConsts.SM_004_INVENTORYUSE,
+		        new Object[] {
+		                ScriptVariables.TARGET_IO.toString(), // target
+		                script.getIO().getRefId() // cleric ref id
+		        },
+		        null);
+		assertEquals(wio2.getRefId(),
+		        script.getIO().getPCData().getEquippedItem(
+		                EquipmentGlobals.EQUIP_SLOT_SHIELD));
+		assertEquals(3f, pc.getFullAttributeScore("AC"), .01f);
+	}
+	@Test
+	public void canEquipChainMail() throws RPGException {
+		BDDPC pc = script.getIO().getPCData();
+		pc.setBaseAttributeScore("DEX", 9f);
+		assertEquals(9f, pc.getFullAttributeScore("AC"), .01f);
+		BDDIO wio = ((BDDInteractive) Interactive.getInstance())
+		        .getNewItem(new ChainMail());
+		Script.getInstance().sendIOScriptEvent(wio,
+		        ScriptConsts.SM_004_INVENTORYUSE,
+		        new Object[] {
+		                ScriptVariables.TARGET_IO.toString(), // target
+		                script.getIO().getRefId() // cleric ref id
+		        },
+		        null);
+		assertEquals(wio.getRefId(),
+		        script.getIO().getPCData().getEquippedItem(
+		                EquipmentGlobals.EQUIP_SLOT_TORSO));
+		// script.getIO().getPCData().computeFullStats();
+		assertEquals(5f, pc.getFullAttributeScore("AC"), .01f);
+		BDDIO wio2 = ((BDDInteractive) Interactive.getInstance())
+		        .getNewItem(new Shield());
+		Script.getInstance().sendIOScriptEvent(wio2,
+		        ScriptConsts.SM_004_INVENTORYUSE,
+		        new Object[] {
+		                ScriptVariables.TARGET_IO.toString(), // target
+		                script.getIO().getRefId() // cleric ref id
+		        },
+		        null);
+		assertEquals(wio2.getRefId(),
+		        script.getIO().getPCData().getEquippedItem(
+		                EquipmentGlobals.EQUIP_SLOT_SHIELD));
 		assertEquals(4f, pc.getFullAttributeScore("AC"), .01f);
 	}
 	@Test
@@ -185,6 +239,26 @@ public class ClericScriptTest {
 		                .getFullAttributeScore("DMG")]);
 	}
 	@Test
+	public void canEquipLeatherArmor() throws RPGException {
+		BDDPC pc = script.getIO().getPCData();
+		pc.setBaseAttributeScore("DEX", 9f);
+		assertEquals(9f, pc.getFullAttributeScore("AC"), .01f);
+		BDDIO wio = ((BDDInteractive) Interactive.getInstance())
+		        .getNewItem(new LeatherArmor());
+		Script.getInstance().sendIOScriptEvent(wio,
+		        ScriptConsts.SM_004_INVENTORYUSE,
+		        new Object[] {
+		                ScriptVariables.TARGET_IO.toString(), // target
+		                script.getIO().getRefId() // cleric ref id
+		        },
+		        null);
+		assertEquals(wio.getRefId(),
+		        script.getIO().getPCData().getEquippedItem(
+		                EquipmentGlobals.EQUIP_SLOT_TORSO));
+		// script.getIO().getPCData().computeFullStats();
+		assertEquals(7f, pc.getFullAttributeScore("AC"), .01f);
+	}
+	@Test
 	public void canEquipMace() throws RPGException {
 		BDDIO wio = ((BDDInteractive) Interactive.getInstance())
 		        .getNewItem(new Mace());
@@ -223,6 +297,72 @@ public class ClericScriptTest {
 		                .getFullAttributeScore("DMG")]);
 	}
 	@Test
+	public void canEquipPaddedArmor() throws RPGException {
+		BDDPC pc = script.getIO().getPCData();
+		pc.setBaseAttributeScore("DEX", 9f);
+		assertEquals(9f, pc.getFullAttributeScore("AC"), .01f);
+		BDDIO wio = ((BDDInteractive) Interactive.getInstance())
+		        .getNewItem(new PaddedArmor());
+		Script.getInstance().sendIOScriptEvent(wio,
+		        ScriptConsts.SM_004_INVENTORYUSE,
+		        new Object[] {
+		                ScriptVariables.TARGET_IO.toString(), // target
+		                script.getIO().getRefId() // cleric ref id
+		        },
+		        null);
+		assertEquals(wio.getRefId(),
+		        script.getIO().getPCData().getEquippedItem(
+		                EquipmentGlobals.EQUIP_SLOT_TORSO));
+		// script.getIO().getPCData().computeFullStats();
+		assertEquals(8f, pc.getFullAttributeScore("AC"), .01f);
+		BDDIO wio2 = ((BDDInteractive) Interactive.getInstance())
+		        .getNewItem(new Shield());
+		Script.getInstance().sendIOScriptEvent(wio2,
+		        ScriptConsts.SM_004_INVENTORYUSE,
+		        new Object[] {
+		                ScriptVariables.TARGET_IO.toString(), // target
+		                script.getIO().getRefId() // cleric ref id
+		        },
+		        null);
+		assertEquals(wio2.getRefId(),
+		        script.getIO().getPCData().getEquippedItem(
+		                EquipmentGlobals.EQUIP_SLOT_SHIELD));
+		assertEquals(7f, pc.getFullAttributeScore("AC"), .01f);
+	}
+	@Test
+	public void canEquipPlateMail() throws RPGException {
+		BDDPC pc = script.getIO().getPCData();
+		pc.setBaseAttributeScore("DEX", 9f);
+		assertEquals(9f, pc.getFullAttributeScore("AC"), .01f);
+		BDDIO wio = ((BDDInteractive) Interactive.getInstance())
+		        .getNewItem(new PlateMail());
+		Script.getInstance().sendIOScriptEvent(wio,
+		        ScriptConsts.SM_004_INVENTORYUSE,
+		        new Object[] {
+		                ScriptVariables.TARGET_IO.toString(), // target
+		                script.getIO().getRefId() // cleric ref id
+		        },
+		        null);
+		assertEquals(wio.getRefId(),
+		        script.getIO().getPCData().getEquippedItem(
+		                EquipmentGlobals.EQUIP_SLOT_TORSO));
+		// script.getIO().getPCData().computeFullStats();
+		assertEquals(3f, pc.getFullAttributeScore("AC"), .01f);
+		BDDIO wio2 = ((BDDInteractive) Interactive.getInstance())
+		        .getNewItem(new Shield());
+		Script.getInstance().sendIOScriptEvent(wio2,
+		        ScriptConsts.SM_004_INVENTORYUSE,
+		        new Object[] {
+		                ScriptVariables.TARGET_IO.toString(), // target
+		                script.getIO().getRefId() // cleric ref id
+		        },
+		        null);
+		assertEquals(wio2.getRefId(),
+		        script.getIO().getPCData().getEquippedItem(
+		                EquipmentGlobals.EQUIP_SLOT_SHIELD));
+		assertEquals(2f, pc.getFullAttributeScore("AC"), .01f);
+	}
+	@Test
 	public void canEquipQuarterstaff() throws RPGException {
 		BDDIO wio = ((BDDInteractive) Interactive.getInstance())
 		        .getNewItem(new Quarterstaff());
@@ -242,6 +382,39 @@ public class ClericScriptTest {
 		                .getFullAttributeScore("DMG")]);
 	}
 	@Test
+	public void canEquipScaleMail() throws RPGException {
+		BDDPC pc = script.getIO().getPCData();
+		pc.setBaseAttributeScore("DEX", 9f);
+		assertEquals(9f, pc.getFullAttributeScore("AC"), .01f);
+		BDDIO wio = ((BDDInteractive) Interactive.getInstance())
+		        .getNewItem(new ScaleMail());
+		Script.getInstance().sendIOScriptEvent(wio,
+		        ScriptConsts.SM_004_INVENTORYUSE,
+		        new Object[] {
+		                ScriptVariables.TARGET_IO.toString(), // target
+		                script.getIO().getRefId() // cleric ref id
+		        },
+		        null);
+		assertEquals(wio.getRefId(),
+		        script.getIO().getPCData().getEquippedItem(
+		                EquipmentGlobals.EQUIP_SLOT_TORSO));
+		// script.getIO().getPCData().computeFullStats();
+		assertEquals(6f, pc.getFullAttributeScore("AC"), .01f);
+		BDDIO wio2 = ((BDDInteractive) Interactive.getInstance())
+		        .getNewItem(new Shield());
+		Script.getInstance().sendIOScriptEvent(wio2,
+		        ScriptConsts.SM_004_INVENTORYUSE,
+		        new Object[] {
+		                ScriptVariables.TARGET_IO.toString(), // target
+		                script.getIO().getRefId() // cleric ref id
+		        },
+		        null);
+		assertEquals(wio2.getRefId(),
+		        script.getIO().getPCData().getEquippedItem(
+		                EquipmentGlobals.EQUIP_SLOT_SHIELD));
+		assertEquals(5f, pc.getFullAttributeScore("AC"), .01f);
+	}
+	@Test
 	public void canEquipSling() throws RPGException {
 		BDDIO wio = ((BDDInteractive) Interactive.getInstance())
 		        .getNewItem(new Sling());
@@ -259,6 +432,71 @@ public class ClericScriptTest {
 		assertEquals(Dice.ONE_D4,
 		        Dice.values()[(int) script.getIO().getPCData()
 		                .getFullAttributeScore("DMG")]);
+	}
+	@Test
+	public void canEquipSplintMailAndShield() throws RPGException {
+		BDDPC pc = script.getIO().getPCData();
+		pc.setBaseAttributeScore("DEX", 9f);
+		assertEquals(9f, pc.getFullAttributeScore("AC"), .01f);
+		BDDIO wio = ((BDDInteractive) Interactive.getInstance())
+		        .getNewItem(new SplintMail());
+		Script.getInstance().sendIOScriptEvent(wio,
+		        ScriptConsts.SM_004_INVENTORYUSE,
+		        new Object[] {
+		                ScriptVariables.TARGET_IO.toString(), // target
+		                script.getIO().getRefId() // cleric ref id
+		        },
+		        null);
+		assertEquals(wio.getRefId(),
+		        script.getIO().getPCData().getEquippedItem(
+		                EquipmentGlobals.EQUIP_SLOT_TORSO));
+		assertEquals(4f, pc.getFullAttributeScore("AC"), .01f);
+		BDDIO wio2 = ((BDDInteractive) Interactive.getInstance())
+		        .getNewItem(new Shield());
+		Script.getInstance().sendIOScriptEvent(wio2,
+		        ScriptConsts.SM_004_INVENTORYUSE,
+		        new Object[] {
+		                ScriptVariables.TARGET_IO.toString(), // target
+		                script.getIO().getRefId() // cleric ref id
+		        },
+		        null);
+		assertEquals(wio2.getRefId(),
+		        script.getIO().getPCData().getEquippedItem(
+		                EquipmentGlobals.EQUIP_SLOT_SHIELD));
+		assertEquals(3f, pc.getFullAttributeScore("AC"), .01f);
+	}
+	@Test
+	public void canEquipStuddedLeatherArmor() throws RPGException {
+		BDDPC pc = script.getIO().getPCData();
+		pc.setBaseAttributeScore("DEX", 9f);
+		assertEquals(9f, pc.getFullAttributeScore("AC"), .01f);
+		BDDIO wio = ((BDDInteractive) Interactive.getInstance())
+		        .getNewItem(new StuddedLeatherArmor());
+		Script.getInstance().sendIOScriptEvent(wio,
+		        ScriptConsts.SM_004_INVENTORYUSE,
+		        new Object[] {
+		                ScriptVariables.TARGET_IO.toString(), // target
+		                script.getIO().getRefId() // cleric ref id
+		        },
+		        null);
+		assertEquals(wio.getRefId(),
+		        script.getIO().getPCData().getEquippedItem(
+		                EquipmentGlobals.EQUIP_SLOT_TORSO));
+		// script.getIO().getPCData().computeFullStats();
+		assertEquals(6f, pc.getFullAttributeScore("AC"), .01f);
+		BDDIO wio2 = ((BDDInteractive) Interactive.getInstance())
+		        .getNewItem(new Shield());
+		Script.getInstance().sendIOScriptEvent(wio2,
+		        ScriptConsts.SM_004_INVENTORYUSE,
+		        new Object[] {
+		                ScriptVariables.TARGET_IO.toString(), // target
+		                script.getIO().getRefId() // cleric ref id
+		        },
+		        null);
+		assertEquals(wio2.getRefId(),
+		        script.getIO().getPCData().getEquippedItem(
+		                EquipmentGlobals.EQUIP_SLOT_SHIELD));
+		assertEquals(5f, pc.getFullAttributeScore("AC"), .01f);
 	}
 	@Test
 	public void canGetTHAC() {
