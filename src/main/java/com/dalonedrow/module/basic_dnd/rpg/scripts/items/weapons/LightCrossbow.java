@@ -39,7 +39,7 @@ public class LightCrossbow extends BDDScriptable {
 	public int onInit() throws RPGException {
 		BDDIO io = super.getIO();
 		BDDItem item = io.getItemData();
-		item.setItemName("Heavy Crossbow");
+		item.setItemName("Light Crossbow");
 		item.setDescription("A heavy weapon consisting of a horizontal bow-like assembly mounted on a stock");
 		item.setPrice(25);
 		item.setWeight(8);

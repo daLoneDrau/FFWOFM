@@ -80,11 +80,11 @@ public class ScaleMail extends BDDScriptable {
 			        ScriptVariables.TARGET_IO.toString());
 			if (Interactive.getInstance().hasIO(ioid)) {
 				BDDIO io = super.getIO();
-				// check to see if weapon is restricted
+				// check to see if item is restricted
 				BDDIO tio = (BDDIO) Interactive.getInstance().getIO(ioid);
 				if (tio.hasIOFlag(IoGlobals.IO_01_PC)) {
 					if (((BDDPCScript) tio.getScript()).isItemRestricted(io)) {
-						// TODO - send message that weapon is restricted
+						// TODO - send message that item is restricted
 					} else {
 						io.getItemData().ARX_EQUIPMENT_Equip(tio);
 					}

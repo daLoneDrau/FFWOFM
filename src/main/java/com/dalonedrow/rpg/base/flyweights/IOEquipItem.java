@@ -31,7 +31,7 @@ public final class IOEquipItem {
 	/**
 	 * Gets the element.
 	 * @param element the element
-	 * @return {@link int}
+	 * @return {@link EquipmentItemModifier}
 	 */
 	public EquipmentItemModifier getElement(final int element) {
 		return elements[element];
