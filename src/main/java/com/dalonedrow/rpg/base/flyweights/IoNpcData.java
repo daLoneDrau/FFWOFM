@@ -422,7 +422,7 @@ public abstract class IoNpcData<IO extends BaseInteractiveObject>
 								source);
 
 						if (sourceIO.hasIOFlag(IoGlobals.IO_01_PC)) {
-							IoPcData player = sourceIO.getPCData();
+							IOPcData player = sourceIO.getPCData();
 							if (player.getEquippedItem(
 									EquipmentGlobals.EQUIP_SLOT_WEAPON) > 0
 									&& Interactive.getInstance().hasIO(
@@ -1038,7 +1038,7 @@ public abstract class IoNpcData<IO extends BaseInteractiveObject>
 		this.movemode = movemode;
 	}
 	/**
-	 * Sets the {@link IoPcData}'s name.
+	 * Sets the {@link IOPcData}'s name.
 	 * @param val the name to set
 	 */
 	public final void setName(final char[] val) {
@@ -1046,7 +1046,7 @@ public abstract class IoNpcData<IO extends BaseInteractiveObject>
 		notifyWatchers();
 	}
 	/**
-	 * Sets the {@link IoPcData}'s name.
+	 * Sets the {@link IOPcData}'s name.
 	 * @param val the name to set
 	 */
 	public final void setName(final String val) {
@@ -1082,7 +1082,7 @@ public abstract class IoNpcData<IO extends BaseInteractiveObject>
 		this.tactics = tactics;
 	}
 	/**
-	 * Sets the {@link IoPcData}'s title.
+	 * Sets the {@link IOPcData}'s title.
 	 * @param val the title to set
 	 */
 	public final void setTitle(final char[] val) {
@@ -1090,7 +1090,7 @@ public abstract class IoNpcData<IO extends BaseInteractiveObject>
 		notifyWatchers();
 	}
 	/**
-	 * Sets the {@link IoPcData}'s title.
+	 * Sets the {@link IOPcData}'s title.
 	 * @param val the title to set
 	 */
 	public final void setTitle(final String val) {

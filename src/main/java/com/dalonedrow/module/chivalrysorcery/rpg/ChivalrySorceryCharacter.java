@@ -7,13 +7,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.dalonedrow.rpg.base.flyweights.Attribute;
-import com.dalonedrow.rpg.base.flyweights.IoPcData;
+import com.dalonedrow.rpg.base.flyweights.IOPcData;
 import com.dalonedrow.rpg.base.flyweights.RPGException;
 
 /**
  * @author drau
  */
-public final class ChivalrySorceryCharacter extends IoPcData {
+public final class ChivalrySorceryCharacter extends IOPcData {
 	/** the character's birth aspect. */
 	private int		birthAspect;
 	/** the character's body frame. */

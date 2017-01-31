@@ -7,13 +7,13 @@ import com.dalonedrow.pooled.PooledException;
 import com.dalonedrow.pooled.PooledStringBuilder;
 import com.dalonedrow.pooled.StringBuilderPool;
 import com.dalonedrow.rpg.base.flyweights.Attribute;
-import com.dalonedrow.rpg.base.flyweights.IoPcData;
+import com.dalonedrow.rpg.base.flyweights.IOPcData;
 import com.dalonedrow.rpg.base.flyweights.RPGException;
 
 /**
  * @author drau
  */
-public final class BpCharacter extends IoPcData {
+public final class BpCharacter extends IOPcData {
 	/** flag indicating pretty printing has been turned on. */
 	private boolean			prettyPrinting;
 	/**

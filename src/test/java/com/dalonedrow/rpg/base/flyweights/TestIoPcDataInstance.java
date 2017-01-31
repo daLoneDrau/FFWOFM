@@ -5,7 +5,7 @@ package com.dalonedrow.rpg.base.flyweights;
  * @author 588648
  *
  */
-public class TestIoPcDataInstance extends IoPcData {
+public class TestIoPcDataInstance extends IOPcData {
 	public TestIoPcDataInstance() throws RPGException {
 		super();
 		// TODO Auto-generated constructor stub

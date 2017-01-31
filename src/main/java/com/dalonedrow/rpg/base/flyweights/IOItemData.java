@@ -42,6 +42,8 @@ public abstract class IOItemData<IO extends BaseInteractiveObject> {
 	private int stackSize;
 	/** dunno? */
 	private char stealvalue;
+	/** the item's weight. */
+	private float weight;
 	/**
 	 * Creates a new instance of {@link IOItemData}.
 	 * @throws RPGException 
@@ -49,8 +51,6 @@ public abstract class IOItemData<IO extends BaseInteractiveObject> {
 	public IOItemData() throws RPGException {
 		equipitem = new IOEquipItem();
 	}
-	/** the item's weight. */
-	private float weight;
 	/**
 	 * Adjusts the {@link IOItemData}'s count.
 	 * @param val the amount adjusted by
@@ -80,7 +80,7 @@ public abstract class IOItemData<IO extends BaseInteractiveObject> {
 		}
 		if (target != null) {
 			if (target.hasIOFlag(IoGlobals.IO_01_PC)) {
-				IoPcData player = target.getPCData();
+				IOPcData player = target.getPCData();
 				int validid = -1;
 				int i = Interactive.getInstance().getMaxIORefId();
 				for (; i >= 0; i--) {
@@ -179,7 +179,7 @@ public abstract class IOItemData<IO extends BaseInteractiveObject> {
 			if (target.hasIOFlag(IoGlobals.IO_01_PC)) {
 				int i = ProjectConstants.getInstance().getMaxEquipped() - 1;
 				for (; i >= 0; i--) {
-					IoPcData player = target.getPCData();
+					IOPcData player = target.getPCData();
 					int itemRefId = player.getEquippedItem(i);
 					if (itemRefId >= 0
 					        && Interactive.getInstance().hasIO(itemRefId)
@@ -226,7 +226,7 @@ public abstract class IOItemData<IO extends BaseInteractiveObject> {
 	 * @param player the player data
 	 * @throws RPGException if an error occurs
 	 */
-	private void equipRing(final IoPcData player) throws RPGException {
+	private void equipRing(final IOPcData player) throws RPGException {
 		// check left and right finger
 		// to see if it can be equipped
 		boolean canEquip = true;
@@ -302,7 +302,7 @@ public abstract class IOItemData<IO extends BaseInteractiveObject> {
 	 * @param player the player data
 	 * @throws RPGException if an error occurs
 	 */
-	private void equipShield(final IoPcData player) throws RPGException {
+	private void equipShield(final IOPcData player) throws RPGException {
 		// unequip old shield
 		unequipItemInSlot(player, EquipmentGlobals.EQUIP_SLOT_SHIELD);
 		// equip new shield
@@ -329,7 +329,7 @@ public abstract class IOItemData<IO extends BaseInteractiveObject> {
 	 * @param player the player data
 	 * @throws RPGException if an error occurs
 	 */
-	private void equipWeapon(final IoPcData player) throws RPGException {
+	private void equipWeapon(final IOPcData player) throws RPGException {
 		// unequip old weapon
 		unequipItemInSlot(player, EquipmentGlobals.EQUIP_SLOT_WEAPON);
 		// equip new weapon
@@ -589,7 +589,7 @@ public abstract class IOItemData<IO extends BaseInteractiveObject> {
 	public final void setWeight(final float f) {
 		weight = f;
 	}
-	private void unequipItemInSlot(final IoPcData player, final int slot)
+	private void unequipItemInSlot(final IOPcData player, final int slot)
 	        throws RPGException {
 		if (player.getEquippedItem(slot) >= 0) {
 			int slotioid = player.getEquippedItem(slot);

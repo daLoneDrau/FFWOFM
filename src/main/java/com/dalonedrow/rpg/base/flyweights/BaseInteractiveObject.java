@@ -21,7 +21,7 @@ import com.dalonedrow.rpg.base.constants.IoGlobals;
  */
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public abstract class BaseInteractiveObject<ITEM extends IOItemData,
-        INVENTORY extends InventoryData, PC extends IoPcData,
+        INVENTORY extends InventoryData, PC extends IOPcData,
         NPC extends IoNpcData,
         SCRIPT extends Scriptable> {
 	/** the names of animations associated with the interactive object. */

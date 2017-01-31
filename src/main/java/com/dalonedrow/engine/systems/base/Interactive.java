@@ -9,7 +9,7 @@ import com.dalonedrow.rpg.base.flyweights.BaseInteractiveObject;
 import com.dalonedrow.rpg.base.flyweights.ErrorMessage;
 import com.dalonedrow.rpg.base.flyweights.InventoryData;
 import com.dalonedrow.rpg.base.flyweights.InventorySlot;
-import com.dalonedrow.rpg.base.flyweights.IoPcData;
+import com.dalonedrow.rpg.base.flyweights.IOPcData;
 import com.dalonedrow.rpg.base.flyweights.RPGException;
 import com.dalonedrow.rpg.base.flyweights.Spell;
 import com.dalonedrow.rpg.base.systems.Script;
@@ -72,7 +72,7 @@ public abstract class Interactive<IO extends BaseInteractiveObject> {
 				if (pio != null
 						&& pio.hasIOFlag(IoGlobals.IO_01_PC)) {
 					boolean found = false;
-					IoPcData player = pio.getPCData();
+					IOPcData player = pio.getPCData();
 					// check to see if player was equipped with the item
 					int j = ProjectConstants.getInstance().getMaxEquipped() - 1;
 					for (; j >= 0; j--) {

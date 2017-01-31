@@ -6,13 +6,13 @@ import com.dalonedrow.pooled.PooledException;
 import com.dalonedrow.pooled.PooledStringBuilder;
 import com.dalonedrow.pooled.StringBuilderPool;
 import com.dalonedrow.rpg.base.flyweights.IOEquipItem;
-import com.dalonedrow.rpg.base.flyweights.IoPcData;
+import com.dalonedrow.rpg.base.flyweights.IOPcData;
 import com.dalonedrow.rpg.base.flyweights.RPGException;
 
 /**
  * @author Donald
  */
-public class BDDPC extends IoPcData<BDDIO> {
+public class BDDPC extends IOPcData<BDDIO> {
 	private static final int ATTR_MAX = 18;
 	private static final int ATTR_MIN = 3;
 	/** the list of attributes and their matching names and modifiers. */

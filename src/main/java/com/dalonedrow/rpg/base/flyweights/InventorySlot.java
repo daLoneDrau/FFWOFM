@@ -22,7 +22,7 @@ public class InventorySlot<IO extends BaseInteractiveObject>
 	/** a flag indicating the item is showing and should be rendered. */
 	private boolean						show;
 	/**
-	 * the list of {@link Watcher}s associated with this {@link IoPcData}.
+	 * the list of {@link Watcher}s associated with this {@link IOPcData}.
 	 */
 	private final ArrayList<Watcher>	watchers	= new ArrayList<Watcher>();
 	/**

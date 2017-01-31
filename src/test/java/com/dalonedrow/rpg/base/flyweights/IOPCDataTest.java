@@ -25,7 +25,7 @@ public class IOPCDataTest {
 	/** creature for testing. */
 	private BaseInteractiveObject	crtrIo;
 	/** pc data. */
-	private IoPcData				data;
+	private IOPcData				data;
 	private boolean					died			= false;
 	/** the interactive instance. */
 	TestInteractiveInstance			interactive;
@@ -111,7 +111,7 @@ public class IOPCDataTest {
 		});
 	}
 	public void beforeCreatePCIO() throws RPGException {
-		data = new IoPcData() {
+		data = new IOPcData() {
 			@Override
 			protected void adjustMana(final float dmg) {
 				super.setBaseAttributeScore("MN",
@@ -416,7 +416,7 @@ public class IOPCDataTest {
 	@Test
 	public void canCreate() throws RPGException {
 		assertNotNull(data);
-		data = new IoPcData() {
+		data = new IOPcData() {
 			@Override
 			protected void adjustMana(final float dmg) {
 				// TODO Auto-generated method stub
@@ -475,7 +475,7 @@ public class IOPCDataTest {
 		};
 		data.clearModAbilityScores();
 		assertNotNull(data);
-		data = new IoPcData() {
+		data = new IOPcData() {
 			@Override
 			protected void adjustMana(final float dmg) {
 				// TODO Auto-generated method stub

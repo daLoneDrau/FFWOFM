@@ -9,14 +9,14 @@ import com.dalonedrow.pooled.StringBuilderPool;
 import com.dalonedrow.rpg.base.constants.Gender;
 import com.dalonedrow.rpg.base.flyweights.Attribute;
 import com.dalonedrow.rpg.base.flyweights.ErrorMessage;
-import com.dalonedrow.rpg.base.flyweights.IoPcData;
+import com.dalonedrow.rpg.base.flyweights.IOPcData;
 import com.dalonedrow.rpg.base.flyweights.RPGException;
 import com.dalonedrow.utils.ArrayUtilities;
 
 /**
  * @author drau
  */
-public final class TFTCharacter extends IoPcData {
+public final class TFTCharacter extends IOPcData {
 	/** the penalty applied to hero's IQ costs when learning spells. */
 	public static final int	HERO_SPELL_PENALTY	= 3;
 	/** flag indicating pretty printing has been turned on. */

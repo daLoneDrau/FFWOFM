@@ -13,14 +13,14 @@ import com.dalonedrow.pooled.StringBuilderPool;
 import com.dalonedrow.rpg.base.constants.Gender;
 import com.dalonedrow.rpg.base.flyweights.Attribute;
 import com.dalonedrow.rpg.base.flyweights.ErrorMessage;
-import com.dalonedrow.rpg.base.flyweights.IoPcData;
+import com.dalonedrow.rpg.base.flyweights.IOPcData;
 import com.dalonedrow.rpg.base.flyweights.RPGException;
 import com.dalonedrow.utils.ArrayUtilities;
 
 /**
  * @author drau
  */
-public final class CitadelPC extends IoPcData {
+public final class CitadelPC extends IOPcData {
 	/** flag indicating pretty printing has been turned on. */
 	private boolean		prettyPrinting;
 	/** the list of spells the character has. */

@@ -13,7 +13,7 @@ import com.dalonedrow.pooled.StringBuilderPool;
 import com.dalonedrow.rpg.base.constants.Dice;
 import com.dalonedrow.rpg.base.flyweights.Attribute;
 import com.dalonedrow.rpg.base.flyweights.IOEquipItem;
-import com.dalonedrow.rpg.base.flyweights.IoPcData;
+import com.dalonedrow.rpg.base.flyweights.IOPcData;
 import com.dalonedrow.rpg.base.flyweights.RPGException;
 import com.dalonedrow.rpg.base.flyweights.Spell;
 
@@ -21,7 +21,7 @@ import com.dalonedrow.rpg.base.flyweights.Spell;
  * @author drau
  */
 @SuppressWarnings("unchecked")
-public final class FFCharacter extends IoPcData<FFInteractiveObject> {
+public final class FFCharacter extends IOPcData<FFInteractiveObject> {
 	/** flag indicating pretty printing has been turned on. */
 	private boolean	prettyPrinting;
 	private boolean	REFUSE_GAME_RETURN;

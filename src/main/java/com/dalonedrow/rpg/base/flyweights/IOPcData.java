@@ -29,48 +29,48 @@ import com.dalonedrow.utils.Watcher;
  * @param <IO>
  */
 @SuppressWarnings({ "rawtypes", "unchecked" })
-public abstract class IoPcData<IO extends BaseInteractiveObject>
+public abstract class IOPcData<IO extends BaseInteractiveObject>
         implements Combatant, Watchable {
 	/** the set of attributes defining the PC. */
 	private Map<String, Attribute> attributes;
 	/** the number of bags the player has. */
 	private int bags;
 	/**
-	 * the reference ids of all items equipped by the {@link IoPcData}, indexed
+	 * the reference ids of all items equipped by the {@link IOPcData}, indexed
 	 * by equipment slot.
 	 */
 	private int[] equippedItems;
-	/** the {@link IoPcData}'s gender. */
+	/** the {@link IOPcData}'s gender. */
 	private int gender = -1;
 	/** the character's gold. */
 	private float gold;
 	/** interface flags. */
 	private int interfaceFlags;
-	/** the IO associated with this {@link IoPcData}. */
+	/** the IO associated with this {@link IOPcData}. */
 	private IO io;
 	/** the player's key ring. */
 	private char[][] keyring;
-	/** the {@link IoPcData}'s level. */
+	/** the {@link IOPcData}'s level. */
 	private int level = 0;
-	/** the {@link IoPcData}'s name. */
+	/** the {@link IOPcData}'s name. */
 	private char[] name;
 	/** the number of keys on the key ring. */
 	private int numKeys;
-	/** the {@link IoPcData}'s Profession. */
+	/** the {@link IOPcData}'s Profession. */
 	private int profession = -1;
-	/** the {@link IoPcData}'s Race. */
+	/** the {@link IOPcData}'s Race. */
 	private int race = -1;
 	/**
-	 * the list of {@link Watcher}s associated with this {@link IoPcData}.
+	 * the list of {@link Watcher}s associated with this {@link IOPcData}.
 	 */
 	private Watcher[] watchers;
-	/** the {@link IoPcData}'s experience points. */
+	/** the {@link IOPcData}'s experience points. */
 	private int xp;
 	/**
-	 * Creates a new instance of {@link IoPcData}.
+	 * Creates a new instance of {@link IOPcData}.
 	 * @throws RPGException if there is an error defining attributes
 	 */
-	protected IoPcData() throws RPGException {
+	protected IOPcData() throws RPGException {
 		name = new char[0];
 		watchers = new Watcher[0];
 		defineAttributes();
@@ -154,7 +154,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 		attributes.get(attr).adjustModifier(val);
 	}
 	/**
-	 * Adjusts the {@link IoPcData}'s gold.
+	 * Adjusts the {@link IOPcData}'s gold.
 	 * @param val the amount adjusted by
 	 */
 	public final void adjustGold(final float val) {
@@ -199,7 +199,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 	 */
 	protected abstract void adjustMana(float dmg);
 	/**
-	 * Adjusts the {@link IoPcData}'s experience points.
+	 * Adjusts the {@link IOPcData}'s experience points.
 	 * @param val the amount adjusted by
 	 */
 	public final void adjustXp(final int val) {
@@ -709,7 +709,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 	 */
 	protected abstract float getBaseMana();
 	/**
-	 * Gets the reference id of the item the {@link IoPcData} has equipped at a
+	 * Gets the reference id of the item the {@link IOPcData} has equipped at a
 	 * specific equipment slot. -1 is returned if no item is equipped.
 	 * @param slot the equipment slot
 	 * @return <code>int</code>
@@ -745,7 +745,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 		return attributes.get(attr).getFull();
 	}
 	/**
-	 * Gets the {@link IoPcData}'s gender.
+	 * Gets the {@link IOPcData}'s gender.
 	 * @return int
 	 */
 	public final int getGender() {
@@ -759,7 +759,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 		return gold;
 	}
 	/**
-	 * Gets the IO associated with this {@link IoPcData}.
+	 * Gets the IO associated with this {@link IOPcData}.
 	 * @return {@link IO}
 	 */
 	public final IO getIo() {
@@ -810,7 +810,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 		return index;
 	}
 	/**
-	 * Gets the {@link IoPcData}'s level.
+	 * Gets the {@link IOPcData}'s level.
 	 * @return int
 	 */
 	public final int getLevel() {
@@ -818,7 +818,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 	}
 	protected abstract String getLifeAttribute();
 	/**
-	 * Gets the {@link IoPcData}'s name.
+	 * Gets the {@link IOPcData}'s name.
 	 * @return char[]
 	 */
 	public final char[] getName() {
@@ -839,30 +839,30 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 		return numKeys;
 	}
 	/**
-	 * Gets the {@link IoPcData}'s Profession.
+	 * Gets the {@link IOPcData}'s Profession.
 	 * @return int
 	 */
 	public final int getProfession() {
 		return profession;
 	}
 	/**
-	 * Gets the {@link IoPcData}'s Race.
+	 * Gets the {@link IOPcData}'s Race.
 	 * @return int
 	 */
 	public final int getRace() {
 		return race;
 	}
 	/**
-	 * Gets the {@link IoPcData}'s experience points.
+	 * Gets the {@link IOPcData}'s experience points.
 	 * @return int
 	 */
 	public final long getXp() {
 		return xp;
 	}
 	/**
-	 * Determines if the {@link IoPcData} has a specific flag.
+	 * Determines if the {@link IOPcData} has a specific flag.
 	 * @param flag the flag
-	 * @return true if the {@link IoPcData} has the flag; false otherwise
+	 * @return true if the {@link IOPcData} has the flag; false otherwise
 	 */
 	public final boolean hasInterfaceFlag(final long flag) {
 		return (interfaceFlags & flag) == flag;
@@ -905,7 +905,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 		return hasKey(key.toCharArray());
 	}
 	/**
-	 * Initializes the items the {@link IoPcData} has equipped.
+	 * Initializes the items the {@link IOPcData} has equipped.
 	 * @param total the total number of equipment slots
 	 */
 	private void initEquippedItems(final int total) {
@@ -974,7 +974,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 		attributes.get(attr).setBase(val);
 	}
 	/**
-	 * Sets the reference id of the item the {@link IoPcData} has equipped at a
+	 * Sets the reference id of the item the {@link IOPcData} has equipped at a
 	 * specific equipment slot.
 	 * @param slot the equipment slot
 	 * @param item the item being equipped
@@ -1007,7 +1007,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 		}
 	}
 	/**
-	 * Sets the reference id of the item the {@link IoPcData} has equipped at a
+	 * Sets the reference id of the item the {@link IOPcData} has equipped at a
 	 * specific equipment slot.
 	 * @param slot the equipment slot
 	 * @param id the item's reference id
@@ -1034,7 +1034,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 		equippedItems[slot] = id;
 	}
 	/**
-	 * Sets the {@link IoPcData}'s gender.
+	 * Sets the {@link IOPcData}'s gender.
 	 * @param val the gender to set
 	 */
 	public final void setGender(final int val) {
@@ -1053,7 +1053,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 		}
 	}
 	/**
-	 * Sets the {@link IoPcData}'s level.
+	 * Sets the {@link IOPcData}'s level.
 	 * @param val the level to set
 	 */
 	public final void setLevel(final int val) {
@@ -1061,7 +1061,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 		notifyWatchers();
 	}
 	/**
-	 * Sets the {@link IoPcData}'s name.
+	 * Sets the {@link IOPcData}'s name.
 	 * @param val the name to set
 	 */
 	public final void setName(final char[] val) {
@@ -1069,7 +1069,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 		notifyWatchers();
 	}
 	/**
-	 * Sets the {@link IoPcData}'s name.
+	 * Sets the {@link IOPcData}'s name.
 	 * @param val the name to set
 	 */
 	public final void setName(final String val) {
@@ -1077,7 +1077,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 		notifyWatchers();
 	}
 	/**
-	 * Sets the {@link IoPcData}'s Profession.
+	 * Sets the {@link IOPcData}'s Profession.
 	 * @param val the profession to set
 	 */
 	public final void setProfession(final int val) {
@@ -1085,7 +1085,7 @@ public abstract class IoPcData<IO extends BaseInteractiveObject>
 		notifyWatchers();
 	}
 	/**
-	 * Sets the {@link IoPcData}'s Race.
+	 * Sets the {@link IOPcData}'s Race.
 	 * @param val the race to set
 	 */
 	public final void setRace(final int val) {

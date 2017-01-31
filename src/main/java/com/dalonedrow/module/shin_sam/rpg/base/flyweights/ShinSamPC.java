@@ -2,7 +2,7 @@ package com.dalonedrow.module.shin_sam.rpg.base.flyweights;
 
 import com.dalonedrow.module.shin_sam.rpg.constants.ShinSamEquipmentGlobals;
 import com.dalonedrow.rpg.base.flyweights.IOEquipItem;
-import com.dalonedrow.rpg.base.flyweights.IoPcData;
+import com.dalonedrow.rpg.base.flyweights.IOPcData;
 import com.dalonedrow.rpg.base.flyweights.RPGException;
 import com.dalonedrow.rpg.base.systems.Script;
 
@@ -11,7 +11,7 @@ import com.dalonedrow.rpg.base.systems.Script;
  * @author Donald
  *
  */
-public class ShinSamPC extends IoPcData<ShinSamIO> {
+public class ShinSamPC extends IOPcData<ShinSamIO> {
 	/**
 	 * Creates a new instance of {@link ShinSamPC}.
 	 * @throws RPGException
