@@ -89,6 +89,8 @@ public class BDDPC extends IOPcData<BDDIO> {
 	 */
 	public BDDPC() throws RPGException {
 		super();
+		// base AC score is 9
+		super.getAttribute("AC").setBase(9);
 	}
 	@Override
 	protected void adjustMana(final float dmg) {

@@ -41,6 +41,7 @@ public abstract class BDDPCScript extends BDDScriptable {
 	protected abstract int getMaxRollArmorClass(int level);
 	/**
 	 * @param io
+	 * @return
 	 */
-	public abstract boolean isWeaponRestricted(BDDIO io);
+	public abstract boolean isItemRestricted(BDDIO io);
 }

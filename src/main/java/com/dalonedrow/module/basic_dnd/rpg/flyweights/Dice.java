@@ -9,6 +9,8 @@ import com.dalonedrow.engine.systems.base.Diceroller;
  * @author 588648
  */
 public enum Dice {
+	/** 1D10. */
+	ONE_D10(1, Die.D10),
 	/** 1D2. */
 	ONE_D2(1, Die.D2),
 	/** 1D3. */
@@ -20,17 +22,23 @@ public enum Dice {
 	/** 1D8. */
 	ONE_D8(1, Die.D8),
 	/** 3D6. */
-	THREE_D6(3, Die.D6), ONE_D10(1, Die.D10);
+	THREE_D6(3, Die.D6),
+	/** 2D4. */
+	TWO_D4(2, Die.D4),
+	/** 2D6. */
+	TWO_D6(2, Die.D6);
+	/** the die rolled. */
 	private Die die;
+	/** the number of times the die is rolled. */
 	private int num;
 	/**
 	 * Creates a new instance of {@link Dice}.
-	 * @param num
-	 * @param die
+	 * @param n the number of times the die is rolled
+	 * @param d the die rolled
 	 */
-	private Dice(int num, Die die) {
-		this.num = num;
-		this.die = die;
+	private Dice(final int n, final Die d) {
+		this.num = n;
+		this.die = d;
 	}
 	/**
 	 * Gets the index of the Dice, so it can be referenced later when rolled.
